@@ -8,3 +8,13 @@
 
 
 
+#include <iostream>
+using namespace std;
+
+int main() {
+	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
+	cout << "Git Works!!!" << endl;
+	cout << "Git Works!!!" << endl;
+	cout << "Upload worked!" << endl;
+	return 0;
+}
