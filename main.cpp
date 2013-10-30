@@ -16,5 +16,6 @@ int main() {
 	cout << "Git Works!!!" << endl;
 	cout << "Git Works!!!" << endl;
 	cout << "Upload worked!" << endl;
+	cout << "Download worked!" << endl;
 	return 0;
 }
