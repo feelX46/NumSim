@@ -10,7 +10,7 @@
 #include "math.h"
 using namespace std;
 
-int main(void){
+int main(){
 	float wert1, wert2;
 	cout << "gib n wert ein" << endl;
 	cin>>wert1;
