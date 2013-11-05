@@ -7,7 +7,7 @@
 #include <iostream>
 
 int main(){
-	std::cout << "hallo felix";
+	std::cout << "hallo felix"; // Begrüßung
 	return 0;
 }
 
