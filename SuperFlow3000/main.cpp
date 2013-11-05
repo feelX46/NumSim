@@ -11,8 +11,9 @@
 //#include "stencil.h"
 
 int main(){
-	IO Reader("inputvals.bin","output.txt");
-
+	char InputFileName[] = "inputvals.bin";
+	char OutputFileName[] = "output.txt";
+	IO Reader(InputFileName,OutputFileName);
 	return 0;
 }
 
