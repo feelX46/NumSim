@@ -1,8 +1,15 @@
 #include "IO.hpp"
+#include <iostream>
+#include <stdio.h>
+using namespace std;
+
 
 IO::IO (char *input, char *output)
 {
   //ToDo Read the file with the simulations parameters
+ readInputfile(input);
+
+
 }
 
 IO::~IO ()
@@ -13,9 +20,64 @@ IO::~IO ()
 void
 IO::readInputfile (char *filename)
 {
-  //ToDo Store the input parameters.
-}
+	// open input file - char line for input lines
+	ifstream file;
+	char line[100];
+	file.open(filename,ios::in);
 
+	// read input file line by line
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.xLength);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.yLength);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.iMax);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.jMax);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.tEnd);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.tau);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.deltaVec);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.iterMax);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.eps);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.omg);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.alpha);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.RE);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.GX);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.GY);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.UI);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.UV);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%d", &simparam.PI);
+
+}
 
 #define Element(field,ic) ((field)[(ic)[0]][(ic)[1]])
 

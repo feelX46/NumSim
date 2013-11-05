@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <fstream>
+#include "simparam.h"
 
 
 class IO
@@ -40,10 +41,21 @@ public:
 		     GridFunctionType & u, GridFunctionType & v,
 		     GridFunctionType & p, const PointType & delta, int step);
 
+
+  //! Method that returns private member variable simparam
+  Simparam getSimparam () {
+	  return simparam;
+  }
+
 private:
 
 //! Path where to write the vtk files.
   char *output;
+  Simparam simparam;
+ //! Structure with simulation parameters from input file
+
+
+
 
 /*!
    * Methods reads the simulation parameters from the specified input file.

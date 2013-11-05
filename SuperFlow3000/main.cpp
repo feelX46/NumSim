@@ -8,10 +8,11 @@
 #include "template.h"
 #include "typedef.h"
 #include "IO.hpp"
-
+//#include "stencil.h"
 
 int main(){
-	std::cout << "hallo felix"; // Begrüßung
+	IO Reader("inputvals.bin","output.txt");
+
 	return 0;
 }
 
