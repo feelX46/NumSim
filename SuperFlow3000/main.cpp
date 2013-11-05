@@ -5,6 +5,10 @@
  *      Author: ischinger
  */
 #include <iostream>
+#include "template.h"
+#include "typedef.h"
+#include "IO.hpp"
+
 
 int main(){
 	std::cout << "hallo felix"; // Begrüßung
