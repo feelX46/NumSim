@@ -8,7 +8,7 @@
 #ifndef SIMPARAM_H_
 #define SIMPARAM_H_
 
-#include "template.h"
+#include "../Misc/template.h"
 struct Simparam {
 	RealType xLength;
 	RealType yLength;

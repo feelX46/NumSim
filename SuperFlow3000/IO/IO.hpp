@@ -4,14 +4,14 @@
  * @date 2012
  */
 
-#include "typedef.h"
+#include "../Misc/typedef.h"
 
 #ifndef IO_HPP_
 #define IO_HPP_
 
 #include <iostream>
 #include <fstream>
-#include "simparam.h"
+#include "../Structs/simparam.h"
 
 
 class IO

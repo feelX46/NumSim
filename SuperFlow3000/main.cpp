@@ -5,9 +5,9 @@
  *      Author: ischinger
  */
 #include <iostream>
-#include "template.h"
-#include "typedef.h"
-#include "IO.hpp"
+#include "Misc/template.h"
+#include "Misc/typedef.h"
+#include "IO/IO.hpp"
 //#include "stencil.h"
 
 int main(){
