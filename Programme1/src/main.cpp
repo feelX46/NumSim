@@ -11,6 +11,7 @@
 using namespace std;
 
 int main() {
+	//test der aaron ist blöd
 	float wert1, wert2;
 	cout << "gib n wert ein" << endl;
 	cin>>wert1;
