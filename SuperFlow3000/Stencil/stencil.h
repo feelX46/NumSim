@@ -19,7 +19,7 @@ public:
 
 	//StencilType stencil;
 	int stencilwidth;
-	const PointType& h;
+	//const PointType& h;
 };
 
 

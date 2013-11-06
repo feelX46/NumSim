@@ -9,5 +9,5 @@
 
 Stencil::Stencil(int stencilwidth_input, const PointType& h_input) {
 	stencilwidth = stencilwidth_input;
-	h = h_input;
+   //	h = h_input;
 }
