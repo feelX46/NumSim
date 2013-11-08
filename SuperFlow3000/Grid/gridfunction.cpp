@@ -27,7 +27,7 @@ GridFunction::GridFunction(int DimX, int DimY){
 }
 
 GridFunction::GridFunction(const MultiIndexType griddimension){
-	/*
+/*
 	 RealType *gridfunction = new (RealType*)[griddimension[1]];
 	 for (int i = 0; i < griddimension[1]; i++){
 		 gridfunction[i] = new (RealType)[griddime'nsion[2]];
