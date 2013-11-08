@@ -10,6 +10,7 @@
 
 
 #include"../Misc/typedef.h"
+#include"../Grid/Gridfunction.h"
 
 class Stencil {
 public:
@@ -20,11 +21,15 @@ public:
 	StencilType stencil;
 	int stencilwidth;
 	PointType& h;
+
+	void ApplyStencilOperator(const MultiIndexType& gridreadbegin,
+			const MultiIndexType& gridreadend,
+			const MultiIndexType& gridwritebegin,
+			const MultiIndexType& gridwriteend,
+			const Gridfunction sourcegridfunction,
+			Gridfunction imagegridfunction);
+
+	void setFxxStencil();
 };
 
-/*ApplyStencilOperator(const MultiIndexType& gridreadbegin,
-						const MulltiIndexType& gridreadend,
-						const GridFunction sourcegridfunction,
-						GridFunction imagegridfunction);
-*/
 #endif /* STENCIL_H_ */

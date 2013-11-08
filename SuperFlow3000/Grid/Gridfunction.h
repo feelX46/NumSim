@@ -25,7 +25,8 @@ public:
 	~Gridfunction();
 
 	//! get grid data (pointer to gridfunction)
-	GridFunctionType getGridfunction();
+
+	GridFunctionType getGridfunction() const;
 
 	//! get grid data
 	RealType getGridfunction(const MultiIndexType& index);

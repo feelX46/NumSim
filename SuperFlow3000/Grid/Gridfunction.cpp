@@ -36,10 +36,9 @@ Gridfunction::~Gridfunction(){
 }
 
 //! get grid data
-GridFunctionType Gridfunction::getGridfunction(){
+GridFunctionType Gridfunction::getGridfunction() const{
 	return 0;
 }
-
 //! get grid data
 RealType Gridfunction::getGridfunction(const MultiIndexType& index){
 	return gridfunction[index[1]][index[2]];
