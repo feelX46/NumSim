@@ -26,8 +26,8 @@ public:
 			const MultiIndexType& gridreadend,
 			const MultiIndexType& gridwritebegin,
 			const MultiIndexType& gridwriteend,
-			const Gridfunction sourcegridfunction,
-			Gridfunction imagegridfunction);
+			const GridFunction sourcegridfunction,
+			GridFunction imagegridfunction);
 
 	void setFxxStencil();
 	void setFyyStencil();
