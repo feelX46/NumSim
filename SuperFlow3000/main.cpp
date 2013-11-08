@@ -9,7 +9,7 @@
 #include "Misc/typedef.h"
 #include "IO/IO.hpp"
 #include "Stencil/stencil.h"
-#include "Grid/Gridfunction.h"
+#include "Grid/gridfunction.h"
 
 int main(){
 	char InputFileName[] = "inputvals.bin";

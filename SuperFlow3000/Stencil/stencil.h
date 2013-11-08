@@ -10,7 +10,7 @@
 
 
 #include"../Misc/typedef.h"
-#include"../Grid/Gridfunction.h"
+#include"../Grid/gridfunction.h"
 
 class Stencil {
 public:

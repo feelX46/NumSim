@@ -1,0 +1,119 @@
+\indexentry{Array$<$ T, size $>$@{Array$<$ T, size $>$}|hyperpage}{5}
+\indexentry{Array@{Array}!Array@{Array}|hyperpage}{6}
+\indexentry{Array@{Array}!Array@{Array}|hyperpage}{6}
+\indexentry{Array@{Array}!$\sim $\discretionary {-}{}{}Array@{$\sim $\discretionary {-}{}{}Array}|hyperpage}{6}
+\indexentry{$\sim $\discretionary {-}{}{}Array@{$\sim $\discretionary {-}{}{}Array}!Array@{Array}|hyperpage}{6}
+\indexentry{Array@{Array}!operator\unhbox \voidb@x \hbox {[}$\,$\unhbox \voidb@x \hbox {]}@{operator[]}|hyperpage}{6}
+\indexentry{operator\unhbox \voidb@x \hbox {[}$\,$\unhbox \voidb@x \hbox {]}@{operator[]}!Array@{Array}|hyperpage}{6}
+\indexentry{Array@{Array}!operator\unhbox \voidb@x \hbox {[}$\,$\unhbox \voidb@x \hbox {]}@{operator[]}|hyperpage}{6}
+\indexentry{operator\unhbox \voidb@x \hbox {[}$\,$\unhbox \voidb@x \hbox {]}@{operator[]}!Array@{Array}|hyperpage}{6}
+\indexentry{Gridfunction@{Gridfunction}|hyperpage}{6}
+\indexentry{Gridfunction@{Gridfunction}!Gridfunction@{Gridfunction}|hyperpage}{7}
+\indexentry{Gridfunction@{Gridfunction}!Gridfunction@{Gridfunction}|hyperpage}{7}
+\indexentry{Gridfunction@{Gridfunction}!Gridfunction@{Gridfunction}|hyperpage}{7}
+\indexentry{Gridfunction@{Gridfunction}!Gridfunction@{Gridfunction}|hyperpage}{7}
+\indexentry{Gridfunction@{Gridfunction}!$\sim $\discretionary {-}{}{}Gridfunction@{$\sim $\discretionary {-}{}{}Gridfunction}|hyperpage}{7}
+\indexentry{$\sim $\discretionary {-}{}{}Gridfunction@{$\sim $\discretionary {-}{}{}Gridfunction}!Gridfunction@{Gridfunction}|hyperpage}{7}
+\indexentry{I\discretionary {-}{}{}O@{I\discretionary {-}{}{}O}|hyperpage}{7}
+\indexentry{I\discretionary {-}{}{}O@{I\discretionary {-}{}{}O}!I\discretionary {-}{}{}O@{I\discretionary {-}{}{}O}|hyperpage}{8}
+\indexentry{I\discretionary {-}{}{}O@{I\discretionary {-}{}{}O}!IO@{I\discretionary {-}{}{}O}|hyperpage}{8}
+\indexentry{I\discretionary {-}{}{}O@{I\discretionary {-}{}{}O}!$\sim $\discretionary {-}{}{}I\discretionary {-}{}{}O@{$\sim $\discretionary {-}{}{}I\discretionary {-}{}{}O}|hyperpage}{8}
+\indexentry{$\sim $\discretionary {-}{}{}I\discretionary {-}{}{}O@{$\sim $\discretionary {-}{}{}I\discretionary {-}{}{}O}!IO@{I\discretionary {-}{}{}O}|hyperpage}{8}
+\indexentry{I\discretionary {-}{}{}O@{I\discretionary {-}{}{}O}!get\discretionary {-}{}{}Simparam@{get\discretionary {-}{}{}Simparam}|hyperpage}{8}
+\indexentry{get\discretionary {-}{}{}Simparam@{get\discretionary {-}{}{}Simparam}!IO@{I\discretionary {-}{}{}O}|hyperpage}{8}
+\indexentry{I\discretionary {-}{}{}O@{I\discretionary {-}{}{}O}!write\discretionary {-}{}{}V\discretionary {-}{}{}T\discretionary {-}{}{}K\discretionary {-}{}{}File@{write\discretionary {-}{}{}V\discretionary {-}{}{}T\discretionary {-}{}{}K\discretionary {-}{}{}File}|hyperpage}{8}
+\indexentry{write\discretionary {-}{}{}V\discretionary {-}{}{}T\discretionary {-}{}{}K\discretionary {-}{}{}File@{write\discretionary {-}{}{}V\discretionary {-}{}{}T\discretionary {-}{}{}K\discretionary {-}{}{}File}!IO@{I\discretionary {-}{}{}O}|hyperpage}{8}
+\indexentry{Simparam@{Simparam}|hyperpage}{8}
+\indexentry{Simparam@{Simparam}!alpha@{alpha}|hyperpage}{9}
+\indexentry{alpha@{alpha}!Simparam@{Simparam}|hyperpage}{9}
+\indexentry{Simparam@{Simparam}!delta\discretionary {-}{}{}Vec@{delta\discretionary {-}{}{}Vec}|hyperpage}{9}
+\indexentry{delta\discretionary {-}{}{}Vec@{delta\discretionary {-}{}{}Vec}!Simparam@{Simparam}|hyperpage}{9}
+\indexentry{Simparam@{Simparam}!eps@{eps}|hyperpage}{9}
+\indexentry{eps@{eps}!Simparam@{Simparam}|hyperpage}{9}
+\indexentry{Simparam@{Simparam}!G\discretionary {-}{}{}X@{G\discretionary {-}{}{}X}|hyperpage}{9}
+\indexentry{G\discretionary {-}{}{}X@{G\discretionary {-}{}{}X}!Simparam@{Simparam}|hyperpage}{9}
+\indexentry{Simparam@{Simparam}!G\discretionary {-}{}{}Y@{G\discretionary {-}{}{}Y}|hyperpage}{9}
+\indexentry{G\discretionary {-}{}{}Y@{G\discretionary {-}{}{}Y}!Simparam@{Simparam}|hyperpage}{9}
+\indexentry{Simparam@{Simparam}!i\discretionary {-}{}{}Max@{i\discretionary {-}{}{}Max}|hyperpage}{9}
+\indexentry{i\discretionary {-}{}{}Max@{i\discretionary {-}{}{}Max}!Simparam@{Simparam}|hyperpage}{9}
+\indexentry{Simparam@{Simparam}!iter\discretionary {-}{}{}Max@{iter\discretionary {-}{}{}Max}|hyperpage}{9}
+\indexentry{iter\discretionary {-}{}{}Max@{iter\discretionary {-}{}{}Max}!Simparam@{Simparam}|hyperpage}{9}
+\indexentry{Simparam@{Simparam}!j\discretionary {-}{}{}Max@{j\discretionary {-}{}{}Max}|hyperpage}{10}
+\indexentry{j\discretionary {-}{}{}Max@{j\discretionary {-}{}{}Max}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!omg@{omg}|hyperpage}{10}
+\indexentry{omg@{omg}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!P\discretionary {-}{}{}I@{P\discretionary {-}{}{}I}|hyperpage}{10}
+\indexentry{P\discretionary {-}{}{}I@{P\discretionary {-}{}{}I}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!R\discretionary {-}{}{}E@{R\discretionary {-}{}{}E}|hyperpage}{10}
+\indexentry{R\discretionary {-}{}{}E@{R\discretionary {-}{}{}E}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!tau@{tau}|hyperpage}{10}
+\indexentry{tau@{tau}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!t\discretionary {-}{}{}End@{t\discretionary {-}{}{}End}|hyperpage}{10}
+\indexentry{t\discretionary {-}{}{}End@{t\discretionary {-}{}{}End}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!U\discretionary {-}{}{}I@{U\discretionary {-}{}{}I}|hyperpage}{10}
+\indexentry{U\discretionary {-}{}{}I@{U\discretionary {-}{}{}I}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!U\discretionary {-}{}{}V@{U\discretionary {-}{}{}V}|hyperpage}{10}
+\indexentry{U\discretionary {-}{}{}V@{U\discretionary {-}{}{}V}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!x\discretionary {-}{}{}Length@{x\discretionary {-}{}{}Length}|hyperpage}{10}
+\indexentry{x\discretionary {-}{}{}Length@{x\discretionary {-}{}{}Length}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Simparam@{Simparam}!y\discretionary {-}{}{}Length@{y\discretionary {-}{}{}Length}|hyperpage}{10}
+\indexentry{y\discretionary {-}{}{}Length@{y\discretionary {-}{}{}Length}!Simparam@{Simparam}|hyperpage}{10}
+\indexentry{Solver@{Solver}|hyperpage}{11}
+\indexentry{Solver@{Solver}!Solver@{Solver}|hyperpage}{11}
+\indexentry{Solver@{Solver}!Solver@{Solver}|hyperpage}{11}
+\indexentry{Solver@{Solver}!$\sim $\discretionary {-}{}{}Solver@{$\sim $\discretionary {-}{}{}Solver}|hyperpage}{11}
+\indexentry{$\sim $\discretionary {-}{}{}Solver@{$\sim $\discretionary {-}{}{}Solver}!Solver@{Solver}|hyperpage}{11}
+\indexentry{Solver@{Solver}!compute\discretionary {-}{}{}Residual@{compute\discretionary {-}{}{}Residual}|hyperpage}{11}
+\indexentry{compute\discretionary {-}{}{}Residual@{compute\discretionary {-}{}{}Residual}!Solver@{Solver}|hyperpage}{11}
+\indexentry{Solver@{Solver}!S\discretionary {-}{}{}O\discretionary {-}{}{}R\discretionary {-}{}{}Cycle@{S\discretionary {-}{}{}O\discretionary {-}{}{}R\discretionary {-}{}{}Cycle}|hyperpage}{11}
+\indexentry{S\discretionary {-}{}{}O\discretionary {-}{}{}R\discretionary {-}{}{}Cycle@{S\discretionary {-}{}{}O\discretionary {-}{}{}R\discretionary {-}{}{}Cycle}!Solver@{Solver}|hyperpage}{11}
+\indexentry{Stencil@{Stencil}|hyperpage}{12}
+\indexentry{Stencil@{Stencil}!Stencil@{Stencil}|hyperpage}{12}
+\indexentry{Stencil@{Stencil}!Stencil@{Stencil}|hyperpage}{12}
+\indexentry{Stencil@{Stencil}!Apply\discretionary {-}{}{}Stencil\discretionary {-}{}{}Operator@{Apply\discretionary {-}{}{}Stencil\discretionary {-}{}{}Operator}|hyperpage}{12}
+\indexentry{Apply\discretionary {-}{}{}Stencil\discretionary {-}{}{}Operator@{Apply\discretionary {-}{}{}Stencil\discretionary {-}{}{}Operator}!Stencil@{Stencil}|hyperpage}{12}
+\indexentry{Stencil@{Stencil}!set\discretionary {-}{}{}Fxx\discretionary {-}{}{}Stencil@{set\discretionary {-}{}{}Fxx\discretionary {-}{}{}Stencil}|hyperpage}{12}
+\indexentry{set\discretionary {-}{}{}Fxx\discretionary {-}{}{}Stencil@{set\discretionary {-}{}{}Fxx\discretionary {-}{}{}Stencil}!Stencil@{Stencil}|hyperpage}{12}
+\indexentry{Stencil@{Stencil}!h@{h}|hyperpage}{12}
+\indexentry{h@{h}!Stencil@{Stencil}|hyperpage}{12}
+\indexentry{Stencil@{Stencil}!stencil@{stencil}|hyperpage}{12}
+\indexentry{stencil@{stencil}!Stencil@{Stencil}|hyperpage}{12}
+\indexentry{Stencil@{Stencil}!stencilwidth@{stencilwidth}|hyperpage}{13}
+\indexentry{stencilwidth@{stencilwidth}!Stencil@{Stencil}|hyperpage}{13}
+\indexentry{Debug/\discretionary {-}{}{}Grid/\discretionary {-}{}{}Gridfunction.\discretionary {-}{}{}d@{Debug/\discretionary {-}{}{}Grid/\discretionary {-}{}{}Gridfunction.\discretionary {-}{}{}d}|hyperpage}{15}
+\indexentry{Release/\discretionary {-}{}{}Grid/\discretionary {-}{}{}Gridfunction.\discretionary {-}{}{}d@{Release/\discretionary {-}{}{}Grid/\discretionary {-}{}{}Gridfunction.\discretionary {-}{}{}d}|hyperpage}{15}
+\indexentry{Debug/\discretionary {-}{}{}I\discretionary {-}{}{}O/\discretionary {-}{}{}I\discretionary {-}{}{}O.\discretionary {-}{}{}d@{Debug/\discretionary {-}{}{}I\discretionary {-}{}{}O/\discretionary {-}{}{}I\discretionary {-}{}{}O.\discretionary {-}{}{}d}|hyperpage}{15}
+\indexentry{Release/\discretionary {-}{}{}I\discretionary {-}{}{}O/\discretionary {-}{}{}I\discretionary {-}{}{}O.\discretionary {-}{}{}d@{Release/\discretionary {-}{}{}I\discretionary {-}{}{}O/\discretionary {-}{}{}I\discretionary {-}{}{}O.\discretionary {-}{}{}d}|hyperpage}{15}
+\indexentry{Debug/main.\discretionary {-}{}{}d@{Debug/main.\discretionary {-}{}{}d}|hyperpage}{15}
+\indexentry{Release/main.\discretionary {-}{}{}d@{Release/main.\discretionary {-}{}{}d}|hyperpage}{15}
+\indexentry{Debug/\discretionary {-}{}{}Stencil/stencil.\discretionary {-}{}{}d@{Debug/\discretionary {-}{}{}Stencil/stencil.\discretionary {-}{}{}d}|hyperpage}{15}
+\indexentry{Release/\discretionary {-}{}{}Stencil/stencil.\discretionary {-}{}{}d@{Release/\discretionary {-}{}{}Stencil/stencil.\discretionary {-}{}{}d}|hyperpage}{15}
+\indexentry{Grid/\discretionary {-}{}{}Gridfunction.\discretionary {-}{}{}cpp@{Grid/\discretionary {-}{}{}Gridfunction.\discretionary {-}{}{}cpp}|hyperpage}{15}
+\indexentry{Grid/\discretionary {-}{}{}Gridfunction.\discretionary {-}{}{}h@{Grid/\discretionary {-}{}{}Gridfunction.\discretionary {-}{}{}h}|hyperpage}{15}
+\indexentry{I\discretionary {-}{}{}O/\discretionary {-}{}{}I\discretionary {-}{}{}O.\discretionary {-}{}{}cpp@{I\discretionary {-}{}{}O/\discretionary {-}{}{}I\discretionary {-}{}{}O.\discretionary {-}{}{}cpp}|hyperpage}{16}
+\indexentry{I\discretionary {-}{}{}O.\discretionary {-}{}{}cpp@{I\discretionary {-}{}{}O.\discretionary {-}{}{}cpp}!Element@{Element}|hyperpage}{16}
+\indexentry{Element@{Element}!IO.cpp@{I\discretionary {-}{}{}O.\discretionary {-}{}{}cpp}|hyperpage}{16}
+\indexentry{I\discretionary {-}{}{}O/\discretionary {-}{}{}I\discretionary {-}{}{}O.\discretionary {-}{}{}hpp@{I\discretionary {-}{}{}O/\discretionary {-}{}{}I\discretionary {-}{}{}O.\discretionary {-}{}{}hpp}|hyperpage}{16}
+\indexentry{main.\discretionary {-}{}{}cpp@{main.\discretionary {-}{}{}cpp}|hyperpage}{16}
+\indexentry{main.\discretionary {-}{}{}cpp@{main.\discretionary {-}{}{}cpp}!main@{main}|hyperpage}{16}
+\indexentry{main@{main}!main.cpp@{main.\discretionary {-}{}{}cpp}|hyperpage}{16}
+\indexentry{Misc/template.\discretionary {-}{}{}h@{Misc/template.\discretionary {-}{}{}h}|hyperpage}{17}
+\indexentry{Misc/typedef.\discretionary {-}{}{}h@{Misc/typedef.\discretionary {-}{}{}h}|hyperpage}{17}
+\indexentry{typedef.\discretionary {-}{}{}h@{typedef.\discretionary {-}{}{}h}!Grid\discretionary {-}{}{}Function\discretionary {-}{}{}Type@{Grid\discretionary {-}{}{}Function\discretionary {-}{}{}Type}|hyperpage}{17}
+\indexentry{Grid\discretionary {-}{}{}Function\discretionary {-}{}{}Type@{Grid\discretionary {-}{}{}Function\discretionary {-}{}{}Type}!typedef.h@{typedef.\discretionary {-}{}{}h}|hyperpage}{17}
+\indexentry{typedef.\discretionary {-}{}{}h@{typedef.\discretionary {-}{}{}h}!Index\discretionary {-}{}{}Type@{Index\discretionary {-}{}{}Type}|hyperpage}{17}
+\indexentry{Index\discretionary {-}{}{}Type@{Index\discretionary {-}{}{}Type}!typedef.h@{typedef.\discretionary {-}{}{}h}|hyperpage}{17}
+\indexentry{typedef.\discretionary {-}{}{}h@{typedef.\discretionary {-}{}{}h}!Multi\discretionary {-}{}{}Index\discretionary {-}{}{}Type@{Multi\discretionary {-}{}{}Index\discretionary {-}{}{}Type}|hyperpage}{17}
+\indexentry{Multi\discretionary {-}{}{}Index\discretionary {-}{}{}Type@{Multi\discretionary {-}{}{}Index\discretionary {-}{}{}Type}!typedef.h@{typedef.\discretionary {-}{}{}h}|hyperpage}{17}
+\indexentry{typedef.\discretionary {-}{}{}h@{typedef.\discretionary {-}{}{}h}!Point\discretionary {-}{}{}Type@{Point\discretionary {-}{}{}Type}|hyperpage}{17}
+\indexentry{Point\discretionary {-}{}{}Type@{Point\discretionary {-}{}{}Type}!typedef.h@{typedef.\discretionary {-}{}{}h}|hyperpage}{17}
+\indexentry{typedef.\discretionary {-}{}{}h@{typedef.\discretionary {-}{}{}h}!Real\discretionary {-}{}{}Type@{Real\discretionary {-}{}{}Type}|hyperpage}{17}
+\indexentry{Real\discretionary {-}{}{}Type@{Real\discretionary {-}{}{}Type}!typedef.h@{typedef.\discretionary {-}{}{}h}|hyperpage}{17}
+\indexentry{typedef.\discretionary {-}{}{}h@{typedef.\discretionary {-}{}{}h}!Stencil\discretionary {-}{}{}Type@{Stencil\discretionary {-}{}{}Type}|hyperpage}{18}
+\indexentry{Stencil\discretionary {-}{}{}Type@{Stencil\discretionary {-}{}{}Type}!typedef.h@{typedef.\discretionary {-}{}{}h}|hyperpage}{18}
+\indexentry{Solver/solver.\discretionary {-}{}{}h@{Solver/solver.\discretionary {-}{}{}h}|hyperpage}{18}
+\indexentry{Stencil/stencil.\discretionary {-}{}{}cpp@{Stencil/stencil.\discretionary {-}{}{}cpp}|hyperpage}{18}
+\indexentry{stencil.\discretionary {-}{}{}cpp@{stencil.\discretionary {-}{}{}cpp}!Apply\discretionary {-}{}{}Stencil\discretionary {-}{}{}Operator@{Apply\discretionary {-}{}{}Stencil\discretionary {-}{}{}Operator}|hyperpage}{18}
+\indexentry{Apply\discretionary {-}{}{}Stencil\discretionary {-}{}{}Operator@{Apply\discretionary {-}{}{}Stencil\discretionary {-}{}{}Operator}!stencil.cpp@{stencil.\discretionary {-}{}{}cpp}|hyperpage}{18}
+\indexentry{Stencil/stencil.\discretionary {-}{}{}h@{Stencil/stencil.\discretionary {-}{}{}h}|hyperpage}{19}
+\indexentry{Structs/simparam.\discretionary {-}{}{}h@{Structs/simparam.\discretionary {-}{}{}h}|hyperpage}{19}

@@ -1,0 +1,105 @@
+\hypertarget{class_solver}{\section{Solver Class Reference}
+\label{d6/d8d/class_solver}\index{Solver@{Solver}}
+}
+
+
+{\ttfamily \#include $<$solver.\-h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{typedef_8h_a4071869abd34c628c23e249413e815cf}{Real\-Type} \hyperlink{class_solver_a16fc555b0c285707f05a78e06cceb8df}{compute\-Residual} (\hyperlink{typedef_8h_a8998e93841a5f5b58312b7937c5b6164}{Grid\-Function\-Type} \&sourcegridfunction, \hyperlink{typedef_8h_a8998e93841a5f5b58312b7937c5b6164}{Grid\-Function\-Type} \&rhs, const \hyperlink{typedef_8h_af09038ac7e336d283bb9694a57c0572f}{Point\-Type} \&h)
+\begin{DoxyCompactList}\small\item\em Function to compute the global residual. \end{DoxyCompactList}\item 
+void \hyperlink{class_solver_a6a185ef99010dc8d2ec7ce2e0a6fc663}{S\-O\-R\-Cycle} (\hyperlink{class_gridfunction}{Gridfunction} $\ast$gridfunction, \hyperlink{typedef_8h_a8998e93841a5f5b58312b7937c5b6164}{Grid\-Function\-Type} \&rhs, const \hyperlink{typedef_8h_af09038ac7e336d283bb9694a57c0572f}{Point\-Type} \&delta, \hyperlink{typedef_8h_a4071869abd34c628c23e249413e815cf}{Real\-Type} omega)
+\begin{DoxyCompactList}\small\item\em Function to compute the global residual. \end{DoxyCompactList}\item 
+\hyperlink{class_solver_a2f961db30b8037e4ab6df8e914e626ad}{Solver} (void)
+\begin{DoxyCompactList}\small\item\em Constructor (does not have to do anything) \end{DoxyCompactList}\item 
+\hyperlink{class_solver_aba52d3c92fafceb6fe39f937f2d73db3}{$\sim$\-Solver} ()
+\begin{DoxyCompactList}\small\item\em Destructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 15 of file solver.\-h.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_solver_a2f961db30b8037e4ab6df8e914e626ad}{\index{Solver@{Solver}!Solver@{Solver}}
+\index{Solver@{Solver}!Solver@{Solver}}
+\subsubsection[{Solver}]{\setlength{\rightskip}{0pt plus 5cm}Solver\-::\-Solver (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{d6/d8d/class_solver_a2f961db30b8037e4ab6df8e914e626ad}
+
+
+Constructor (does not have to do anything) 
+
+\hypertarget{class_solver_aba52d3c92fafceb6fe39f937f2d73db3}{\index{Solver@{Solver}!$\sim$\-Solver@{$\sim$\-Solver}}
+\index{$\sim$\-Solver@{$\sim$\-Solver}!Solver@{Solver}}
+\subsubsection[{$\sim$\-Solver}]{\setlength{\rightskip}{0pt plus 5cm}Solver\-::$\sim$\-Solver (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{d6/d8d/class_solver_aba52d3c92fafceb6fe39f937f2d73db3}
+
+
+Destructor. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_solver_a16fc555b0c285707f05a78e06cceb8df}{\index{Solver@{Solver}!compute\-Residual@{compute\-Residual}}
+\index{compute\-Residual@{compute\-Residual}!Solver@{Solver}}
+\subsubsection[{compute\-Residual}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Real\-Type} Solver\-::compute\-Residual (
+\begin{DoxyParamCaption}
+\item[{{\bf Grid\-Function\-Type} \&}]{sourcegridfunction, }
+\item[{{\bf Grid\-Function\-Type} \&}]{rhs, }
+\item[{const {\bf Point\-Type} \&}]{h}
+\end{DoxyParamCaption}
+)}}\label{d6/d8d/class_solver_a16fc555b0c285707f05a78e06cceb8df}
+
+
+Function to compute the global residual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sourcegridfunction} & ?The discretized solution \\
+\hline
+{\em rhs} & The right hand side of the discretized local P\-D\-E \\
+\hline
+{\em h} & ?what are these two Real\-Types for? \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_solver_a6a185ef99010dc8d2ec7ce2e0a6fc663}{\index{Solver@{Solver}!S\-O\-R\-Cycle@{S\-O\-R\-Cycle}}
+\index{S\-O\-R\-Cycle@{S\-O\-R\-Cycle}!Solver@{Solver}}
+\subsubsection[{S\-O\-R\-Cycle}]{\setlength{\rightskip}{0pt plus 5cm}void Solver\-::\-S\-O\-R\-Cycle (
+\begin{DoxyParamCaption}
+\item[{{\bf Gridfunction} $\ast$}]{gridfunction, }
+\item[{{\bf Grid\-Function\-Type} \&}]{rhs, }
+\item[{const {\bf Point\-Type} \&}]{delta, }
+\item[{{\bf Real\-Type}}]{omega}
+\end{DoxyParamCaption}
+)}}\label{d6/d8d/class_solver_a6a185ef99010dc8d2ec7ce2e0a6fc663}
+
+
+Function to compute the global residual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em gridfunction} & Pointer on the discretized solution \\
+\hline
+{\em rhs} & The right hand side of the discretized local P\-D\-E \\
+\hline
+{\em delta} & \$\$ are the gridwidths in x-\/ and y-\/direction \\
+\hline
+{\em omega} & The \$\$ -\/parameter of the S\-O\-R-\/cycle \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Solver/\hyperlink{solver_8h}{solver.\-h}\end{DoxyCompactItemize}
