@@ -1,5 +1,5 @@
 /*
- * Gridfunction.h
+ * gridfunction.h
  *
  *  Created on: 06.11.2013
  *      Author: Markus
@@ -10,31 +10,31 @@
 
 #include"../Misc/typedef.h"
 
-class Gridfunction {
+class GridFunction {
 
 public:
 	/*! Construktor
 	   * @param DimX Dimension in X-Direction
 	   * @param DimY Dimension in Y-Direction
 	   */
-	Gridfunction(int DimX, int DimY);
+	GridFunction(int DimX, int DimY);
 
-	Gridfunction(const MultiIndexType griddimension);
+	GridFunction(const MultiIndexType griddimension);
 
 	//! Destructor
-	~Gridfunction();
+	~GridFunction();
 
 	//! get grid data (pointer to gridfunction)
 
-	GridFunctionType getGridfunction() const;
+	GridFunctionType GetGridFunction() const;
 
-	//! get grid data
-	RealType getGridfunction(const MultiIndexType& index);
+	//! get value of index
+	RealType GetGridFunction(const MultiIndexType& index);
 
 	//! get dimension
-	MultiIndexType getGriddimension();
+	MultiIndexType GetGridDimension();
 
-	//! set grid data by
+	//! set a whole block to value
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType value);
 
 	//!
