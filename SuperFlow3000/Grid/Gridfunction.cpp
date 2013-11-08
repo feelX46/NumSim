@@ -7,7 +7,7 @@
 
 #include "Gridfunction.h"
 
-
+//bliblbablub
 Gridfunction::Gridfunction(int DimX, int DimY){
 	 RealType *grid_data[DimY];
 	 for (int i=0; i < DimY; i++){
