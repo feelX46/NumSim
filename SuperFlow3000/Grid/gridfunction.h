@@ -19,7 +19,7 @@ public:
 	   */
 	GridFunction(int DimX, int DimY);
 
-	GridFunction(const MultiIndexType griddimension);
+	GridFunction(const MultiIndexType griddimension_input);
 
 	//! Destructor
 	~GridFunction();
@@ -36,6 +36,9 @@ public:
 
 	//! set a whole block to value
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType value);
+
+	//! set a  value
+	void SetGridFunction (const IndexType& i, const IndexType& j, RealType value);
 
 	//!
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,

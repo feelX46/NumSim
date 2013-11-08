@@ -8,45 +8,32 @@
 #include "gridfunction.h"
 
 GridFunction::GridFunction(int DimX, int DimY){
-	 RealType *grid_data[DimY];
-	 for (int i=0; i < DimY; i++){
-		 RealType grid_datax[DimX];
-		 grid_data[i]=grid_datax;
+	 gridfunction= new RealType*[DimX];
+	 for (int i = 0; i < DimX; i++){
+		 gridfunction[i] = new RealType [DimY];
 	 }
-	 gridfunction = grid_data;
-
-
-	  /*int **matrix ; // Adresse eines Pointers
-	    int i,k;
-
-	    matrix=(int**)malloc(z*sizeof(void*));
-	    for (i=0;i<z;i++) {
-	        matrix[i]=(int*)malloc(s*sizeof(int));
-	    }
-	    */
+	 griddimension[1] = DimX;
+	 griddimension[2] = DimY;
 }
 
-GridFunction::GridFunction(const MultiIndexType griddimension){
-/*
-	 RealType *gridfunction = new (RealType*)[griddimension[1]];
+GridFunction::GridFunction(const MultiIndexType griddimension_input) : griddimension(griddimension_input){
+	 gridfunction= new RealType*[griddimension[1]];
 	 for (int i = 0; i < griddimension[1]; i++){
-		 gridfunction[i] = new (RealType)[griddime'nsion[2]];
+		 gridfunction[i] = new RealType [griddimension[2]];
 	 }
-*/
-/*
-	 int*** array2d = new (int**)[rows];
-	 for (int i = 0; i < rows; ++i) {
-	   array2d[i] = new (int*)[cols];
-	 }
-	 */
 }
 
 GridFunction::~GridFunction(){
-}
+	for(IndexType delCol = 0; delCol < griddimension[1]; delCol++)
+		{
+			delete [] gridfunction[griddimension[2]];
+		}
+		delete [] gridfunction;
+	}
 
 
 GridFunctionType GridFunction::GetGridFunction() const{
-	return 0;
+	return gridfunction;
 }
 
 RealType GridFunction::GetGridFunction(const MultiIndexType& index){
@@ -66,6 +53,12 @@ void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiInde
 			gridfunction[i][j] = value;
 		}
 	}
+}
+
+
+void GridFunction::SetGridFunction (const IndexType& i, const IndexType& j,
+		RealType value){
+		gridfunction[i][j] = value;
 }
 
 void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
