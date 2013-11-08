@@ -11,7 +11,9 @@
 
 #include"../Misc/typedef.h"
 #include"../Grid/gridfunction.h"
-
+/*! @class Class Solver runs the Successive-Over-Relaxation-Cycling
+ *
+ */
 class Solver {
 public:
 	/*! @brief Function to compute the global residual
