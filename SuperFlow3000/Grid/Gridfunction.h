@@ -25,7 +25,7 @@ public:
 	~Gridfunction();
 
 private:
-	//! grid Data on grid
+	//! gridfunction Datamatrix
 	GridFunctionType gridfunction;
 	//! some explanation
 	MultiIndexType	griddimension;
