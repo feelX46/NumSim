@@ -14,14 +14,17 @@
 class Stencil {
 public:
 
-	Stencil(int stencilwidth_input, const PointType& h_input);
+	Stencil(int stencilwidth_input, PointType& h_input);
 	//void ~Stencil();
 
-	//StencilType stencil;
+	StencilType stencil;
 	int stencilwidth;
-	//const PointType& h;
+	PointType& h;
 };
 
-
-
+/*ApplyStencilOperator(const MultiIndexType& gridreadbegin,
+						const MulltiIndexType& gridreadend,
+						const GridFunction sourcegridfunction,
+						GridFunction imagegridfunction);
+*/
 #endif /* STENCIL_H_ */
