@@ -32,7 +32,7 @@ void Stencil::setFxxStencil() {
 	stencil[0][-1] = 0;
 	stencil[1][-1] = 0;
 	stencil[-1][0] = 1/(h[0]*h[0]);
-	stencil[0][0] = 2/(h[0]*h[0]);
+	stencil[0][0] = -2/(h[0]*h[0]);
 	stencil[1][0] = 1/(h[0]*h[0]);
 	stencil[-1][1] = 0;
 	stencil[0][1] = 0;
@@ -44,7 +44,7 @@ void Stencil::setFyyStencil() {
 	stencil[0][-1] = 1/(h[0]*h[0]);
 	stencil[1][-1] = 0;
 	stencil[-1][0] = 0;
-	stencil[0][0] = 2/(h[0]*h[0]);
+	stencil[0][0] = -2/(h[0]*h[0]);
 	stencil[1][0] = 0;
 	stencil[-1][1] = 0;
 	stencil[0][1] = 1/(h[0]*h[0]);
