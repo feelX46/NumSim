@@ -14,12 +14,12 @@ Gridfunction::Gridfunction(int DimX, int DimY){
 		 RealType grid_datax[DimX];
 		 grid_data[i]=grid_datax;
 	 }
-	 grid = grid_data;
+	 gridfunction = grid_data;
 }
 
 Gridfunction::Gridfunction(const MultiIndexType griddimension){
 	Gridfunction(griddimension[1],griddimension[2]);
-	grid = 0;
+	gridfunction = 0;
 }
 
 Gridfunction::~Gridfunction(){
