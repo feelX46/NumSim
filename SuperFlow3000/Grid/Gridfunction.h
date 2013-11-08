@@ -24,8 +24,11 @@ public:
 	//! Destructor
 	~Gridfunction();
 
-	//! get grid data
+	//! get grid data (pointer to gridfunction)
 	GridFunctionType getGridfunction();
+
+	//! get grid data
+	RealType getGridfunction(const MultiIndexType& index);
 
 	//! get dimension
 	MultiIndexType getGriddimension();
@@ -34,19 +37,23 @@ public:
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType value);
 
 	//!
-	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor, GridFunctionType& sourcegridfunction);
+	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
+			GridFunctionType& sourcegridfunction);
 
 	//!
-	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType factor, GridFunctionType& sourcegridfunction, MultiIndexType& offset);
+	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType factor,
+			GridFunctionType& sourcegridfunction, MultiIndexType& offset);
 
 	//!
-	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,GridFunctionType& sourcegridfunction, MultiIndexType& offset, RealType constant);
+	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
+			GridFunctionType& sourcegridfunction, MultiIndexType& offset, RealType constant);
 
 	//! scale grid
 	void ScaleGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType factor);
 
 	//!
-	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor, GridFunctionType& imagegridfunction);
+	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
+			GridFunctionType& imagegridfunction);
 
 	//!
 	RealType MaxValueGridFunction (const MultiIndexType& begin, const MultiIndexType& end);
@@ -54,7 +61,7 @@ public:
 private:
 	//! gridfunction Datamatrix
 	GridFunctionType gridfunction;
-	//! some explanation
+	//! dimension of the grid
 	MultiIndexType	griddimension;
 };
 
