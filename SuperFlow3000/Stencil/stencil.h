@@ -30,6 +30,7 @@ public:
 			GridFunction imagegridfunction);
 
 	void setFxxStencil();
+	void setFyyStencil();
 };
 
 #endif /* STENCIL_H_ */
