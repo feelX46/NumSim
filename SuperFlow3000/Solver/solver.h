@@ -29,8 +29,8 @@ public:
     /*! @brief Function to compute the global residual
     		   * @param gridfunction Pointer on the discretized solution
     		   * @param rhs The right hand side of the discretized local PDE
-    		   * @param delta $\delta_i$ are the gridwidths in x- and y-direction
-    		   * @param omega The $\omega$ -parameter of the SOR-cycle
+    		   * @param delta delta_i are the gridwidths in x- and y-direction
+    		   * @param omega The omega-parameter of the SOR-cycle
     		   */
     void SORCycle(Gridfunction* gridfunction,
     	    	  GridFunctionType& rhs,
