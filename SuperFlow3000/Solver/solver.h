@@ -10,6 +10,7 @@
 
 
 #include"../Misc/typedef.h"
+#include"../Grid/gridfunction.h"
 
 class Solver {
 public:
