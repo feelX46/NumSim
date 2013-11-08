@@ -24,6 +24,33 @@ public:
 	//! Destructor
 	~Gridfunction();
 
+	//! get grid data
+	GridFunctionType getGridfunction();
+
+	//! get dimension
+	MultiIndexType getGriddimension();
+
+	//! set grid data by
+	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType value);
+
+	//!
+	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor, GridFunctionType& sourcegridfunction);
+
+	//!
+	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType factor, GridFunctionType& sourcegridfunction, MultiIndexType& offset);
+
+	//!
+	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,GridFunctionType& sourcegridfunction, MultiIndexType& offset, RealType constant);
+
+	//! scale grid
+	void ScaleGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType factor);
+
+	//!
+	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor, GridFunctionType& imagegridfunction);
+
+	//!
+	RealType MaxValueGridFunction (const MultiIndexType& begin, const MultiIndexType& end);
+
 private:
 	//! gridfunction Datamatrix
 	GridFunctionType gridfunction;
