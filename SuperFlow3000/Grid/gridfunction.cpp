@@ -9,7 +9,7 @@
 #include <iostream>
 //1
 GridFunction::GridFunction(int DimX, int DimY){
-	 gridfunction= new RealType*[DimX];
+	 gridfunction = new RealType*[DimX];
 	 for (int i = 0; i < DimX; i++){
 		 gridfunction[i] = new RealType [DimY];
 	 }

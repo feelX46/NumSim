@@ -11,7 +11,7 @@
 
 #include"../Misc/typedef.h"
 #include"../Grid/gridfunction.h"
-/*! @class Class Solver runs the Successive-Over-Relaxation-Cycling
+/*! @class Class Solver runs the Successive-Over-Relaxation-Cycle
  *
  */
 class Solver {
@@ -30,23 +30,23 @@ public:
     		   * @param gridfunction Pointer on the discretized solution
     		   * @param rhs The right hand side of the discretized local PDE
     		   * @param delta delta_i are the gridwidths in x- and y-direction
-    		   * @param omega The omega-parameter of the SOR-cycle
+    		   * @param omega The relaxation-parameter of the SOR-cycle
     		   */
-    void SORCycle(Gridfunction* gridfunction,
+    void SORCycle(GridFunction* gridfunction,
     	    	  GridFunctionType& rhs,
     	    	  const PointType& delta,
     	    	  RealType omega);
     //-------------------------------------------------------------------------------
 
-    /*! @brief Constructor
+    /*! @brief Constructor to made?
     * (does not have to do anything)
     */
-    Solver::Solver(void);
+    //Solver::Solver();
     //-------------------------------------------------------------------------------
 
-    /*! @brief Destructor
+    /*! @brief Destructor to be made?
      */
-    Solver::~Solver();
+   // Solver::~Solver();
 
 private:
 
