@@ -14,6 +14,16 @@ Gridfunction::Gridfunction(int DimX, int DimY){
 		 grid_data[i]=grid_datax;
 	 }
 	 gridfunction = grid_data;
+
+
+	  /*int **matrix ; // Adresse eines Pointers
+	    int i,k;
+
+	    matrix=(int**)malloc(z*sizeof(void*));
+	    for (i=0;i<z;i++) {
+	        matrix[i]=(int*)malloc(s*sizeof(int));
+	    }
+	    */
 }
 
 Gridfunction::Gridfunction(const MultiIndexType griddimension){
@@ -29,6 +39,12 @@ Gridfunction::~Gridfunction(){
 GridFunctionType Gridfunction::getGridfunction(){
 	return 0;
 }
+
+//! get grid data
+RealType Gridfunction::getGridfunction(const MultiIndexType& index){
+	return gridfunction[index[1]][index[2]];
+}
+
 
 //! get dimension
 MultiIndexType Gridfunction::getGriddimension(){
