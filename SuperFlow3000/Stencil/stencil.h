@@ -10,18 +10,27 @@
 
 
 #include"../Misc/typedef.h"
+#include"../Grid/Gridfunction.h"
 
 class Stencil {
 public:
 
-	Stencil(int stencilwidth_input, const PointType& h_input);
+	Stencil(int stencilwidth_input, PointType& h_input);
 	//void ~Stencil();
 
-	//StencilType stencil;
+	StencilType stencil;
 	int stencilwidth;
-	//const PointType& h;
+	PointType& h;
+
+	void ApplyStencilOperator(const MultiIndexType& gridreadbegin,
+			const MultiIndexType& gridreadend,
+			const MultiIndexType& gridwritebegin,
+			const MultiIndexType& gridwriteend,
+			const Gridfunction sourcegridfunction,
+			Gridfunction imagegridfunction);
+
+	void setFxxStencil();
+	void setFyyStencil();
 };
-
-
 
 #endif /* STENCIL_H_ */

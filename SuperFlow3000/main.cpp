@@ -8,7 +8,8 @@
 #include "Misc/template.h"
 #include "Misc/typedef.h"
 #include "IO/IO.hpp"
-//#include "stencil.h"
+#include "Stencil/stencil.h"
+#include "Grid/Gridfunction.h"
 
 int main(){
 	char InputFileName[] = "inputvals.bin";
