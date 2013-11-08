@@ -49,7 +49,8 @@ MultiIndexType GridFunction::GetGridDimension(){
 }
 
 
-void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType value){
+void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
+		RealType value){
 	for (int i = begin[2]; i++; i<end[2]){
 		for (int j = begin[1]; j++; j<end[1]){
 			gridfunction[i][j] = value;
@@ -64,12 +65,7 @@ void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiInde
 
 void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
 		RealType factor, GridFunctionType& sourcegridfunction, MultiIndexType& offset){
-	/*for (int i = begin[2]; i++; i<end[2]){
-		for (int j = begin[1]; j++; j<end[1]){
-			GridFunction[i][j] = factor * GridFunction[i + offset[0]][j + offset[1]];
-		}
-	}
-	*/
+
 }
 
 
@@ -79,16 +75,18 @@ void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiInde
 }
 
 
-void GridFunction::ScaleGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType factor){
+void GridFunction::ScaleGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
+		RealType factor){
 }
 
 
-void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
-		GridFunctionType& imagegridfunction){
+void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
+		RealType factor, GridFunctionType& imagegridfunction){
 
 }
 
 
-RealType GridFunction::MaxValueGridFunction (const MultiIndexType& begin, const MultiIndexType& end){
+RealType GridFunction::MaxValueGridFunction (const MultiIndexType& begin,
+		const MultiIndexType& end){
 	return 0;
 }
