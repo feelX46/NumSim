@@ -3,7 +3,10 @@
 IO::IO (char *input, char *output)
 {
   //ToDo Read the file with the simulations parameters
-
+  
+  readInputfile(input);
+  
+	
 }
 
 IO::~IO ()
@@ -16,6 +19,25 @@ IO::readInputfile (char *filename)
 {
   //ToDo Store the input parameters.
 
+	//fileOpen(input);
+	  //int iter = 0;
+	  //char actualChar = input[iter]
+	  //as long as (actualChar != \eof) do:
+	  // int actualLine = 0;
+	  //	as long as (actualChar != \eol) do:
+	  //   /*erst in richtiger Implementierung*/     output[actualLine] = detectEqualsignAndGetTheFloatOrIntegerAfter();
+	  //   /*für erstes Arbeitsblatt:*/ std::cout<<actualChar;
+	  //      iter++;
+	  //      actualChar = input[iter];
+	  //    actualLine++;
+	  //fileClose();
+	
+	//output[i]= ... int/float - Value;
+	/*ich schätze output muss hier bearbeitet werden. Allerdings ist output vom typ char.
+	 * Das heißt output selbst müsste ein zeiger auf ein Objekt sein, das die
+	 * Variablen aus 'inputvals.txt' beinhaltet (ints & floats gemischt).
+	 * -> Zeiger auf SimParam?
+	 */
 }
 
 

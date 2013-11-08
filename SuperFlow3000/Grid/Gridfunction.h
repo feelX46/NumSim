@@ -26,7 +26,9 @@ public:
 
 private:
 	//! grid Data on grid
-	GridFunctionType grid;
+	GridFunctionType gridfunction;
+	//! some explanation
+	MultiIndexType	griddimension;
 };
 
 

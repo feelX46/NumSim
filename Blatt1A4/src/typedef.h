@@ -1,4 +1,4 @@
-//! Typedefs for the apllication 
+//! Typedefs for the application
 /*!
  * @author diehlpk
  * @date 2012
