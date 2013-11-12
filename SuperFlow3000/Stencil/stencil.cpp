@@ -7,9 +7,9 @@
 
 #include "stencil.h"
 #include <iostream>
-#include "../Grid/gridfunction.h"
 
-Stencil::Stencil(int stencilwidth_input, const PointType& h_input) : stencilwidth(stencilwidth_input), h(h_input){
+
+Stencil::Stencil(int stencilwidth_input, PointType& h_input) : stencilwidth(stencilwidth_input), h(h_input){
 	stencil = new RealType*[stencilwidth_input];
 }
 
@@ -20,11 +20,16 @@ void Stencil::ApplyStencilOperator(const MultiIndexType& gridreadbegin,
 						const GridFunction sourcegridfunction,
 						GridFunction imagegridfunction) {
 
-	for (int i=gridreadbegin[0]; i++; i <=gridreadend[0]){
-    	for (int j=gridreadbegin[1]; j++; j<=gridreadend[1]){
-    		imagegridfunction.SetGridFunction(gridwritebegin,
-    			gridwriteend,
-    			sourcegridfunction.GetGridFunction()[i][j]*stencil[gridreadend[0]-i][gridreadend[1]-j]);
+	// iteriere ueber alle punkte (zeilen und spalten)
+	for (IndexType i=gridreadbegin[0]; i <=gridreadend[0]; i++){
+    	for (IndexType j=gridreadbegin[1]; j<=gridreadend[1];  j++){
+    		// fuer jede Ableitung wird die 3x3 Stencil Matrix angewendet
+    				for(IndexType k=0; k<3;k++){
+    					for(IndexType l=0;l<3;l++){
+    						imagegridfunction.SetGridFunction(i,j,
+    								sourcegridfunction.GetGridFunction()[i-k-1][j-l-1]*stencil[k][l]);
+    					}
+    				}
     	}
     }
 }
