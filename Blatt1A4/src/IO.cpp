@@ -18,26 +18,63 @@ void
 IO::readInputfile (char *filename)
 {
   //ToDo Store the input parameters.
+	// open input file - char line for input lines
+		ifstream file;
+		char line[100];
+		file.open(filename,ios::in);
 
-	//fileOpen(input);
-	  //int iter = 0;
-	  //char actualChar = input[iter]
-	  //as long as (actualChar != \eof) do:
-	  // int actualLine = 0;
-	  //	as long as (actualChar != \eol) do:
-	  //   /*erst in richtiger Implementierung*/     output[actualLine] = detectEqualsignAndGetTheFloatOrIntegerAfter();
-	  //   /*für erstes Arbeitsblatt:*/ std::cout<<actualChar;
-	  //      iter++;
-	  //      actualChar = input[iter];
-	  //    actualLine++;
-	  //fileClose();
+		// read input file line by line
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%lf", &simparam.xLength);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%lf", &simparam.yLength);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.iMax);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.jMax);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.tEnd);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%lf", &simparam.tau);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.deltaVec);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.iterMax);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%lf", &simparam.eps);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%lf", &simparam.omg);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%lf", &simparam.alpha);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.RE);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.GX);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.GY);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.UI);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.UV);
+
+		file.getline(line,sizeof(line));
+		sscanf(line, "%*[^0-9]%d", &simparam.PI);
 	
-	//output[i]= ... int/float - Value;
-	/*ich schätze output muss hier bearbeitet werden. Allerdings ist output vom typ char.
-	 * Das heißt output selbst müsste ein zeiger auf ein Objekt sein, das die
-	 * Variablen aus 'inputvals.txt' beinhaltet (ints & floats gemischt).
-	 * -> Zeiger auf SimParam?
-	 */
 }
 
 
