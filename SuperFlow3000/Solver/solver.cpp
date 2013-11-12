@@ -67,6 +67,8 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
     return sqrt(doubleSum);
 }
 
+
+
     void SORCycle(GridFunction* gridfunction,
     	    	  GridFunctionType& rhs,
     	    	  const PointType& delta,
