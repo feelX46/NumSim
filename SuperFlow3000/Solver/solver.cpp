@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------------------------
- *  AUTHOR: Aaron Kr�mer, and others..?
+ *  AUTHOR: Aaron Kraemer, and others..?
  *  Version: 1
  *
  *  File: solver.cpp
@@ -36,7 +36,7 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
     myEnd[1]= simparam.jMax;
     const MultiIndexType end = myEnd;
 
-    MultiIndexType dimensions; 				//ToDo Kann man const besser initialisieren?
+    MultiIndexType dimensions; 				// ToDo Kann man const besser initialisieren?
     dimensions[0]= simparam.iMax;
     dimensions[1]= simparam.jMax;
     const MultiIndexType gridDimensions = dimensions;
@@ -44,7 +44,10 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
     GridFunction Fxx(gridDimensions);
     GridFunction Fyy(gridDimensions);
 
-    Stencil stencil(3, h); //?!!
+    PointType H;
+    H=h; 									// ToDo Kann man non-const besser initialisieren?
+
+    Stencil stencil(3, H); 					// bzw. Kann man einfach const weitergeben? /Wie?
     stencil.setFxxStencil();
     stencil.ApplyStencilOperator(begin, end, begin, end, sourcegridfunction, Fxx);
     stencil.setFyyStencil();
@@ -57,7 +60,7 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
     	{
     		RealType derivator = 0.0;
 
-    		derivator = Fxx(i,j)+ Fyy(i,j) - rhs(i,j);//[i*simparam.jMax+j];
+    		derivator = Fxx.GetGridFunction()[i][j]+ Fyy.GetGridFunction()[i][j] - rhs[i][j];
             doubleSum +=  derivator*derivator / simparam.iMax /simparam.jMax;
     	}
     }
