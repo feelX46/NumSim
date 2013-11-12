@@ -27,11 +27,6 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
 //----------------------------------------------------
     RealType doubleSum = 0.0;
 
-<<<<<<< HEAD
-=======
-    //ToDo sourcegridfunctionType muss in const umgewandelt werden! neuer konstruktor n�tig??
-
->>>>>>> branch 'master' of https://github.com/feelX46/NumSim.git
     MultiIndexType myBegin;
     myBegin[0]= 0;
     myBegin[1]= 0;
@@ -48,23 +43,13 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
 
     GridFunction Fxx(gridDimensions);
     GridFunction Fyy(gridDimensions);
-<<<<<<< HEAD
+
     Stencil stencil(3, h); //?!!
     stencil.setFxxStencil();
     stencil.ApplyStencilOperator(begin, end, begin, end, sourcegridfunction, Fxx);
     stencil.setFyyStencil();
     stencil.ApplyStencilOperator(myBegin, end, myBegin, end, sourcegridfunction, Fyy);
-=======
-    //Stencil stencil(3, h); //?!!
-    //stencil.setFxxStencil();
-    //stencil.ApplyStencilOperator(myBegin, myEnd, myBegin, myEnd,sourcegridfunction, Fxx);
-    //stencil.setFyyStencil();
-    //stencil.ApplyStencilOperator(myBegin, myEnd, myBegin, myEnd,sourcegridfunction, Fyy);
 
-    /*stencil, setFxxStencil(); applyStencil() --> Vector u_{xx} ? ../u_yy equivalent
-     * after this u_{xx} usable with u_{xx}[i*simparam.jMax + j] ?
-     */
->>>>>>> branch 'master' of https://github.com/feelX46/NumSim.git
 
     for (int i = 1; i <= simparam.iMax; i++)
     {
