@@ -27,14 +27,14 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
 //----------------------------------------------------
     RealType doubleSum = 0.0;
 
-    //ToDo sourcegridfunctionType muss in const umgewandelt werden! neuer konstruktor nötig??
-
     MultiIndexType myBegin;
     myBegin[0]= 0;
     myBegin[1]= 0;
+    const MultiIndexType begin = myBegin;
     MultiIndexType myEnd;
     myEnd[0]= simparam.iMax;
     myEnd[1]= simparam.jMax;
+    const MultiIndexType end = myEnd;
 
     MultiIndexType dimensions; 				//ToDo Kann man const besser initialisieren?
     dimensions[0]= simparam.iMax;
@@ -45,13 +45,9 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
     GridFunction Fyy(gridDimensions);
     Stencil stencil(3, h); //?!!
     stencil.setFxxStencil();
-    stencil.ApplyStencilOperator(myBegin, myEnd, myBegin, myEnd,sourcegridfunction, Fxx);
+    stencil.ApplyStencilOperator(begin, end, begin, end, sourcegridfunction, Fxx);
     stencil.setFyyStencil();
-    stencil.ApplyStencilOperator(myBegin, myEnd, myBegin, myEnd,sourcegridfunction, Fyy);
-
-    /*stencil, setFxxStencil(); applyStencil() --> Vector u_{xx} ? ../u_yy equivalent
-     * after this u_{xx} usable with u_{xx}[i*simparam.jMax + j] ?
-     */
+    stencil.ApplyStencilOperator(myBegin, end, myBegin, end, sourcegridfunction, Fyy);
 
     for (int i = 1; i <= simparam.iMax; i++)
     {
@@ -59,12 +55,7 @@ RealType computeResidual(GridFunctionType& sourcegridfunction,
     	{
     		RealType derivator = 0.0;
 
-    		/*Stencil stencilX(3, h);
-    		Stencil stencilY(3, h);
-    		stencilX.setFxxStencil();
-    		stencilY.setFyyStencil();*/
-
-    		derivator = 0.0; // create stencil, setFxxStencil()? rhs[i][j]?
+    		derivator = Fxx(i,j)+ Fyy(i,j) - rhs(i,j);//[i*simparam.jMax+j];
             doubleSum +=  derivator*derivator / simparam.iMax /simparam.jMax;
     	}
     }
