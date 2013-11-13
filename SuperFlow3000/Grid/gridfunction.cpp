@@ -26,13 +26,13 @@ GridFunction::GridFunction(const MultiIndexType griddimension_input) : griddimen
 }
 
 //3
-GridFunction::~GridFunction(){
+/*GridFunction::~GridFunction(){
 	for(IndexType delCol = 0; delCol < griddimension[1]; delCol++)
 		{
 			delete [] gridfunction[griddimension[2]];
 		}
 		delete [] gridfunction;
-	}
+	}*/
 
 //4
 GridFunctionType GridFunction::GetGridFunction() const{

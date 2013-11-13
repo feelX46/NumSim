@@ -15,6 +15,7 @@ int main(){
 	char InputFileName[] = "inputvals.bin";
 	char OutputFileName[] = "output.txt";
 	IO Reader(InputFileName,OutputFileName);
+	GridFunction sourcegridfunction(5,5);
 	return 0;
 
 	/*// Teste Apply Grid Function
