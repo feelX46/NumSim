@@ -48,11 +48,23 @@ public:
 	 */
 	void setBoundaryF(GridFunction f);
 
-	/*! @brief Function to set the boundary values for G.
+	/*! @brief Function to set the boundary values for G (13).
 	 *  @param g is a GridFunction-Object, containing G for all discretization points.
 	 */
 	void setBoundaryG(GridFunction g);
 
+	/*! @brief Function to compute the righthand like (14).
+		 *  @param rhs is a pointer on the GridFunction-object, that is to be computed.
+		 *  @param f is the reference to a GridFunctionType, containing F.
+		 *  @param g is the reference to a GridFunctionType, containing G.
+		 *  @param delta contains the gridwidths in x- and y-direction.
+		 *  @param deltaT contains the time step size for the next iteration step.
+		 */
+    void computeRighthandSide(GridFunction* rhs,
+    		GridFunctionType& f,
+    		GridFunctionType& g,
+    		const PointType& delta,
+    		RealType deltaT);
 
 };
 
