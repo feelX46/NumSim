@@ -9,12 +9,12 @@
 #include <iostream>
 //1
 GridFunction::GridFunction(int DimX, int DimY){
-	 gridfunction = new RealType*[DimX];
-	 for (int i = 0; i < DimX; i++){
-		 gridfunction[i] = new RealType [DimY];
+	 gridfunction = new RealType*[DimY];
+	 for (int i = 0; i < DimY; i++){
+		 gridfunction[i] = new RealType [DimX];
 	 }
-	 griddimension[0] = DimX;
-	 griddimension[1] = DimY;
+	 griddimension[0] = DimY;
+	 griddimension[1] = DimX;
 }
 
 //2
@@ -26,13 +26,11 @@ GridFunction::GridFunction(const MultiIndexType griddimension_input) : griddimen
 }
 
 //3
-/*GridFunction::~GridFunction(){
-	for(IndexType delCol = 0; delCol < griddimension[1]; delCol++)
-		{
-			delete [] gridfunction[griddimension[2]];
-		}
-		delete [] gridfunction;
-	}*/
+GridFunction::~GridFunction(){
+	for (int i = 0; i < griddimension[1]; i++)
+		delete [] gridfunction[i];
+	delete [] gridfunction;
+}
 
 //4
 GridFunctionType GridFunction::GetGridFunction() const{

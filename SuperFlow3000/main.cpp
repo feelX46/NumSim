@@ -12,6 +12,7 @@
 #include "Grid/gridfunction.h"
 
 int main(){
+	std::cout << "begin";
 	char InputFileName[] = "inputvals.bin";
 	char OutputFileName[] = "output.txt";
 	IO Reader(InputFileName,OutputFileName);
