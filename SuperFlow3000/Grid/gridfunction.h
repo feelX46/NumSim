@@ -23,6 +23,7 @@ public:
 		   */
 	GridFunction(const MultiIndexType griddimension_input);
 
+	// TODO Dekonstruktor schreiben!
 	//! Destructor (3)
 	//~GridFunction();
 
