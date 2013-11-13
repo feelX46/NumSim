@@ -39,7 +39,7 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
 	MultiIndexType end;
 	end[0]=128;
 	end[1]=128;
-	u->SetGridFunction(&begin,&end, 1.0, f-deltaT/delta[0]*temp);
+	//u->SetGridFunction(&begin,&end, 1.0, f-deltaT/delta[0]*temp); TODO
 
 
 }
