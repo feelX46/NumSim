@@ -24,6 +24,14 @@ void Stencil::ApplyStencilOperator(const MultiIndexType& gridreadbegin,
 		const GridFunctionType sourcegridfunction,
 		GridFunction imagegridfunction){
 
+	for (IndexType i = gridwritebegin[0]; i < gridwriteend[0]+1;i++){
+		imagegridfunction.SetGridFunction(0,i,0.0);
+		imagegridfunction.SetGridFunction(gridreadend[0],i,0.0);
+	}
+	for (IndexType j = gridwritebegin[1]; j < gridwriteend[1]+1; j++) {
+		imagegridfunction.SetGridFunction(j,0,0.0);
+		imagegridfunction.SetGridFunction(j,gridreadend[0],0.0);
+	}
 
 	// Berechne die Ableitungen
 	// (0,0) ist bei allen allen drei Matrtzen (Stencil, sourcegrid, imagegrid) oben links
@@ -42,14 +50,6 @@ void Stencil::ApplyStencilOperator(const MultiIndexType& gridreadbegin,
 
 	// Da die Groesse der Ableitungsmatrix so gross ist, wie die eigentliche Matrix,
 	// werden die Ableitungsraender auf 0 gesetzt
-	for (IndexType i = gridreadbegin[0]; i < gridreadend[0]+1;i++){
-		imagegridfunction.SetGridFunction(0,i,0.0);
-		imagegridfunction.SetGridFunction(gridreadend[0],i,0.0);
-	}
-	for (IndexType j = gridreadbegin[1]; j < gridreadend[1]+1; j++) {
-		imagegridfunction.SetGridFunction(j,0,0.0);
-		imagegridfunction.SetGridFunction(j,gridreadend[0],0.0);
-	}
 
 
 
