@@ -19,6 +19,17 @@ int main(){
 	GridFunction sourcegridfunction(5,5);
 	return 0;
 
+	// ToDo Liste
+	/*
+	 * Stencil testen - kommen die richtigen Matrizen raus?
+	 * Visualisierung ausprobieren
+	 * Zeititeration
+	 * Destruktor GridFunction
+	 * Solver testen?
+	 * Computation fertig machen
+	 * Stencil andere Ableitungen
+	 */
+
 	/*// Teste Apply Grid Function
 	MultiIndexType gridreadbegin;
 	gridreadbegin[0]=0;	gridreadbegin[1]=0;
