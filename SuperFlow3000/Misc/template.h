@@ -29,6 +29,14 @@ public:
     for (size_t d = 0; d < size; ++d)
       coord[d] = 0;
   }
+
+  //! Constructor with preinitialization
+   Array (T input1, T input2)
+   {
+     coord[0] = input1;
+     coord[1] = input2;
+   }
+
   //! Destructor.
   ~Array (void)
   {
@@ -53,6 +61,8 @@ public:
     assert (size > index);
     return coord[index];
   }
+
+
 };
 
 

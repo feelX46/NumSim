@@ -12,11 +12,32 @@
 #include "Grid/gridfunction.h"
 
 int main(){
-	std::cout << "begin";
+	std::cout << "#### SuperFlow3000 ####\n";
 	char InputFileName[] = "inputvals.bin";
 	char OutputFileName[] = "output.txt";
+	// load simparam
 	IO Reader(InputFileName,OutputFileName);
-	GridFunction sourcegridfunction(5,5);
+	Simparam simparam = Reader.getSimparam();
+
+	// initialize grids
+	const MultiIndexType griddimension(8,8);
+	//const MultiIndexType griddimension (simparam.iMax+2,simparam.iMax+2);
+	MultiIndexType grid_ll(0,0); //lower left
+	MultiIndexType grid_ur(7,7);
+	GridFunction u(griddimension,simparam.UI);
+	GridFunction v(griddimension,simparam.UV);
+	GridFunction p(griddimension,simparam.PI);
+
+	// set some values inside the grid
+	MultiIndexType MIT1(1,2);
+	MultiIndexType MIT2(3,5);
+	u.SetGridFunction(MIT1,MIT2, 5);
+	u.PlotGrid();
+
+	const PointType delta(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
+	//int step = 1;
+	//std::cout << simparam.xLength<<"/"<< simparam.iMax<<"="<< delta[0];
+	//Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), delta, step);
 	return 0;
 
 	// ToDo Liste
@@ -24,25 +45,12 @@ int main(){
 	 * Stencil testen - kommen die richtigen Matrizen raus?
 	 * Visualisierung ausprobieren
 	 * Zeititeration
-	 * Destruktor GridFunction
 	 * Solver testen?
 	 * Computation fertig machen
 	 * Stencil andere Ableitungen
 	 */
 
 	/*// Teste Apply Grid Function
-	MultiIndexType gridreadbegin;
-	gridreadbegin[0]=0;	gridreadbegin[1]=0;
-
-	MultiIndexType gridreadend;
-	gridreadend[0]=5; gridreadend[1]=5;
-
-	MultiIndexType gridwritebegin;
-	gridwritebegin[0]=0; gridwritebegin[1]=0;
-
-	MultiIndexType gridwriteend;
-	gridwriteend[0]=3; gridwriteend[1]=3;
-
 	GridFunction sourcegridfunction;
 
 	GridFunction imagegridfunctinon;

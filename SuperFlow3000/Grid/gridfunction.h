@@ -18,10 +18,24 @@ public:
 	   * @param DimY Dimension in Y-Direction
 	   */
 	GridFunction(int DimX, int DimY);
+
+	/*! Construktor (1.1)
+		   * @param DimX Dimension in X-Direction
+		   * @param DimY Dimension in Y-Direction
+		   * @param value initial value
+		   */
+	GridFunction(int DimX, int DimY, RealType value);
+
 	/*! Construktor (2)
 		   * @param griddimension_input grid dimension
 		   */
 	GridFunction(const MultiIndexType griddimension_input);
+
+	/*! Construktor (2.1)
+		   * @param griddimension_input grid dimension
+		   * @param value inital value
+		   */
+	GridFunction(const MultiIndexType griddimension_input, RealType value);
 
 	//! Destructor (3)
 	~GridFunction();
@@ -71,11 +85,16 @@ public:
 	//! find maximum (12)
 	RealType MaxValueGridFunction (const MultiIndexType& begin, const MultiIndexType& end);
 
+	//! plot grid in console
+	void PlotGrid();
+
 private:
 	//! gridfunction Datamatrix
 	GridFunctionType gridfunction;
 	//! dimension of the grid
 	MultiIndexType	griddimension;
+
+	bool CheckInGrid(const MultiIndexType& begin, const MultiIndexType& end);
 };
 
 
