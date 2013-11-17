@@ -10,7 +10,7 @@
 #include<iostream>
 #include"../Grid/gridfunction.h"
 
-RealType Computation::computeTimestep(RealType uMax, RealType vMax, const PointType&h,
+RealType computeTimestep(RealType uMax, RealType vMax, const PointType&h,
 		RealType Re, RealType tau){
 
 	RealType minimum = tau*Re/2/(1/h[0]/h[0]+1/h[1]/h[1]);
@@ -20,7 +20,7 @@ RealType Computation::computeTimestep(RealType uMax, RealType vMax, const PointT
 
 }
 
-void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
+void computeNewVelocities(GridFunction* u, GridFunction* v,
 								GridFunctionType& f, GridFunctionType& g,
 								GridFunctionType& p, const PointType& delta,
 								RealType deltaT){
@@ -45,7 +45,7 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
 }
 
 
-void Computation::computeMomentumEquations(GridFunction* f, GridFunctionType* g,
+void computeMomentumEquations(GridFunction* f, GridFunctionType* g,
 								GridFunctionType* u, GridFunctionType* v,
 								GridFunctionType& gx, GridFunctionType& gy,
 								const PointType& h, RealType deltaT) {

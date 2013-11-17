@@ -23,8 +23,8 @@ struct Simparam {
 	RealType eps;	//Toleranz für Druckiteration
 	RealType omg;	//Relaxationsfaktor
 	RealType alpha;	//Upwind-Differencing-Faktor
-	int RE;			//Äußere Kräfte g_x und g_y
-	int GX;
+	int RE;			//Reynoldszahl
+	int GX;			//Äußere Kräfte g_x und g_y
 	int GY;
 	int UI;			//Initailwerte für u,v undp
 	int UV;
