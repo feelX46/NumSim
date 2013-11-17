@@ -41,7 +41,8 @@ int main(){
 		// compute deltaT
 		deltaT = 1;//computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),delta,simparam.RE,simparam.tau);
 		// set boundary
-
+		setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
+		setBoundaryV(v);
 
 	    // compute F / G
 

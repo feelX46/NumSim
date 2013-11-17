@@ -61,3 +61,47 @@ void computeMomentumEquations(GridFunction* f, GridFunctionType* g,
 				const GridFunction sourcegridfunction,
 				GridFunction imagegridfunction);*/
 }
+
+void setBoundaryU(GridFunction u){
+	// ToDo: check this!!! -> especially the values
+	RealType value = 0;
+	// left -> 0
+	const MultiIndexType bb (0,0);
+	const MultiIndexType ee (0,u.griddimension[1]);
+	u.SetGridFunction(bb,ee,value);
+	//right -> 0
+	const MultiIndexType bb (u.griddimension[0],0);
+	const MultiIndexType ee (u.griddimension[0],u.griddimension[1]);
+	u.SetGridFunction(bb,ee,value);
+	//bottom
+	const MultiIndexType bb (0,0);
+	const MultiIndexType ee (u.griddimension[0],0);
+	u.SetGridFunction(bb,ee,value);
+	//top
+	const MultiIndexType bb (0,u.griddimension[1]);
+	const MultiIndexType ee (u.griddimension[0],u.griddimension[1]);
+	u.SetGridFunction(bb,ee,value);
+}
+
+void setBoundaryV(GridFunction v){
+	// ToDo: check this!!! -> especially the values
+	RealType value = 0;
+	// left
+	const MultiIndexType bb (0,0);
+	const MultiIndexType ee (0,v.griddimension[1]);
+	v.SetGridFunction(bb,ee,value);
+	//right
+	const MultiIndexType bb (v.griddimension[0],0);
+	const MultiIndexType ee (v.griddimension[0],v.griddimension[1]);
+	v.SetGridFunction(bb,ee,value);
+
+	RealType value = 0;
+	//bottom ->0
+	const MultiIndexType bb (0,0);
+	const MultiIndexType ee (v.griddimension[0],0);
+	v.SetGridFunction(bb,ee,value);
+	//top ->0
+	const MultiIndexType bb (0,v.griddimension[1]);
+	const MultiIndexType ee (v.griddimension[0],v.griddimension[1]);
+	v.SetGridFunction(bb,ee,value);
+}
