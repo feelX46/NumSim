@@ -37,9 +37,9 @@ public:
    * \param delta The mesh width in x direction and y direction
    * \param step The number of the timestep.
    */
-  void writeVTKFile (const MultiIndexType & griddimension,
-		     GridFunctionType & u, GridFunctionType & v,
-		     GridFunctionType & p, const PointType & delta, int step);
+  void writeVTKFile (const MultiIndexType& griddimension,
+		     GridFunctionType u, GridFunctionType v,
+		     GridFunctionType p, const PointType& delta, int step);
 
 
   //! Method that returns private member variable simparam

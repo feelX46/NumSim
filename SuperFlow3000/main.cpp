@@ -35,10 +35,9 @@ int main(){
 	u.PlotGrid();
 
 	const PointType delta(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
-	//int step = 1;
-	//std::cout << simparam.xLength<<"/"<< simparam.iMax<<"="<< delta[0];
-	//Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), delta, step);
-	return 0;
+	int step = 1;
+	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), delta, step);
+
 
 	// ToDo Liste
 	/*
@@ -61,6 +60,7 @@ int main(){
 				gridwriteend,
 				sourcegridfunction,
 				imagegridfunction);
-*/
+*/	std::cout<<"läuft... immerhin ;)";
+	return 0;
 }
 
