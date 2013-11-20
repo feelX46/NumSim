@@ -11,6 +11,7 @@
 #include "Stencil/stencil.h"
 #include "Grid/gridfunction.h"
 //Test
+//neuer Test
 int main(){
 	std::cout << "#### SuperFlow3000 ####\n";
 	char InputFileName[] = "inputvals.bin";
