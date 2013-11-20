@@ -49,11 +49,11 @@ GridFunction::GridFunction(const MultiIndexType griddimension_input,RealType val
 	 SetGridFunction (begin,end,value);
 }
 //3
-GridFunction::~GridFunction(){
+/*GridFunction::~GridFunction(){
 	for (int i = 0; i < griddimension[0]; i++)
 		delete [] gridfunction[1];
 	delete [] gridfunction;
-}
+}*/
 
 //4
 GridFunctionType GridFunction::GetGridFunction() const{
