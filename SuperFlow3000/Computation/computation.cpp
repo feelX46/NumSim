@@ -10,7 +10,7 @@
 #include<iostream>
 #include"../Grid/gridfunction.h"
 
-RealType Computation::computeTimestep(RealType uMax, RealType vMax, const PointType&h,
+RealType computeTimestep(RealType uMax, RealType vMax, const PointType&h,
 		RealType Re, RealType tau){
 
 	RealType minimum = tau*Re/2/(1/h[0]/h[0]+1/h[1]/h[1]);
@@ -20,7 +20,7 @@ RealType Computation::computeTimestep(RealType uMax, RealType vMax, const PointT
 
 }
 
-void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
+void computeNewVelocities(GridFunction* u, GridFunction* v,
 								GridFunctionType& f, GridFunctionType& g,
 								GridFunctionType& p, const PointType& delta,
 								RealType deltaT){
@@ -45,7 +45,7 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
 }
 
 
-void Computation::computeMomentumEquations(GridFunction* f, GridFunctionType* g,
+void computeMomentumEquations(GridFunction* f, GridFunctionType* g,
 								GridFunctionType* u, GridFunctionType* v,
 								GridFunctionType& gx, GridFunctionType& gy,
 								const PointType& h, RealType deltaT) {
@@ -60,4 +60,48 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunctionType* g,
 				const MultiIndexType& gridwriteend,
 				const GridFunction sourcegridfunction,
 				GridFunction imagegridfunction);*/
+}
+
+void setBoundaryU(GridFunction u){
+	// ToDo: check this!!! -> especially the values
+	RealType value = 0;
+	// left -> 0
+	const MultiIndexType bb (0,0);
+	const MultiIndexType ee (0,u.griddimension[1]);
+	u.SetGridFunction(bb,ee,value);
+	//right -> 0
+	const MultiIndexType bb (u.griddimension[0],0);
+	const MultiIndexType ee (u.griddimension[0],u.griddimension[1]);
+	u.SetGridFunction(bb,ee,value);
+	//bottom
+	const MultiIndexType bb (0,0);
+	const MultiIndexType ee (u.griddimension[0],0);
+	u.SetGridFunction(bb,ee,value);
+	//top
+	const MultiIndexType bb (0,u.griddimension[1]);
+	const MultiIndexType ee (u.griddimension[0],u.griddimension[1]);
+	u.SetGridFunction(bb,ee,value);
+}
+
+void setBoundaryV(GridFunction v){
+	// ToDo: check this!!! -> especially the values
+	RealType value = 0;
+	// left
+	const MultiIndexType bb (0,0);
+	const MultiIndexType ee (0,v.griddimension[1]);
+	v.SetGridFunction(bb,ee,value);
+	//right
+	const MultiIndexType bb (v.griddimension[0],0);
+	const MultiIndexType ee (v.griddimension[0],v.griddimension[1]);
+	v.SetGridFunction(bb,ee,value);
+
+	RealType value = 0;
+	//bottom ->0
+	const MultiIndexType bb (0,0);
+	const MultiIndexType ee (v.griddimension[0],0);
+	v.SetGridFunction(bb,ee,value);
+	//top ->0
+	const MultiIndexType bb (0,v.griddimension[1]);
+	const MultiIndexType ee (v.griddimension[0],v.griddimension[1]);
+	v.SetGridFunction(bb,ee,value);
 }
