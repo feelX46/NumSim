@@ -10,7 +10,7 @@
 #include "IO/IO.hpp"
 #include "Stencil/stencil.h"
 #include "Grid/gridfunction.h"
-
+//Test
 int main(){
 	std::cout << "#### SuperFlow3000 ####\n";
 	char InputFileName[] = "inputvals.bin";
@@ -85,7 +85,7 @@ int main(){
 				gridwriteend,
 				sourcegridfunction,
 				imagegridfunction);
-*/	std::cout<<"läuft... immerhin ;)";
+*/	std::cout<<"lï¿½uft... immerhin ;)";
 	return 0;
 }
 
