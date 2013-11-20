@@ -12,6 +12,7 @@
 #include "Grid/gridfunction.h"
 #include "computation/computation.h"
 //Test
+//neuer Test
 int main(){
 	std::cout << "#### SuperFlow3000 ####\n";
 	char InputFileName[] = "inputvals.bin";
