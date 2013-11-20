@@ -1,7 +1,6 @@
 #include "IO.hpp"
 #include <iostream>
 #include <stdio.h>
-#include <direct.h>
 using namespace std;
 
 

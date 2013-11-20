@@ -108,11 +108,12 @@ void Stencil::ApplyUVyStencilOperator(const MultiIndexType& gridreadbegin,
 	RealType tmp;
 	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
 		for (IndexType j=gridwritebegin[1]; j<=gridwriteend[1]; j++){
-
+			tmp=1;
+			imagegridfunction.SetGridFunction(i,j,tmp);
 		}
 	}
-			}
-	imagegridfunction.SetGridFunction(i,j,tmp);
+
+
 }
 void Stencil::setFxxStencil() {
 	stencil[0][0] = 0;

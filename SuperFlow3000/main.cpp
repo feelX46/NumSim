@@ -10,7 +10,7 @@
 #include "IO/IO.hpp"
 #include "Stencil/stencil.h"
 #include "Grid/gridfunction.h"
-#include "computation/computation.h"
+#include "Computation/computation.h"
 //Test
 //neuer Test
 int main(){
