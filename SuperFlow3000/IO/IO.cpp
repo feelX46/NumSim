@@ -1,14 +1,14 @@
 #include "IO.hpp"
 #include <iostream>
 #include <stdio.h>
+#include <direct.h>
 using namespace std;
 
 
-IO::IO (char *input, char *output)
+IO::IO (char *input, char *output) : output(output)
 {
   //ToDo Read the file with the simulations parameters
  readInputfile(input);
-
 
 }
 
@@ -184,9 +184,9 @@ RealType
 }
 
 void
-IO::writeVTKFile (const MultiIndexType & griddimension, GridFunctionType & u,
-		  GridFunctionType & v, GridFunctionType & p,
-		  const PointType & delta, int step)
+IO::writeVTKFile (const MultiIndexType& griddimension, GridFunctionType u,
+		  GridFunctionType v, GridFunctionType p,
+		  const PointType& delta, int step)
 {
   RealType deltaX = delta[0];
   RealType deltaY = delta[1];
@@ -198,14 +198,14 @@ IO::writeVTKFile (const MultiIndexType & griddimension, GridFunctionType & u,
   sprintf (numstr, "%d", step);
   std::string filename;
   filename.append ("./");
+  filename.append (output);
+  filename.append ("/");
   filename.append ("field_");
   filename.append (numstr);
   filename.append (".vts");
-
   std::filebuf fb;
   fb.open (const_cast < char *>(filename.c_str ()), std::ios::out);
   std::ostream os (&fb);
-
   os << "<?xml version=\"1.0\"?>" << std::endl
     << "<VTKFile type=\"StructuredGrid\">" << std::endl
     << "<StructuredGrid WholeExtent=\""
@@ -269,4 +269,5 @@ IO::writeVTKFile (const MultiIndexType & griddimension, GridFunctionType & u,
     << "</Piece>" << std::endl
     << "</StructuredGrid>" << std::endl << "</VTKFile>" << std::endl;
   fb.close ();
+  //std::cout<<"saved in "<< filename<<std::endl;
 }

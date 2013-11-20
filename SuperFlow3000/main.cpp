@@ -12,37 +12,70 @@
 #include "Grid/gridfunction.h"
 
 int main(){
-	std::cout << "begin";
+	std::cout << "#### SuperFlow3000 ####\n";
 	char InputFileName[] = "inputvals.bin";
-	char OutputFileName[] = "output.txt";
-	IO Reader(InputFileName,OutputFileName);
-	GridFunction sourcegridfunction(5,5);
-	return 0;
+	char OutputFolderName[] = "output";  // output folder! -> be careful, if folder is not there, no data are saved
+	// load simparam
+	IO Reader(InputFileName,OutputFolderName);
+	Simparam simparam = Reader.getSimparam();
+
+	// initialize grids
+	const MultiIndexType griddimension (simparam.iMax+2,simparam.iMax+2);
+	const MultiIndexType bb(1,1); //lower left
+	const MultiIndexType ee(simparam.iMax+1,simparam.iMax+1); //upper right
+	GridFunction u(griddimension,simparam.UI);
+	GridFunction v(griddimension,simparam.UV);
+	GridFunction p(griddimension,simparam.PI);
+	const PointType delta(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
+
+	RealType deltaT;
+	RealType t = 0;
+	int step = 0;
+
+	// write first output data
+	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), delta, step);
+
+	// start time loop
+	while (t <= simparam.tEnd){
+
+		// compute deltaT
+		deltaT = 1;//computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),delta,simparam.RE,simparam.tau);
+		// set boundary
+		setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
+		setBoundaryV(v);
+
+	    // compute F / G
+
+
+		// set right side of pressure equation
+
+
+		// solver
+
+			// set some values inside the grid
+			IndexType a = step;
+			MultiIndexType MIT1(a,a);
+			u.SetGridFunction(MIT1,MIT1, 5);
+
+		// update time
+		t += deltaT;
+		step++;
+
+		// write files
+		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), delta, step);
+		std::cout<< step<<std::endl;
+	}
 
 	// ToDo Liste
 	/*
 	 * Stencil testen - kommen die richtigen Matrizen raus?
-	 * Visualisierung ausprobieren
-	 * Zeititeration
-	 * Destruktor GridFunction
 	 * Solver testen?
 	 * Computation fertig machen
 	 * Stencil andere Ableitungen
+	 * grid wieder zum laufen bekommen
 	 */
 
 	/*// Teste Apply Grid Function
-	MultiIndexType gridreadbegin;
-	gridreadbegin[0]=0;	gridreadbegin[1]=0;
-
-	MultiIndexType gridreadend;
-	gridreadend[0]=5; gridreadend[1]=5;
-
-	MultiIndexType gridwritebegin;
-	gridwritebegin[0]=0; gridwritebegin[1]=0;
-
-	MultiIndexType gridwriteend;
-	gridwriteend[0]=3; gridwriteend[1]=3;
-
 	GridFunction sourcegridfunction;
 
 	GridFunction imagegridfunctinon;
@@ -53,6 +86,7 @@ int main(){
 				gridwriteend,
 				sourcegridfunction,
 				imagegridfunction);
-*/
+*/	std::cout<<"läuft... immerhin ;)";
+	return 0;
 }
 

@@ -10,21 +10,23 @@
 
 #include "../Misc/template.h"
 struct Simparam {
-	RealType xLength;
-	RealType yLength;
-	int iMax;
-	int jMax;
-	int tEnd;
-	RealType tau;
-	int deltaVec;
-	int iterMax;
-	RealType eps;
-	RealType omg;
-	RealType alpha;
-	int RE;
-	int GX;
+	RealType xLength;  //Gebietslänge in x-Richtung
+	RealType yLength;  //Gebietslänge in y.Richtung
+	int iMax;          //Anzahl der inneren Zellin in x-Richtung
+	int jMax;          //Anzahl der inneren Zellen in y-Richtung
+
+	int tEnd;		//Endzeit
+	RealType tau;   //Sicherheitsfaktor
+	int deltaVec;   //Zeitabstand für die Ausgabe
+
+	int iterMax;     // Maximale Anzahl an Iterationen
+	RealType eps;	//Toleranz für Druckiteration
+	RealType omg;	//Relaxationsfaktor
+	RealType alpha;	//Upwind-Differencing-Faktor
+	int RE;			//Reynoldszahl
+	int GX;			//Äußere Kräfte g_x und g_y
 	int GY;
-	int UI;
+	int UI;			//Initailwerte für u,v undp
 	int UV;
 	int PI;
 };
