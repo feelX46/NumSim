@@ -57,43 +57,41 @@ void computeMomentumEquations(GridFunction* f, GridFunctionType* g,
                 GridFunction imagegridfunction);*/
 }
 void setBoundaryU(GridFunction u){
-    // ToDo: check this!!! -> especially the values
-    RealType value = 10;
+    RealType value = 0;
     // left -> 0
     MultiIndexType bb(0,0);
-    MultiIndexType ee (0,u.griddimension[1]-1);
+    MultiIndexType ee(0,u.griddimension[1]-1);
     u.SetGridFunction(bb,ee,value);
     //right -> 0
     bb[0]= u.griddimension[0]-1; bb[1] = 0;
     ee[0]= u.griddimension[0]-1; ee[1] = u.griddimension[1]-1;
     u.SetGridFunction(bb,ee,value);
+
     //bottom
-    //bb(0,0);
-    //ee(u.griddimension[0],0);
     bb[0]= 0; bb[1] = 0;
     ee[0]= u.griddimension[0]-1; ee[1] = 0;
-    u.SetGridFunction(bb,ee,value);
+    MultiIndexType offset(0,1);
+    u.SetGridFunction(bb,ee,-1,offset);
+
     //top
-    //bb(0,u.griddimension[1]);
-    //ee(u.griddimension[0],u.griddimension[1]);
     bb[0]= 0; bb[1] = u.griddimension[1]-1;
     ee[0]= u.griddimension[0]-1; ee[1] = u.griddimension[1]-1;
-    u.SetGridFunction(bb,ee,value);
-    //blabla
+    offset[1]=-1;
+    u.SetGridFunction(bb,ee,-1,offset);
 }
 void setBoundaryV(GridFunction v){
-    // ToDo: check this!!! -> especially the values
-    RealType value = 10;
     // left
     MultiIndexType bb (0,0);
     MultiIndexType ee (0,v.griddimension[1]-1);
-    v.SetGridFunction(bb,ee,value);
+    MultiIndexType offset(1,0);
+    v.SetGridFunction(bb,ee,-1,offset);
     //right
     bb[0] = v.griddimension[0]-1; bb[1] = 0;
     ee[0] = v.griddimension[0]-1; ee[1] = v.griddimension[1]-1;
-    v.SetGridFunction(bb,ee,value);
-    //RealType value = 0;
+    offset[0]=-1;
+    v.SetGridFunction(bb,ee,-1,offset);
 
+    RealType value = 0;
     //bottom ->0
     bb[0] = 0; bb[1] = 0;
     ee[0] = v.griddimension[0]-1; ee[1] = 0;
@@ -102,6 +100,5 @@ void setBoundaryV(GridFunction v){
     bb[0] = 0; bb[1] = v.griddimension[1]-1;
     ee[0] = v.griddimension[0]-1; ee[1] = v.griddimension[1]-1;
     v.SetGridFunction(bb,ee,value);
-    //test
 }
 

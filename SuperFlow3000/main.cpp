@@ -88,7 +88,7 @@ int main(){
 				gridwriteend,
 				sourcegridfunction,
 				imagegridfunction);
-*/	std::cout<<"l�uft... immerhin ;)";
+*/	std::cout<<"laeuft... immerhin ;)";
 	return 0;
 }
 
