@@ -72,6 +72,7 @@ int main(){
 	 * Solver testen?
 	 * Computation fertig machen
 	 * Stencil andere Ableitungen
+	 * grid wieder zum laufen bekommen
 	 */
 
 	/*// Teste Apply Grid Function
