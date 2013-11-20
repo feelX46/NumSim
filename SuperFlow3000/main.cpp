@@ -10,6 +10,7 @@
 #include "IO/IO.hpp"
 #include "Stencil/stencil.h"
 #include "Grid/gridfunction.h"
+#include "computation/computation.h"
 //Test
 int main(){
 	std::cout << "#### SuperFlow3000 ####\n";

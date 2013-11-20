@@ -64,8 +64,6 @@ void setBoundaryU(GridFunction u){
     MultiIndexType ee (0,u.griddimension[1]-1);
     u.SetGridFunction(bb,ee,value);
     //right -> 0
-    //bb(u.griddimension[0],0);
-    //ee(u.griddimension[0],u.griddimension[1]);
     bb[0]= u.griddimension[0]-1; bb[1] = 0;
     ee[0]= u.griddimension[0]-1; ee[1] = u.griddimension[1]-1;
     u.SetGridFunction(bb,ee,value);
@@ -91,21 +89,16 @@ void setBoundaryV(GridFunction v){
     MultiIndexType ee (0,v.griddimension[1]-1);
     v.SetGridFunction(bb,ee,value);
     //right
-    //const MultiIndexType bb (v.griddimension[0],0);
-    //const MultiIndexType ee (v.griddimension[0],v.griddimension[1]);
     bb[0] = v.griddimension[0]-1; bb[1] = 0;
     ee[0] = v.griddimension[0]-1; ee[1] = v.griddimension[1]-1;
     v.SetGridFunction(bb,ee,value);
     //RealType value = 0;
+
     //bottom ->0
-    //const MultiIndexType bb (0,0);
-    //const MultiIndexType ee (v.griddimension[0],0);
     bb[0] = 0; bb[1] = 0;
     ee[0] = v.griddimension[0]-1; ee[1] = 0;
     v.SetGridFunction(bb,ee,value);
     //top ->0
-    //const MultiIndexType bb (0,v.griddimension[1]);
-    //const MultiIndexType ee (v.griddimension[0],v.griddimension[1]);
     bb[0] = 0; bb[1] = v.griddimension[1]-1;
     ee[0] = v.griddimension[0]-1; ee[1] = v.griddimension[1]-1;
     v.SetGridFunction(bb,ee,value);
