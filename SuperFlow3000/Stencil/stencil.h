@@ -29,6 +29,20 @@ public:
 			const GridFunctionType sourcegridfunction,
 			GridFunction imagegridfunction);
 
+	void ApplyFxStencilOperator(const MultiIndexType& gridreadbegin,
+			const MultiIndexType& gridreadend,
+			const MultiIndexType& gridwritebegin,
+			const MultiIndexType& gridwriteend,
+			const GridFunctionType sourcegridfunction,
+			GridFunction imagegridfunction);
+
+	void ApplyFyStencilOperator(const MultiIndexType& gridreadbegin,
+			const MultiIndexType& gridreadend,
+			const MultiIndexType& gridwritebegin,
+			const MultiIndexType& gridwriteend,
+			const GridFunctionType sourcegridfunction,
+			GridFunction imagegridfunction);
+
 	void ApplyFxxStencilOperator(const MultiIndexType& gridreadbegin,
 			const MultiIndexType& gridreadend,
 			const MultiIndexType& gridwritebegin,
@@ -58,15 +72,34 @@ public:
 			GridFunction imagegridfunction,
 			RealType alpha);
 
+	void ApplyVSqyStencilOperator(const MultiIndexType& gridreadbegin,
+				const MultiIndexType& gridreadend,
+				const MultiIndexType& gridwritebegin,
+				const MultiIndexType& gridwriteend,
+				const GridFunctionType sourcegridfunction,
+				GridFunction imagegridfunction,
+				RealType alpha);
+
 	void ApplyUVyStencilOperator(const MultiIndexType& gridreadbegin,
 			const MultiIndexType& gridreadend,
 			const MultiIndexType& gridwritebegin,
 			const MultiIndexType& gridwriteend,
-			const GridFunctionType sourcegridfunction,
+			const GridFunctionType sourcegridfunctionU,
+			const GridFunctionType sourcegridfunctionV,
 			GridFunction imagegridfunction,
 			RealType alpha);
 
+	void ApplyUVxStencilOperator(const MultiIndexType& gridreadbegin,
+			const MultiIndexType& gridreadend,
+			const MultiIndexType& gridwritebegin,
+			const MultiIndexType& gridwriteend,
+			const GridFunctionType sourcegridfunctionU,
+			const GridFunctionType sourcegridfunctionV,
+			GridFunction imagegridfunction,
+			RealType alpha);
 
+	void setFxStencil();
+	void setFyStencil();
 	void setFxxStencil();
 	void setFyyStencil();
 	void setPxStencil();
