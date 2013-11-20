@@ -21,12 +21,18 @@ int main(){
 	Simparam simparam = Reader.getSimparam();
 
 	// initialize grids
-	const MultiIndexType griddimension (simparam.iMax+2,simparam.iMax+2);
-	const MultiIndexType bb(1,1); //lower left
-	const MultiIndexType ee(simparam.iMax+1,simparam.iMax+1); //upper right
-	GridFunction u(griddimension,simparam.UI);
-	GridFunction v(griddimension,simparam.UV);
-	GridFunction p(griddimension,simparam.PI);
+    MultiIndexType griddimension (simparam.iMax+2,simparam.jMax+2);
+    GridFunction p(griddimension,simparam.PI);
+    GridFunction rhs(griddimension);
+    GridFunction v(griddimension,simparam.UV);
+    GridFunction G(griddimension);
+    GridFunction u(griddimension,simparam.UI);
+    GridFunction F(griddimension);
+
+
+    MultiIndexType bb(1,1); //lower left
+    MultiIndexType ee(simparam.iMax,simparam.jMax); //upper right
+
 	const PointType delta(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
 
 	RealType deltaT;
@@ -40,7 +46,7 @@ int main(){
 	while (t <= simparam.tEnd){
 
 		// compute deltaT
-		deltaT = 1;//computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),delta,simparam.RE,simparam.tau);
+		deltaT = computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),delta,simparam.RE,simparam.tau);
 		// set boundary
 		setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		setBoundaryV(v);

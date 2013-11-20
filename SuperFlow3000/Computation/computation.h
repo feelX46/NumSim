@@ -21,10 +21,11 @@
 								GridFunctionType& p, const PointType& delta,
 								RealType deltaT);
 
-	void computeMomentumEquations(GridFunction* f, GridFunctionType* g,
+	void computeMomentumEquations(GridFunction* f, GridFunction* g,
 								GridFunctionType* u, GridFunctionType* v,
 								GridFunctionType& gx, GridFunctionType& gy,
-								const PointType& h, RealType deltaT);
+							    PointType& h, RealType deltaT,
+								RealType Re, RealType alpha);
 
 	/*! @brief Function to set the boundary values for u, the velocities in x-direction.
 	 * First implementation: only no-flow boundaries.
@@ -46,12 +47,12 @@
 	/*! @brief Function to set the boundary values for F (12).
 	 *  @param f is a GridFunction-Object, containing F for all discretization points.
 	 */
-	void setBoundaryF(GridFunction f);
+	void setBoundaryF(GridFunction f, GridFunctionType& u);
 
 	/*! @brief Function to set the boundary values for G (13).
 	 *  @param g is a GridFunction-Object, containing G for all discretization points.
 	 */
-	void setBoundaryG(GridFunction g);
+	void setBoundaryG(GridFunction g, GridFunctionType& v);
 
 	/*! @brief Function to compute the righthand like (14).
 		 *  @param rhs is a pointer on the GridFunction-object, that is to be computed.

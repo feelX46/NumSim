@@ -81,6 +81,10 @@ public:
 	//! add factor*source to grid (11)
 	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
 			GridFunctionType& sourcegridfunction);
+	//! add factor*source to grid (11)
+	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
+			GridFunctionType& sourcegridfunction, MultiIndexType& offset);
+
 
 	//! find maximum (12)
 	RealType MaxValueGridFunction (const MultiIndexType& begin, const MultiIndexType& end);
