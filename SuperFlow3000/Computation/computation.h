@@ -11,8 +11,8 @@
 #include"../Misc/typedef.h"
 #include"../Grid/gridfunction.h"
 
-class Computation {
-public:
+//class Computation {
+//public:
 	RealType computeTimestep(RealType uMax, RealType vMax, const PointType&h,
 								RealType Re, RealType tau);
 
@@ -66,7 +66,7 @@ public:
     		const PointType& delta,
     		RealType deltaT);
 
-};
+//};
 
 
 #endif /* COMPUTATION_H_ */
