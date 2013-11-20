@@ -25,9 +25,9 @@ int main(){
     GridFunction p(griddimension,simparam.PI);
     GridFunction rhs(griddimension);
     GridFunction v(griddimension,simparam.UV);
-    GridFunction G(griddimension);
+    GridFunction g(griddimension);
     GridFunction u(griddimension,simparam.UI);
-    GridFunction F(griddimension);
+    GridFunction f(griddimension);
 
 
     MultiIndexType bb(1,1); //lower left
@@ -38,6 +38,8 @@ int main(){
 	RealType deltaT;
 	RealType t = 0;
 	int step = 0;
+	GridFunction gx(griddimension,simparam.GX);
+	GridFunction gy(griddimension,simparam.GY);
 
 	// write first output data
 	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), delta, step);
@@ -51,7 +53,15 @@ int main(){
 		setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		setBoundaryV(v);
 
-	    // compute F / G
+	    // compute f / g
+		GridFunctionType blgx = gx.GetGridFunction();
+		GridFunctionType blgy = gy.GetGridFunction();
+		GridFunctionType blu  = u.GetGridFunction();
+		GridFunctionType blv  = v.GetGridFunction();
+		computeMomentumEquations(&f,
+				&g,blu,blv,
+				blgx,blgy,delta,deltaT,simparam.RE,
+				simparam.alpha);
 
 
 		// set right side of pressure equation

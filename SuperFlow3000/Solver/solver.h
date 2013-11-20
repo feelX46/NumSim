@@ -21,9 +21,9 @@ public:
 		   * @param rhs The right hand side of the discretized local PDE
 		   * @param h ?what are these two RealTypes for?
 		   */
-    RealType computeResidual(GridFunctionType& sourcegridfunction,
+    RealType computeResidual(GridFunction& sourcegridfunction,
     						 GridFunctionType& rhs,
-    						 const PointType& h);
+    						 PointType& h);
     //-------------------------------------------------------------------------------
 
     /*! @brief Function to compute the global residual
@@ -34,8 +34,10 @@ public:
     		   */
     void SORCycle(GridFunction* gridfunction,
     	    	  GridFunctionType& rhs,
-    	    	  const PointType& delta,
-    	    	  RealType omega);
+    	    	  PointType& delta,
+    	    	  const RealType omega,
+    	    	  const RealType eps,
+    	    	  const IndexType iterMax);
     //-------------------------------------------------------------------------------
 
     /*! @brief Constructor to made?

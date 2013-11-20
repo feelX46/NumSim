@@ -19,7 +19,7 @@ struct Simparam {
 	RealType tau;   //Sicherheitsfaktor
 	int deltaVec;   //Zeitabstand für die Ausgabe
 
-	int iterMax;     // Maximale Anzahl an Iterationen
+	IndexType iterMax;     // Maximale Anzahl an Iterationen
 	RealType eps;	//Toleranz für Druckiteration
 	RealType omg;	//Relaxationsfaktor
 	RealType alpha;	//Upwind-Differencing-Faktor
