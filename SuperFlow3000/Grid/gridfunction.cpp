@@ -10,7 +10,7 @@
 //1
 GridFunction::GridFunction(int DimX, int DimY){
 	 gridfunction = new RealType*[DimX];
-	 for (int i = 0; i < DimX; i++){
+	 for (IndexType i = 0; i < DimX; i++){
 		 gridfunction[i] = new RealType [DimY-1];
 	 }
 	 griddimension[0] = DimX;
@@ -20,7 +20,7 @@ GridFunction::GridFunction(int DimX, int DimY){
 //1.1
 GridFunction::GridFunction(int DimX, int DimY, RealType value){
 	 gridfunction = new RealType*[DimX];
-	 for (int i = 0; i < DimX; i++){
+	 for (IndexType i = 0; i < DimX; i++){
 		 gridfunction[i] = new RealType [DimY-1];
 	 }
 	 const MultiIndexType begin(0,0);
@@ -33,7 +33,7 @@ GridFunction::GridFunction(int DimX, int DimY, RealType value){
 //2
 GridFunction::GridFunction(const MultiIndexType griddimension_input) : griddimension(griddimension_input){
 	 gridfunction= new RealType*[griddimension[0]];
-	 for (int i = 0; i < griddimension[0]; i++){
+	 for (IndexType i = 0; i < griddimension[0]; i++){
 		 gridfunction[i] = new RealType [griddimension[1]];
 	 }
 }
@@ -41,19 +41,21 @@ GridFunction::GridFunction(const MultiIndexType griddimension_input) : griddimen
 //2.1
 GridFunction::GridFunction(const MultiIndexType griddimension_input,RealType value) : griddimension(griddimension_input){
 	 gridfunction= new RealType*[griddimension[0]];
-	 for (int i = 0; i < griddimension[0]; i++){
+	 for (IndexType i = 0; i < griddimension[0]; i++){
 		 gridfunction[i] = new RealType [griddimension[1]];
 	 }
 	 const MultiIndexType begin(0,0);
 	 const MultiIndexType end(griddimension[0]-1,griddimension[1]-1);
 	 SetGridFunction (begin,end,value);
 }
+
 //3
-/*GridFunction::~GridFunction(){
-	for (int i = 0; i < griddimension[0]; i++)
-		delete [] gridfunction[1];
+
+GridFunction::~GridFunction(){
+	for (IndexType i = 0; i < griddimension[0]; i++)
+		delete [] gridfunction[i];
 	delete [] gridfunction;
-}*/
+}
 
 //4
 GridFunctionType GridFunction::GetGridFunction() const{
