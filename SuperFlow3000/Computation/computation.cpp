@@ -42,7 +42,7 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
 	factor = -deltaT/h[1];
 	offset[1]=1;
 	v->AddToGridFunction (bb,ee, factor,p,offset);
-	offset[0]=0;
+	offset[1]=0;
 	v->AddToGridFunction (bb,ee,-factor,p,offset);
 }
 

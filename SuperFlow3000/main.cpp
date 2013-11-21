@@ -69,6 +69,11 @@ int main(){
 		//u.SetGridFunction(linksunten,linksoben,1);
 		//u.SetGridFunction(rechtsunten,rechtsoben,1);
 
+		//u.PlotGrid();
+
+		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+
+
 	    // compute f / g
 		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
 		GridFunctionType blgy = gy.GetGridFunction();
@@ -93,13 +98,9 @@ int main(){
 		// update time
 		t += deltaT;
 		step++;
-		//std::cout<<"----oben---"<<std::endl;
-		//p.PlotGrid();
-		//std::cout<<"----unten---"<<std::endl;
 
 
 		// write files
-		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 		std::cout<< step<<"  -  "<<t<<" / " <<simparam.tEnd<<std::endl;
 	}
 
