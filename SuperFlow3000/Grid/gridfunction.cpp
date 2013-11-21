@@ -34,7 +34,7 @@ GridFunction::GridFunction(int DimX, int DimY, RealType value){
 GridFunction::GridFunction(const MultiIndexType griddimension_input) : griddimension(griddimension_input){
 	 gridfunction= new RealType*[griddimension[0]];
 	 for (int i = 0; i < griddimension[0]; i++){
-		 gridfunction[i] = new RealType [griddimension[1]];
+		 gridfunction[i] = new RealType[griddimension[1]];
 	 }
 }
 
@@ -49,11 +49,11 @@ GridFunction::GridFunction(const MultiIndexType griddimension_input,RealType val
 	 SetGridFunction (begin,end,value);
 }
 //3
-/*GridFunction::~GridFunction(){
+GridFunction::~GridFunction() {
 	for (int i = 0; i < griddimension[0]; i++)
-		delete [] gridfunction[1];
-	delete [] gridfunction;
-}*/
+		delete[] gridfunction[i];
+	delete[] gridfunction;
+}
 
 //4
 GridFunctionType GridFunction::GetGridFunction() const{

@@ -14,7 +14,7 @@ Computation::Computation(Simparam param){
 		this->param=param;
 	}
 
-RealType Computation::computeTimestep (RealType uMax, RealType vMax, const PointType&h){
+RealType Computation::computeTimestep (RealType uMax, RealType vMax, const PointType& h){
     RealType minimum = param.RE/(2*(1/(h[0]*h[0])+1/(h[1]*h[1])));
     if (minimum > h[0]/abs(uMax)) {minimum = h[0]/abs(uMax);}
     if (minimum > h[1]/abs(vMax)) {minimum = h[1]/abs(vMax);}
@@ -115,7 +115,7 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	g->AddToGridFunction(bwrite,ewrite,-factor,gy);
 
 }
-void Computation::setBoundaryU(GridFunction u){
+void Computation::setBoundaryU(GridFunction& u){
     RealType value = 0;
     // left -> 0
     MultiIndexType bb(0,1);
@@ -138,7 +138,7 @@ void Computation::setBoundaryU(GridFunction u){
     offset[1]=-1;
     u.SetGridFunction(bb,ee,-1,offset);
 }
-void Computation::setBoundaryV(GridFunction v){
+void Computation::setBoundaryV(GridFunction& v){
     // left
     MultiIndexType bb (0,1);
     MultiIndexType ee (0,v.griddimension[1]-2);
@@ -162,7 +162,7 @@ void Computation::setBoundaryV(GridFunction v){
     v.SetGridFunction(bb,ee,-1,offset);
 }
 
-void Computation::setBoundaryP(GridFunction p){
+void Computation::setBoundaryP(GridFunction& p){
 	// left
     MultiIndexType bb (0,1);
     MultiIndexType ee (0,p.griddimension[1]-2);
@@ -185,7 +185,7 @@ void Computation::setBoundaryP(GridFunction p){
     p.SetGridFunction(bb,ee,1,offset);
 }
 //ToDo: referenz reingeben?
-void Computation::setBoundaryF(GridFunction f, GridFunctionType& u){
+void Computation::setBoundaryF(GridFunction& f, GridFunctionType& u){
 	// left
 	MultiIndexType bb (0,1);
 	MultiIndexType ee (0,f.griddimension[1]-2);
@@ -196,7 +196,7 @@ void Computation::setBoundaryF(GridFunction f, GridFunctionType& u){
     f.SetGridFunction(bb,ee,1,u);
 }
 
-void Computation::setBoundaryG(GridFunction g, GridFunctionType& v){
+void Computation::setBoundaryG(GridFunction& g, GridFunctionType& v){
     //bottom
 	MultiIndexType bb (1,0);
 	MultiIndexType ee (g.griddimension[0]-2,0);

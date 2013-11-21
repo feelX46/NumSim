@@ -22,8 +22,8 @@ void Stencil::ApplyStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunction,
-		GridFunction imagegridfunction){
+		const GridFunctionType& sourcegridfunction,
+		GridFunction& imagegridfunction){
 	// Berechne die Ableitungen
 	// (0,0) ist bei allen allen drei Matrtzen (Stencil, sourcegrid, imagegrid) oben links
 	RealType tmp;
@@ -45,8 +45,8 @@ void Stencil::ApplyFxStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunction,
-		GridFunction imagegridfunction){
+		const GridFunctionType& sourcegridfunction,
+		GridFunction& imagegridfunction){
 	setFxStencil();
 	ApplyStencilOperator(gridreadbegin,gridreadend,gridwritebegin,gridwriteend, sourcegridfunction, imagegridfunction);
 }
@@ -55,8 +55,8 @@ void Stencil::ApplyFyStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunction,
-		GridFunction imagegridfunction){
+		const GridFunctionType& sourcegridfunction,
+		GridFunction& imagegridfunction){
 	setFyStencil();
 	ApplyStencilOperator(gridreadbegin,gridreadend,gridwritebegin,gridwriteend, sourcegridfunction, imagegridfunction);
 }
@@ -67,8 +67,8 @@ void Stencil::ApplyFxxStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunction,
-		GridFunction imagegridfunction){
+		const GridFunctionType& sourcegridfunction,
+		GridFunction& imagegridfunction){
 	setFxxStencil();
 	ApplyStencilOperator(gridreadbegin,gridreadend,gridwritebegin,gridwriteend, sourcegridfunction, imagegridfunction);
 }
@@ -77,8 +77,8 @@ void Stencil::ApplyFyyStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunction,
-		GridFunction imagegridfunction){
+		const GridFunctionType& sourcegridfunction,
+		GridFunction& imagegridfunction){
 	setFyyStencil();
 	ApplyStencilOperator(gridreadbegin,gridreadend,gridwritebegin,gridwriteend, sourcegridfunction, imagegridfunction);
 }
@@ -87,8 +87,8 @@ void Stencil::ApplyPxStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunction,
-		GridFunction imagegridfunction){
+		const GridFunctionType& sourcegridfunction,
+		GridFunction& imagegridfunction){
 	setPxStencil();
 	ApplyStencilOperator(gridreadbegin,gridreadend,gridwritebegin,gridwriteend, sourcegridfunction, imagegridfunction);
 }
@@ -97,8 +97,8 @@ void Stencil::ApplyUSqxStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunction,
-		GridFunction imagegridfunction,
+		const GridFunctionType& sourcegridfunction,
+		GridFunction& imagegridfunction,
 		RealType alpha){
 	RealType tmp;
 	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
@@ -123,8 +123,8 @@ void Stencil::ApplyVSqyStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunction,
-		GridFunction imagegridfunction,
+		const GridFunctionType& sourcegridfunction,
+		GridFunction& imagegridfunction,
 		RealType alpha){
 	RealType tmp;
 	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
@@ -150,9 +150,9 @@ void Stencil::ApplyUVyStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunctionU,
-		const GridFunctionType sourcegridfunctionV,
-		GridFunction imagegridfunction,
+		const GridFunctionType& sourcegridfunctionU,
+		const GridFunctionType& sourcegridfunctionV,
+		GridFunction& imagegridfunction,
 		RealType alpha){
 	RealType tmp;
 	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
@@ -178,9 +178,9 @@ void Stencil::ApplyUVxStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
-		const GridFunctionType sourcegridfunctionU,
-		const GridFunctionType sourcegridfunctionV,
-		GridFunction imagegridfunction,
+		const GridFunctionType& sourcegridfunctionU,
+		const GridFunctionType& sourcegridfunctionV,
+		GridFunction& imagegridfunction,
 		RealType alpha){
 	RealType tmp;
 	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
@@ -265,7 +265,7 @@ void Stencil::setPxStencil() {
 	stencil[2][2] = 0;
 }
 
-void Stencil::setUSqxStencil(const GridFunction sourcegridfunction){
+void Stencil::setUSqxStencil(const GridFunction& sourcegridfunction){
 	stencil[0][0] = 0;
 	stencil[1][0] = 0;
 	stencil[0][0] = 0;
