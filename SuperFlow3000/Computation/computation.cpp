@@ -184,7 +184,7 @@ void Computation::setBoundaryP(GridFunction p){
     offset[0]=0; offset[1]=-1;
     p.SetGridFunction(bb,ee,1,offset);
 }
-
+//ToDo: referenz reingeben?
 void Computation::setBoundaryF(GridFunction f, GridFunctionType& u){
 	// left
 	MultiIndexType bb (0,1);

@@ -14,7 +14,7 @@
 #include <math.h>
 #include "../IO/IO.hpp"
 #include "../Stencil/stencil.h"
-
+#include "../Computation/computation.h"
 
 Solver::Solver(Simparam param){
 		this->param=param;
@@ -68,14 +68,17 @@ void Solver::SORCycle(GridFunction* gridfunction,
 	MultiIndexType bwrite (1,1);
 	MultiIndexType ewrite (dim[0]-2,dim[1]-2);
 
+	Computation pc (param);
 
 	//Initialization of the residual. Just choose a value, that should be a bad error.
 	RealType res = 10e20;
 	int iterationCounter = 0;
 	// SOR-cycling until error is small enough, or the number of iterations gets to high:
 	RealType neighbours_x, neighbours_y;
-	while (iterationCounter < param.iterMax && res < param.eps )
+	while (iterationCounter < param.iterMax && res > param.eps )
 	{
+
+		pc.setBoundaryP(*gridfunction);
 		 for (IndexType i = 1; i <= dim[0]-2; i++)
 		{
 			for (IndexType j = 1; j <= dim[1]-2; j++)
@@ -94,6 +97,8 @@ void Solver::SORCycle(GridFunction* gridfunction,
 		iterationCounter++;
 		res = computeResidual(*gridfunction, rhs, h);
 	}
+	if (iterationCounter >= param.iterMax)
+		std::cout<<"iteration abort"<<std::endl;
 
 }
 

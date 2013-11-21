@@ -43,11 +43,16 @@ int main(){
 	GridFunction gx(griddimension,simparam.GX);
 	GridFunction gy(griddimension,simparam.GY);
 
-	// for Boundary condition
+	//---- for Boundary condition ----
+	//for driven cavity
 	MultiIndexType upperleft (1,                 griddimension[1]-1);
 	MultiIndexType upperright(griddimension[0]-2,griddimension[1]-1);
 	MultiIndexType offset (0,-1);
-
+	//
+	MultiIndexType linksunten (0,1);
+	MultiIndexType linksoben  (0,griddimension[1]-2);
+	MultiIndexType rechtsunten (griddimension[0]-2,1);
+	MultiIndexType rechtsoben  (griddimension[0]-2,griddimension[1]-2);
 	// write first output data
 	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 	// start time loop
@@ -58,18 +63,20 @@ int main(){
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
+		// driven cavity:
+		 u.SetGridFunction(upperleft,upperright,-1,offset,2.0);
+		//einfach durchfliesen
+		//u.SetGridFunction(linksunten,linksoben,1);
+		//u.SetGridFunction(rechtsunten,rechtsoben,1);
 
-		u.SetGridFunction(upperleft,upperright,-1,offset,2.0);
-		std::cout<<"----oben---"<<std::endl;
-		p.PlotGrid();
-		std::cout<<"----unten---"<<std::endl;
 	    // compute f / g
 		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
 		GridFunctionType blgy = gy.GetGridFunction();
 		GridFunctionType blu  = u.GetGridFunction();
 		GridFunctionType blv  = v.GetGridFunction();
 		pc.computeMomentumEquations(&f,&g,&blu,&blv,blgx,blgy,h,deltaT);
-
+		pc.setBoundaryF(f,blu);
+		pc.setBoundaryG(g,blv);
 		// set right side of pressure equation
 		GridFunctionType blf = f.GetGridFunction();
 		GridFunctionType blg = g.GetGridFunction();
@@ -86,6 +93,10 @@ int main(){
 		// update time
 		t += deltaT;
 		step++;
+		//std::cout<<"----oben---"<<std::endl;
+		//p.PlotGrid();
+		//std::cout<<"----unten---"<<std::endl;
+
 
 		// write files
 		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
