@@ -12,22 +12,22 @@
  */
 #include "solver.h"
 #include <math.h>
-
 #include "../IO/IO.hpp"
 #include "../Stencil/stencil.h"
 
-RealType computeResidual(GridFunction& sourcegridfunction,
+
+Solver::Solver(Simparam param){
+		this->param=param;
+	}
+
+RealType Solver::computeResidual(GridFunction& sourcegridfunction,
     				     GridFunctionType& rhs,
-    					 PointType& h){
+    					 const PointType& h){
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     // The pre-value to be returned (return sqrt(doubleSum)):
     RealType doubleSum = 0.0;
 
     /* We need to compute the derivatives p_xx and p_yy, therefore the stencil has to be applied.
-     *
-     *
-     * The following lines >> << are ugly, but have to be, because the aPPLYsTENCILoPERATOR needs
-     * some special input.. It would be nice, if we could write it in a more space-saving way.
      */
 
     MultiIndexType dim = sourcegridfunction.GetGridDimension();
@@ -58,47 +58,42 @@ RealType computeResidual(GridFunction& sourcegridfunction,
     return sqrt(doubleSum);
 }
 
+void Solver::SORCycle(GridFunction* gridfunction,
+			  GridFunctionType& rhs,
+			  const PointType& h){
+
+	MultiIndexType dim = gridfunction->GetGridDimension();
+	MultiIndexType bread  (0,0);
+	MultiIndexType eread  (dim[0]-1,dim[1]-1);
+	MultiIndexType bwrite (1,1);
+	MultiIndexType ewrite (dim[0]-2,dim[1]-2);
 
 
-    void SORCycle(GridFunction* gridfunction,
-    	    	  GridFunctionType& rhs,
-    	    	  PointType& delta,
-    	    	  const RealType omega,
-    	    	  const RealType eps,
-    	    	  const IndexType iterMax){
+	//Initialization of the residual. Just choose a value, that should be a bad error.
+	RealType res = 10e20;
+	int iterationCounter = 0;
+	// SOR-cycling until error is small enough, or the number of iterations gets to high:
+	RealType neighbours_x, neighbours_y;
+	while (iterationCounter < param.iterMax && res < param.eps )
+	{
+		 for (IndexType i = 1; i <= dim[0]-2; i++)
+		{
+			for (IndexType j = 1; j <= dim[1]-2; j++)
+			{
+				//help-values "neighbours_x" and "neighbours_y" for better overview
+				neighbours_x = (gridfunction->GetGridFunction()[i+1][j] + gridfunction->GetGridFunction()[i-1][j])
+									  / h[0] / h[0];
+				neighbours_y = (gridfunction->GetGridFunction()[i][j+1] + gridfunction->GetGridFunction()[i][j-1])
+											  / h[1] / h[1];
+				//SOR-iteration
+				gridfunction->SetGridFunction(i,j,(1.0 - param.omg)*gridfunction->GetGridFunction()[i][j]
+							 + param.omg /(2.0*(1/h[0]/h[0]+1/h[1]/h[1]))
+							 * (neighbours_x + neighbours_y - rhs[i][j]));
+			}
+		}
+		iterationCounter++;
+		res = computeResidual(*gridfunction, rhs, h);
+	}
 
-    	MultiIndexType dim = gridfunction->GetGridDimension();
-        MultiIndexType bread  (0,0);
-        MultiIndexType eread  (dim[0]-1,dim[1]-1);
-        MultiIndexType bwrite (1,1);
-        MultiIndexType ewrite (dim[0]-2,dim[1]-2);
-
-
-    	//Initialization of the residual. Just choose a value, that should be a bad error.
-        RealType res = 10e20;
-        int iterationCounter = 0;
-        // SOR-cycling until error is small enough, or the number of iterations gets to high:
-        RealType neighbours_x, neighbours_y;
-        while (iterationCounter < iterMax && res < eps )
-        {
-             for (IndexType i = 1; i <= dim[0]-2; i++)
-            {
-        	    for (IndexType j = 1; j <= dim[1]-2; j++)
-            	{
-                    //help-values "neighbours_x" and "neighbours_y" for better overview
-        	    	neighbours_x = (gridfunction->GetGridFunction()[i+1][j] + gridfunction->GetGridFunction()[i-1][j])
-        	    			              / delta[0] / delta[0];
-        	    	neighbours_y = (gridfunction->GetGridFunction()[i][j+1] + gridfunction->GetGridFunction()[i][j-1])
-                	    			              / delta[1] / delta[1];
-        	    	//SOR-iteration
-        	    	gridfunction->SetGridFunction(i,j,(1.0 - omega)*gridfunction->GetGridFunction()[i][j]
-                                 + omega /(2.0*(1/delta[0]/delta[0]+1/delta[1]/delta[1]))
-                                 * (neighbours_x + neighbours_y - rhs[i][j]));
-        	    }
-            }
-    	    iterationCounter++;
-    	    res = computeResidual(*gridfunction, rhs, delta);
-        }
-
-    }
+}
 

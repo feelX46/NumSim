@@ -15,12 +15,12 @@
 class Stencil {
 public:
 
-	Stencil(int stencilwidth_input, PointType& h_input);
+	Stencil(int stencilwidth_input, const PointType& h_input);
 	//void ~Stencil();
 
 	StencilType stencil;
 	int stencilwidth;
-	PointType& h;
+	const PointType& h;
 
 	void ApplyStencilOperator(const MultiIndexType& gridreadbegin,
 			const MultiIndexType& gridreadend,

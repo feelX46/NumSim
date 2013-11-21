@@ -9,24 +9,28 @@
 #include"../Stencil/stencil.h"
 #include<iostream>
 #include"../Grid/gridfunction.h"
-RealType computeTimestep (RealType uMax, RealType vMax, const PointType&h,
-        RealType Re, RealType tau){
-    RealType minimum = Re/(2*(1/(h[0]*h[0])+1/(h[1]*h[1])));
+
+Computation::Computation(Simparam param){
+		this->param=param;
+	}
+
+RealType Computation::computeTimestep (RealType uMax, RealType vMax, const PointType&h){
+    RealType minimum = param.RE/(2*(1/(h[0]*h[0])+1/(h[1]*h[1])));
     if (minimum > h[0]/abs(uMax)) {minimum = h[0]/abs(uMax);}
     if (minimum > h[1]/abs(vMax)) {minimum = h[1]/abs(vMax);}
-    return tau*minimum;
+    return param.tau*minimum;
 }
 
 
-void computeNewVelocities(GridFunction* u, GridFunction* v,
+void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
                                 GridFunctionType& f, GridFunctionType& g,
-                                GridFunctionType& p, const PointType& delta,
+                                GridFunctionType& p, const PointType& h,
                                 RealType deltaT){
 	//compute u
 	MultiIndexType bb (1,1);
 	MultiIndexType ee (u->griddimension[0]-3,u->griddimension[1]-2);
 	u->SetGridFunction(bb,ee,1,f);
-	RealType factor = -deltaT/delta[0];
+	RealType factor = -deltaT/h[0];
 	MultiIndexType offset (1,0);
 	u->AddToGridFunction (bb,ee, factor,p,offset);
 	offset[0]=0;
@@ -35,7 +39,7 @@ void computeNewVelocities(GridFunction* u, GridFunction* v,
 	//compute v
 	ee[0]= u->griddimension[0]-2; ee[1]= u->griddimension[1]-3;
 	v->SetGridFunction(bb,ee,1,g);
-	factor = -deltaT/delta[1];
+	factor = -deltaT/h[1];
 	offset[1]=1;
 	v->AddToGridFunction (bb,ee, factor,p,offset);
 	offset[0]=0;
@@ -45,12 +49,12 @@ void computeNewVelocities(GridFunction* u, GridFunction* v,
 
 
 
-void computeMomentumEquations(GridFunction* f, GridFunction* g,
+void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
                                 GridFunctionType* u, GridFunctionType* v,
                                 GridFunctionType& gx, GridFunctionType& gy,
-                                PointType& h, RealType deltaT,
-                                RealType Re, RealType alpha) {
+                                const PointType& h, RealType& deltaT) {
 	MultiIndexType dim = f->griddimension;
+
 	Stencil sten(3,h);
 	GridFunction derivative (dim);
 	RealType factor;
@@ -64,7 +68,7 @@ void computeMomentumEquations(GridFunction* f, GridFunction* g,
 	f->SetGridFunction(bwrite,ewrite,1,*u);
 	//add derivatives:
 	sten.ApplyFxxStencilOperator(bread,eread,bwrite,ewrite,*u,derivative);
-	factor = deltaT/Re;
+	factor = deltaT/param.RE;
 	GridFunctionType bla = derivative.GetGridFunction(); //ToDo -> fragen wieso?
 	f->AddToGridFunction(bwrite,ewrite,factor,bla);
 
@@ -73,11 +77,11 @@ void computeMomentumEquations(GridFunction* f, GridFunction* g,
 	f->AddToGridFunction(bwrite,ewrite,factor,bla);
 
 	factor=-deltaT;
-	sten.ApplyUSqxStencilOperator(bread,eread,bwrite,ewrite,*u,derivative,alpha);
+	sten.ApplyUSqxStencilOperator(bread,eread,bwrite,ewrite,*u,derivative,param.alpha);
 	bla = derivative.GetGridFunction();
 	f->AddToGridFunction(bwrite,ewrite,factor,bla);
 
-	sten.ApplyUVyStencilOperator(bread,eread,bwrite,ewrite,*u,*v,derivative,alpha);
+	sten.ApplyUVyStencilOperator(bread,eread,bwrite,ewrite,*u,*v,derivative,param.alpha);
 	bla = derivative.GetGridFunction();
 	f->AddToGridFunction(bwrite,ewrite,factor,bla);
 
@@ -91,7 +95,7 @@ void computeMomentumEquations(GridFunction* f, GridFunction* g,
 	g->SetGridFunction(bwrite,ewrite,1,*v);
 	//add derivatives:
 	sten.ApplyFxxStencilOperator(bread,eread,bwrite,ewrite,*v,derivative);
-	factor = deltaT/Re;
+	factor = deltaT/param.RE;
     bla = derivative.GetGridFunction(); //ToDo -> fragen wieso?
 	g->AddToGridFunction(bwrite,ewrite,factor,bla);
 
@@ -100,18 +104,18 @@ void computeMomentumEquations(GridFunction* f, GridFunction* g,
 	g->AddToGridFunction(bwrite,ewrite,factor,bla);
 
 	factor=-deltaT;
-	sten.ApplyVSqyStencilOperator(bread,eread,bwrite,ewrite,*v,derivative,alpha);
+	sten.ApplyVSqyStencilOperator(bread,eread,bwrite,ewrite,*v,derivative,param.alpha);
 	bla = derivative.GetGridFunction();
 	g->AddToGridFunction(bwrite,ewrite,factor,bla);
 
-	sten.ApplyUVxStencilOperator(bread,eread,bwrite,ewrite,*u,*v,derivative,alpha);
+	sten.ApplyUVxStencilOperator(bread,eread,bwrite,ewrite,*u,*v,derivative,param.alpha);
 	bla = derivative.GetGridFunction();
 	g->AddToGridFunction(bwrite,ewrite,factor,bla);
 
 	g->AddToGridFunction(bwrite,ewrite,-factor,gy);
 
 }
-void setBoundaryU(GridFunction u){
+void Computation::setBoundaryU(GridFunction u){
     RealType value = 0;
     // left -> 0
     MultiIndexType bb(0,1);
@@ -134,7 +138,7 @@ void setBoundaryU(GridFunction u){
     offset[1]=-1;
     u.SetGridFunction(bb,ee,-1,offset);
 }
-void setBoundaryV(GridFunction v){
+void Computation::setBoundaryV(GridFunction v){
     // left
     MultiIndexType bb (0,1);
     MultiIndexType ee (0,v.griddimension[1]-2);
@@ -158,7 +162,7 @@ void setBoundaryV(GridFunction v){
     v.SetGridFunction(bb,ee,-1,offset);
 }
 
-void setBoundaryP(GridFunction p){
+void Computation::setBoundaryP(GridFunction p){
 	// left
     MultiIndexType bb (0,1);
     MultiIndexType ee (0,p.griddimension[1]-2);
@@ -181,7 +185,7 @@ void setBoundaryP(GridFunction p){
     p.SetGridFunction(bb,ee,1,offset);
 }
 
-void setBoundaryF(GridFunction f, GridFunctionType& u){
+void Computation::setBoundaryF(GridFunction f, GridFunctionType& u){
 	// left
 	MultiIndexType bb (0,1);
 	MultiIndexType ee (0,f.griddimension[1]-2);
@@ -192,7 +196,7 @@ void setBoundaryF(GridFunction f, GridFunctionType& u){
     f.SetGridFunction(bb,ee,1,u);
 }
 
-void setBoundaryG(GridFunction g, GridFunctionType& v){
+void Computation::setBoundaryG(GridFunction g, GridFunctionType& v){
     //bottom
 	MultiIndexType bb (1,0);
 	MultiIndexType ee (g.griddimension[0]-2,0);
@@ -203,7 +207,7 @@ void setBoundaryG(GridFunction g, GridFunctionType& v){
     g.SetGridFunction(bb,ee,1,v);
 }
 
-void computeRighthandSide(GridFunction* rhs,
+void Computation::computeRighthandSide(GridFunction* rhs,
     		GridFunctionType& f,
     		GridFunctionType& g,
     		const PointType& delta,

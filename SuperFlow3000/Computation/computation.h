@@ -10,22 +10,24 @@
 
 #include"../Misc/typedef.h"
 #include"../Grid/gridfunction.h"
+#include "../IO/IO.hpp"
 
-//class Computation {
-//public:
-	RealType computeTimestep(RealType uMax, RealType vMax, const PointType&h,
-								RealType Re, RealType tau);
+class Computation {
+public:
+
+	Computation(Simparam param);
+
+	RealType computeTimestep(RealType uMax, RealType vMax, const PointType&h);
 
 	void computeNewVelocities(GridFunction* u, GridFunction* v,
 								GridFunctionType& f, GridFunctionType& g,
-								GridFunctionType& p, const PointType& delta,
+								GridFunctionType& p, const PointType& h,
 								RealType deltaT);
 
 	void computeMomentumEquations(GridFunction* f, GridFunction* g,
 								GridFunctionType* u, GridFunctionType* v,
 								GridFunctionType& gx, GridFunctionType& gy,
-							    PointType& h, RealType deltaT,
-								RealType Re, RealType alpha);
+							    const PointType& h, RealType& deltaT);
 
 	/*! @brief Function to set the boundary values for u, the velocities in x-direction.
 	 * First implementation: only no-flow boundaries.
@@ -67,7 +69,9 @@
     		const PointType& delta,
     		RealType deltaT);
 
-//};
+    Simparam param;
+
+};
 
 
 #endif /* COMPUTATION_H_ */

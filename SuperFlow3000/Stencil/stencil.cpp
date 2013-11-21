@@ -10,7 +10,7 @@
 #include <math.h>
 
 
-Stencil::Stencil(int stencilwidth_input, PointType& h_input) : stencilwidth(stencilwidth_input), h(h_input){
+Stencil::Stencil(int stencilwidth_input, const PointType& h_input) : stencilwidth(stencilwidth_input), h(h_input){
 	 stencil = new RealType*[stencilwidth];
 	 for (int i = 0; i < stencilwidth; i++){
 		 stencil[i] = new RealType [stencilwidth];

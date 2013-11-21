@@ -11,19 +11,24 @@
 
 #include"../Misc/typedef.h"
 #include"../Grid/gridfunction.h"
+#include "../IO/IO.hpp"
 /*! @class Class Solver runs the Successive-Over-Relaxation-Cycle
  *
  */
 class Solver {
 public:
+	Solver(Simparam param);
 	/*! @brief Function to compute the global residual
 		   * @param sourcegridfunction ?The discretized solution
 		   * @param rhs The right hand side of the discretized local PDE
 		   * @param h ?what are these two RealTypes for?
 		   */
+	//Solver::~Solver();
+
+
     RealType computeResidual(GridFunction& sourcegridfunction,
     						 GridFunctionType& rhs,
-    						 PointType& h);
+    						 const PointType& h);
     //-------------------------------------------------------------------------------
 
     /*! @brief Function to compute the global residual
@@ -34,24 +39,11 @@ public:
     		   */
     void SORCycle(GridFunction* gridfunction,
     	    	  GridFunctionType& rhs,
-    	    	  PointType& delta,
-    	    	  const RealType omega,
-    	    	  const RealType eps,
-    	    	  const IndexType iterMax);
-    //-------------------------------------------------------------------------------
+    	    	  const PointType& h);
 
-    /*! @brief Constructor to made?
-    * (does not have to do anything)
-    */
-    //Solver::Solver();
-    //-------------------------------------------------------------------------------
-
-    /*! @brief Destructor to be made?
-     */
-   // Solver::~Solver();
 
 private:
-
+    Simparam param;
 };
 
 

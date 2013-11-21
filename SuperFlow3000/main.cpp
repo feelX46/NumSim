@@ -11,6 +11,7 @@
 #include "Stencil/stencil.h"
 #include "Grid/gridfunction.h"
 #include "Computation/computation.h"
+#include "Solver/solver.h"
 
 int main(){
 	std::cout << "#### SuperFlow3000 ####\n";
@@ -19,7 +20,8 @@ int main(){
 	// load simparam
 	IO Reader(InputFileName,OutputFolderName);
 	Simparam simparam = Reader.getSimparam();
-
+	Computation pc (simparam);
+	Solver sol (simparam);
 	// initialize grids
     MultiIndexType griddimension (simparam.iMax+2,simparam.jMax+2);
     GridFunction p(griddimension,simparam.PI);
@@ -33,7 +35,7 @@ int main(){
     MultiIndexType bb(1,1); //lower left
     MultiIndexType ee(simparam.iMax,simparam.jMax); //upper right
 
-	const PointType delta(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
+	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
 
 	RealType deltaT;
 	RealType t = 0;
@@ -42,45 +44,45 @@ int main(){
 	GridFunction gy(griddimension,simparam.GY);
 
 	// write first output data
-	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), delta, step);
+	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 
 	// start time loop
 	while (t <= simparam.tEnd){
 
 		// compute deltaT
-		deltaT = computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),delta,simparam.RE,simparam.tau);
+		deltaT = pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
+
 		// set boundary
-		setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
-		setBoundaryV(v);
+		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
+		pc.setBoundaryV(v);
 
 	    // compute f / g
-		GridFunctionType blgx = gx.GetGridFunction();
+		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
 		GridFunctionType blgy = gy.GetGridFunction();
 		GridFunctionType blu  = u.GetGridFunction();
 		GridFunctionType blv  = v.GetGridFunction();
-		computeMomentumEquations(&f,
-				&g,blu,blv,
-				blgx,blgy,delta,deltaT,simparam.RE,
-				simparam.alpha);
-
+		pc.computeMomentumEquations(&f,&g,&blu,&blv,blgx,blgy,h,deltaT);
 
 		// set right side of pressure equation
-
+		GridFunctionType blf = f.GetGridFunction();
+		GridFunctionType blg = g.GetGridFunction();
+		pc.computeRighthandSide(&rhs, blf,blg,h,deltaT);
 
 		// solver
+		//ToDo enventuell muss die iterationschleife hier rein!
+		GridFunctionType blrhs = rhs.GetGridFunction();
+		sol.SORCycle(&p,blrhs,h);
 
-			// set some values inside the grid
-			IndexType a = step;
-			MultiIndexType MIT1(a,a);
-			u.SetGridFunction(MIT1,MIT1, 5);
-
+		//Update velocity
+		GridFunctionType blp = p.GetGridFunction();
+		pc.computeNewVelocities(&u, &v,blf,blg,blp,h,deltaT);
 		// update time
 		t += deltaT;
 		step++;
 
 		// write files
-		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), delta, step);
-		std::cout<< step<<std::endl;
+		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+		std::cout<< step<<"  -  "<<t<<" / " <<simparam.tEnd<<std::endl;
 	}
 
 	// ToDo Liste
