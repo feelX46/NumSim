@@ -38,10 +38,11 @@ IO::readInputfile (char *filename)
 	sscanf(line, "%*[^0-9]%d", &simparam.jMax);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%lf", &simparam.deltaT);
+	sscanf(line, "%*[^0-9]%lf", &simparam.tEnd);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%lf", &simparam.tEnd);
+	sscanf(line, "%*[^0-9]%lf", &simparam.deltaT);
+
 
 	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%lf", &simparam.tau);
@@ -62,7 +63,6 @@ IO::readInputfile (char *filename)
 	sscanf(line, "%*[^0-9]%lf", &simparam.alpha);
 
 	file.getline(line,sizeof(line));
-	std::cout<<line;
 	sscanf(line, "%*[^0-9]%lf", &simparam.RE);
 
 	file.getline(line,sizeof(line));

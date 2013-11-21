@@ -37,7 +37,7 @@ int main(){
 
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
 
-	RealType deltaT;
+	RealType deltaT = simparam.deltaT;
 	RealType t = 0;
 	int step = 0;
 	GridFunction gx(griddimension,simparam.GX);
@@ -51,7 +51,7 @@ int main(){
 
 		// compute deltaT
 		deltaT = pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
-		std::cout<<simparam.RE<<std::endl;
+		std::cout<<deltaT<<"  "<<simparam.tEnd<<std::endl;
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);

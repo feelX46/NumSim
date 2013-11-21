@@ -15,8 +15,8 @@ struct Simparam {
 	int iMax;          //Anzahl der inneren Zellin in x-Richtung
 	int jMax;          //Anzahl der inneren Zellen in y-Richtung
 
-	RealType deltaT;
 	RealType tEnd;		//Endzeit
+	RealType deltaT;
 	RealType tau;   //Sicherheitsfaktor
 	RealType deltaVec;   //Zeitabstand für die Ausgabe
 
