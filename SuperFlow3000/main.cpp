@@ -26,7 +26,7 @@ int main(){
     MultiIndexType griddimension (simparam.iMax+2,simparam.jMax+2);
     GridFunction p(griddimension,simparam.PI);
     GridFunction rhs(griddimension);
-    GridFunction v(griddimension,simparam.UV);
+    GridFunction v(griddimension,simparam.VI);
     GridFunction g(griddimension);
     GridFunction u(griddimension,simparam.UI);
     GridFunction f(griddimension);
@@ -51,7 +51,7 @@ int main(){
 
 		// compute deltaT
 		deltaT = pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
-
+		std::cout<<simparam.RE<<std::endl;
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);

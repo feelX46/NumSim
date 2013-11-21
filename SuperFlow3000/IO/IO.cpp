@@ -38,13 +38,16 @@ IO::readInputfile (char *filename)
 	sscanf(line, "%*[^0-9]%d", &simparam.jMax);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%d", &simparam.tEnd);
+	sscanf(line, "%*[^0-9]%lf", &simparam.deltaT);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.tEnd);
 
 	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%lf", &simparam.tau);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%d", &simparam.deltaVec);
+	sscanf(line, "%*[^0-9]%lf", &simparam.deltaVec);
 
 	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%d", &simparam.iterMax);
@@ -59,22 +62,23 @@ IO::readInputfile (char *filename)
 	sscanf(line, "%*[^0-9]%lf", &simparam.alpha);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%d", &simparam.RE);
+	std::cout<<line;
+	sscanf(line, "%*[^0-9]%lf", &simparam.RE);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%d", &simparam.GX);
+	sscanf(line, "%*[^0-9]%lf", &simparam.GX);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%d", &simparam.GY);
+	sscanf(line, "%*[^0-9]%lf", &simparam.GY);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%d", &simparam.UI);
+	sscanf(line, "%*[^0-9]%lf", &simparam.UI);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%d", &simparam.UV);
+	sscanf(line, "%*[^0-9]%lf", &simparam.VI);
 
 	file.getline(line,sizeof(line));
-	sscanf(line, "%*[^0-9]%d", &simparam.PI);
+	sscanf(line, "%*[^0-9]%lf", &simparam.PI);
 
 }
 

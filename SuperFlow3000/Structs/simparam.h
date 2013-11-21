@@ -15,20 +15,21 @@ struct Simparam {
 	int iMax;          //Anzahl der inneren Zellin in x-Richtung
 	int jMax;          //Anzahl der inneren Zellen in y-Richtung
 
-	int tEnd;		//Endzeit
+	RealType deltaT;
+	RealType tEnd;		//Endzeit
 	RealType tau;   //Sicherheitsfaktor
-	int deltaVec;   //Zeitabstand für die Ausgabe
+	RealType deltaVec;   //Zeitabstand für die Ausgabe
 
 	IndexType iterMax;     // Maximale Anzahl an Iterationen
 	RealType eps;	//Toleranz für Druckiteration
 	RealType omg;	//Relaxationsfaktor
 	RealType alpha;	//Upwind-Differencing-Faktor
-	int RE;			//Reynoldszahl
-	int GX;			//Äußere Kräfte g_x und g_y
-	int GY;
-	int UI;			//Initailwerte für u,v undp
-	int UV;
-	int PI;
+	RealType RE;			//Reynoldszahl
+	RealType GX;			//Äußere Kräfte g_x und g_y
+	RealType GY;
+	RealType VI;			//Initailwerte für u,v undp
+	RealType UI;
+	RealType PI;
 };
 
 
