@@ -54,7 +54,7 @@ int main(){
 	MultiIndexType rechtsunten (griddimension[0]-2,1);
 	MultiIndexType rechtsoben  (griddimension[0]-2,griddimension[1]-2);
 	// write first output data
-	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+/*	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 	// start time loop
 	while (t <= simparam.tEnd){
 
@@ -103,7 +103,7 @@ int main(){
 		// write files
 		std::cout<< step<<"  -  "<<t<<" / " <<simparam.tEnd<<std::endl;
 	}
-
+*/
 	// ToDo Liste
 	/*
 	 * Stencil testen - kommen die richtigen Matrizen raus?
@@ -125,6 +125,24 @@ int main(){
 				sourcegridfunction,
 				imagegridfunction);
 */	std::cout<<"laeuft... immerhin ;)";
+
+
+	GridFunction testgrid(griddimension,simparam.UI);
+	for (int i = 0; i < griddimension[0]; i++) {
+		for (int j=0; j < griddimension[1]; j++) {
+			testgrid.SetGridFunction(i,j,i);
+		}
+	}
+
+	testgrid.PlotGrid();
+
+	GridFunction derivative(griddimension,0);
+	Stencil sten(3,h);
+	sten.ApplyPxStencilOperator(bb,ee,bb,ee,testgrid.GetGridFunction(),derivative);
+
+	derivative.PlotGrid();
+
+
 	return 0;
 }
 
