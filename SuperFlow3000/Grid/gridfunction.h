@@ -38,7 +38,7 @@ public:
 	GridFunction(const MultiIndexType griddimension_input, RealType value);
 
 	//! Destructor (3)
-	//~GridFunction();
+	~GridFunction();
 
 	//! get grid data (pointer to gridfunction) (4)
 	GridFunctionType GetGridFunction() const;
