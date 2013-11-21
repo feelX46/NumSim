@@ -75,15 +75,20 @@ public:
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
 			GridFunctionType& sourcegridfunction, RealType constant);
 
+	//!  constant + factor*grid(with offset) (combination of 6 and 10)
+	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
+			RealType factor, MultiIndexType& offset, RealType constant);
+
 	//! scale grid (7)
 	void ScaleGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType factor);
 
 	//! add factor*source to grid (11)
 	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
 			GridFunctionType& sourcegridfunction);
-	//! add factor*source to grid (11)
+	//! add factor*source to grid (11-1)
 	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
 			GridFunctionType& sourcegridfunction, MultiIndexType& offset);
+
 
 
 	//! find maximum (12)

@@ -142,6 +142,18 @@ void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiInde
 	}
 }
 
+//10-1
+void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
+		RealType factor, MultiIndexType& offset, RealType constant){
+	if (CheckInGrid(begin,end)) {exit(0);}
+	for (IndexType i = begin[0];i<=end[0]; i++){
+		for (IndexType j = begin[1]; j<=end[1]; j++){
+			gridfunction[i][j] = constant + factor * gridfunction[i+offset[0]][j+offset[1]];
+		}
+	}
+}
+
+
 //7
 void GridFunction::ScaleGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
 		RealType factor){
@@ -175,6 +187,8 @@ void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIn
 		}
 	}
 }
+
+
 
 
 //12

@@ -43,19 +43,26 @@ int main(){
 	GridFunction gx(griddimension,simparam.GX);
 	GridFunction gy(griddimension,simparam.GY);
 
+	// for Boundary condition
+	MultiIndexType upperleft (1,                 griddimension[1]-1);
+	MultiIndexType upperright(griddimension[0]-2,griddimension[1]-1);
+	MultiIndexType offset (0,-1);
+
 	// write first output data
 	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
-
 	// start time loop
 	while (t <= simparam.tEnd){
 
 		// compute deltaT
 		deltaT = pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
-		std::cout<<deltaT<<"  "<<simparam.tEnd<<std::endl;
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
 
+		u.SetGridFunction(upperleft,upperright,-1,offset,2.0);
+		std::cout<<"----oben---"<<std::endl;
+		p.PlotGrid();
+		std::cout<<"----unten---"<<std::endl;
 	    // compute f / g
 		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
 		GridFunctionType blgy = gy.GetGridFunction();
