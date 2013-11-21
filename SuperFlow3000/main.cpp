@@ -64,10 +64,16 @@ int main(){
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
 		// driven cavity:
-		 u.SetGridFunction(upperleft,upperright,-1,offset,2.0);
+		u.SetGridFunction(upperleft,upperright,-1,offset,2.0);
+
 		//einfach durchfliesen
 		//u.SetGridFunction(linksunten,linksoben,1);
 		//u.SetGridFunction(rechtsunten,rechtsoben,1);
+
+		//u.PlotGrid();
+
+		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+
 
 	    // compute f / g
 		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
@@ -93,13 +99,8 @@ int main(){
 		// update time
 		t += deltaT;
 		step++;
-		//std::cout<<"----oben---"<<std::endl;
-		//p.PlotGrid();
-		//std::cout<<"----unten---"<<std::endl;
-
 
 		// write files
-		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 		std::cout<< step<<"  -  "<<t<<" / " <<simparam.tEnd<<std::endl;
 	}
 

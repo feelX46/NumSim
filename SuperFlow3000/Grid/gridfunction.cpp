@@ -206,12 +206,14 @@ RealType GridFunction::MaxValueGridFunction (const MultiIndexType& begin,
 }
 
 void GridFunction::PlotGrid(){
+	std::cout<<"----oben---"<<std::endl;
 	for (IndexType j =griddimension[0]-1; j>=0; j--){
 		for (IndexType i = 0; i<griddimension[1]; i++){
 			std::cout << gridfunction[i][j] << " ";
 		}
 		std::cout << "\n";
-		}
+	}
+	std::cout<<"----unten---"<<std::endl;
 
 }
 

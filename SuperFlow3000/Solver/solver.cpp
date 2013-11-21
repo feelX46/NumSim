@@ -55,6 +55,7 @@ RealType Solver::computeResidual(GridFunction& sourcegridfunction,
             doubleSum +=  derivator*derivator / (dim[0]-2) / (dim[1]-2);
     	}
     }
+    //std::cout<<doubleSum<<std::endl;
     return sqrt(doubleSum);
 }
 
