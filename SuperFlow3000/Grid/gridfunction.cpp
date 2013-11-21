@@ -160,7 +160,7 @@ void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIn
 	if (CheckInGrid(begin,end)) {exit(0);}
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
-			gridfunction[i][j] = gridfunction[i][j] + factor * sourcegridfunction[i][j];
+			gridfunction[i][j] += factor * sourcegridfunction[i][j];
 		}
 	}
 }
@@ -171,7 +171,7 @@ void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIn
 	if (CheckInGrid(begin,end)) {exit(0);}
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
-			gridfunction[i][j] = gridfunction[i][j] + factor * sourcegridfunction[i+offset[0]][j+offset[1]];
+			gridfunction[i][j] += factor * sourcegridfunction[i+offset[0]][j+offset[1]];
 		}
 	}
 }
