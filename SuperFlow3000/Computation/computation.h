@@ -17,7 +17,7 @@ public:
 
 	Computation(Simparam param);
 
-	RealType computeTimestep(RealType uMax, RealType vMax, const PointType&h);
+	RealType computeTimestep(RealType uMax, RealType vMax, const PointType& h);
 
 	void computeNewVelocities(GridFunction* u, GridFunction* v,
 								GridFunctionType& f, GridFunctionType& g,
@@ -33,28 +33,28 @@ public:
 	 * First implementation: only no-flow boundaries.
 	 *  @param velocity_x is a GridFunction-Object, containing all discretization points.
 	 */
-	void setBoundaryU(GridFunction velocity_x);
+	void setBoundaryU(GridFunction& velocity_x);
 
 	/*! @brief Function to set the boundary values for v, the velocities in y-direction.
 	 * First implementation: only no-flow boundaries.
 	 *  @param velocity_y is a GridFunction-Object, containing all discretization points.
 	 */
-	void setBoundaryV(GridFunction velocity_y);
+	void setBoundaryV(GridFunction& velocity_y);
 
 	/*! @brief Function to set the boundary values for the pressure p.
 	 *  @param pressure is a GridFunction-Object, containing all discretization points.
 	 */
-	void setBoundaryP(GridFunction pressure);
+	void setBoundaryP(GridFunction& pressure);
 
 	/*! @brief Function to set the boundary values for F (12).
 	 *  @param f is a GridFunction-Object, containing F for all discretization points.
 	 */
-	void setBoundaryF(GridFunction f, GridFunctionType& u);
+	void setBoundaryF(GridFunction& f, GridFunctionType& u);
 
 	/*! @brief Function to set the boundary values for G (13).
 	 *  @param g is a GridFunction-Object, containing G for all discretization points.
 	 */
-	void setBoundaryG(GridFunction g, GridFunctionType& v);
+	void setBoundaryG(GridFunction& g, GridFunctionType& v);
 
 	/*! @brief Function to compute the righthand like (14).
 		 *  @param rhs is a pointer on the GridFunction-object, that is to be computed.

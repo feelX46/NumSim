@@ -64,8 +64,7 @@ int main(){
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
 		// driven cavity:
-		u.SetGridFunction(upperleft,upperright,-1,offset,2.0);
-
+		 u.SetGridFunction(upperleft,upperright,-1.0,offset,2.0);
 		//einfach durchfliesen
 		//u.SetGridFunction(linksunten,linksoben,1);
 		//u.SetGridFunction(rechtsunten,rechtsoben,1);
@@ -86,7 +85,7 @@ int main(){
 		// set right side of pressure equation
 		GridFunctionType blf = f.GetGridFunction();
 		GridFunctionType blg = g.GetGridFunction();
-		pc.computeRighthandSide(&rhs, blf,blg,h,deltaT);
+		pc.computeRighthandSide(&rhs, blf, blg,h,deltaT);
 
 		// solver
 		//ToDo enventuell muss die iterationschleife hier rein!
@@ -99,6 +98,7 @@ int main(){
 		// update time
 		t += deltaT;
 		step++;
+
 
 		// write files
 		std::cout<< step<<"  -  "<<t<<" / " <<simparam.tEnd<<std::endl;

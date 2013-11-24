@@ -99,7 +99,7 @@ void Solver::SORCycle(GridFunction* gridfunction,
 		res = computeResidual(*gridfunction, rhs, h);
 	}
 	if (iterationCounter >= param.iterMax)
-		std::cout<<"iteration abort"<<std::endl;
+		std::cout<<"iteration abort with error res = "<<res<<std::endl;
 
 }
 
