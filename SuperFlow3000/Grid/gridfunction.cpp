@@ -15,6 +15,11 @@ GridFunction::GridFunction(int DimX, int DimY){
 	 }
 	 griddimension[0] = DimX;
 	 griddimension[1] = DimY;
+	 for (IndexType i=0; i<DimX; i++) {
+		 for(IndexType j=0; j<DimY; j++) {
+			 this->SetGridFunction(i,j,0);
+		 }
+	 }
 }
 
 //1.1
