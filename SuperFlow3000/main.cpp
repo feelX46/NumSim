@@ -104,6 +104,37 @@ int main(){
 		std::cout<< step<<"  -  "<<t<<" / " <<simparam.tEnd<<std::endl;
 	}
 
+	GridFunction TestGridU(7,7);
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			TestGridU.SetGridFunction(i,j,i);
+		}
+	}
+
+	GridFunction TestGridV(7,7);
+		for (int i = 0; i < 7; i++) {
+			for (int j = 0; j < 7; j++) {
+				TestGridV.SetGridFunction(i,j,j);
+			}
+		}
+
+
+	GridFunction DerivGrid(7,7);
+	for (int i = 0; i < 7; i++) {
+		for (int j = 0; j < 7; j++) {
+			DerivGrid.SetGridFunction(i,j,0);
+		}
+	}
+
+	Stencil stenci(3,h);
+	MultiIndexType beginread(0,0);
+	MultiIndexType endread(6,6);
+	MultiIndexType beginwrite(1,1);
+	MultiIndexType endwrite(5,5);
+	stenci.ApplyUVyStencilOperator(beginread,endread,beginwrite,endwrite, TestGridU.GetGridFunction(), TestGridV.GetGridFunction(),DerivGrid, simparam.alpha);
+	std::cout << "bla " << std::endl;
+	DerivGrid.PlotGrid();
+
 	// ToDo Liste
 	/*
 	 * Stencil testen - kommen die richtigen Matrizen raus?
