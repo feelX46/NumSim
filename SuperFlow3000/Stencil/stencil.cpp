@@ -157,7 +157,7 @@ void Stencil::ApplyUVyStencilOperator(const MultiIndexType& gridreadbegin,
 	RealType tmp;
 	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
 		for (IndexType j=gridwritebegin[1]; j<=gridwriteend[1]; j++){
-			tmp = 0.5*((sourcegridfunctionV[i][j]+sourcegridfunctionV[i+1][j])*
+			tmp = 0.25*((sourcegridfunctionV[i][j]+sourcegridfunctionV[i+1][j])*
 						(sourcegridfunctionU[i][j]+sourcegridfunctionU[i][j+1])-
 						(sourcegridfunctionV[i][j-1]+sourcegridfunctionV[i+1][j-1])*
 						(sourcegridfunctionU[i][j-1]+sourcegridfunctionU[i][j])
@@ -185,14 +185,14 @@ void Stencil::ApplyUVxStencilOperator(const MultiIndexType& gridreadbegin,
 	RealType tmp;
 	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
 		for (IndexType j=gridwritebegin[1]; j<=gridwriteend[1]; j++){
-			tmp = 0.5*((sourcegridfunctionU[i][j]+sourcegridfunctionU[i][j+1])*
+			tmp = 0.25*((sourcegridfunctionU[i][j]+sourcegridfunctionU[i][j+1])*
 						(sourcegridfunctionV[i][j]+sourcegridfunctionV[i+1][j])-
 						(sourcegridfunctionU[i-1][j]+sourcegridfunctionU[i-1][j+1])*
 						(sourcegridfunctionV[i-1][j]+sourcegridfunctionV[i][j])
 			)+
 							  alpha*0.25*(abs(sourcegridfunctionU[i][j]+sourcegridfunctionU[i][j+1])*
 									  (sourcegridfunctionV[i][j]-sourcegridfunctionV[i+1][j])-
-									      abs(sourcegridfunctionU[i-1][j]+sourcegridfunctionV[i-1][j+1])*
+									      abs(sourcegridfunctionU[i-1][j]+sourcegridfunctionU[i-1][j+1])*
 									      (sourcegridfunctionV[i-1][j]-sourcegridfunctionV[i][j])
 									  );
 

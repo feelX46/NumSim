@@ -69,7 +69,17 @@ int main(){
 		//u.SetGridFunction(linksunten,linksoben,1);
 		//u.SetGridFunction(rechtsunten,rechtsoben,1);
 
+
 		//u.PlotGrid();
+		 std::cout << "pressure: " <<std::endl;
+		 p.PlotGrid();
+		 std::cout << std::endl;
+
+		 std::cout << "u/v: " <<std::endl;
+		 u.PlotGrid();
+         std::cout << std::endl;
+		 v.PlotGrid();
+         std::cout << std::endl;
 
 		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 
