@@ -16,7 +16,7 @@ class Stencil {
 public:
 
 	Stencil(int stencilwidth_input, const PointType& h_input);
-	//void ~Stencil();
+	~Stencil();
 
 	StencilType stencil;
 	int stencilwidth;
@@ -103,7 +103,6 @@ public:
 	void setFxxStencil();
 	void setFyyStencil();
 	void setPxStencil();
-	void setUSqxStencil(const GridFunction& sourcegridfunction);
 };
 
 #endif /* STENCIL_H_ */

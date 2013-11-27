@@ -17,6 +17,11 @@ Stencil::Stencil(int stencilwidth_input, const PointType& h_input) : stencilwidt
 	 }
 }
 
+Stencil::~Stencil() {
+	for (int i = 0; i < stencilwidth; i++)
+			delete[] stencil[i];
+		delete[] stencil;
+}
 
 void Stencil::ApplyStencilOperator(const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
@@ -207,8 +212,8 @@ void Stencil::setFxStencil() {
 	stencil[0][0] = 0;
 	stencil[1][0] = 0;
 	stencil[2][0] = 0;
-	stencil[0][1] = 1/h[0];
-	stencil[1][1] = -1/h[0];
+	stencil[0][1] = -1/h[0];
+	stencil[1][1] = 1/h[0];
 	stencil[2][1] = 0;
 	stencil[0][2] = 0;
 	stencil[1][2] = 0;
@@ -217,10 +222,10 @@ void Stencil::setFxStencil() {
 
 void Stencil::setFyStencil() {
 	stencil[0][0] = 0;
-	stencil[1][0] = 1/h[1];
+	stencil[1][0] = -1/h[1];
 	stencil[0][0] = 0;
 	stencil[0][1] = 0;
-	stencil[1][1] = -1/h[1];
+	stencil[1][1] = 1/h[1];
 	stencil[2][1] = 0;
 	stencil[0][2] = 0;
 	stencil[1][2] = 0;
@@ -265,14 +270,3 @@ void Stencil::setPxStencil() {
 	stencil[2][2] = 0;
 }
 
-void Stencil::setUSqxStencil(const GridFunction& sourcegridfunction){
-	stencil[0][0] = 0;
-	stencil[1][0] = 0;
-	stencil[0][0] = 0;
-	stencil[0][1] = 0;
-	stencil[1][1] = 0;
-	stencil[2][1] = 0;
-	stencil[0][2] = 0;
-	stencil[1][2] = 0;
-	stencil[2][2] = 0;
-}
