@@ -13,8 +13,18 @@
 #include "Computation/computation.h"
 #include "Solver/solver.h"
 
-int main(){
+
+int main(int argc, char *argv[]){
 	std::cout << "#### SuperFlow3000 ####\n";
+	// Initialize MPI
+	//MPI_Init(&argc, &argv);
+
+	int rank;
+	//MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+	int size;
+	//MPI_Comm_size(MPI_COMM_WORLD, &size);
+
 	char InputFileName[] = "inputvals.bin";
 	char OutputFolderName[] = "output";  // output folder! -> be careful, if folder is not there, no data are saved
 	// load simparam
@@ -72,6 +82,10 @@ int main(){
 
 
 		//u.PlotGrid();
+		if (0 == (step % 5)) {
+			Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+		}
+
 		 /*std::cout << "pressure: " <<std::endl;
 		 p.PlotGrid();
 		 std::cout << std::endl;
