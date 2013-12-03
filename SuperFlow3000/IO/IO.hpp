@@ -42,9 +42,6 @@ public:
 		     GridFunctionType p, const PointType& delta, int step);
 
 
-  void writeVTKMasterfile(const MultiIndexType& griddimension, const MultiIndexType& processorgridcoords, const MultiIndexType& localgriddimension);
-
-  void writeVTKSlavefile();
 
   //! Method that returns private member variable simparam
   Simparam getSimparam () {
