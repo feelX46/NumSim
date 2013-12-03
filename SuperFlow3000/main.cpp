@@ -60,6 +60,7 @@ int main(){
 
 		// compute deltaT
 		deltaT = pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
+		std::cout<<deltaT<<std::endl;
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
@@ -73,13 +74,13 @@ int main(){
 
 		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 
-
 	    // compute f / g
 		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
 		GridFunctionType blgy = gy.GetGridFunction();
 		GridFunctionType blu  = u.GetGridFunction();
 		GridFunctionType blv  = v.GetGridFunction();
 		pc.computeMomentumEquations(&f,&g,&blu,&blv,blgx,blgy,h,deltaT);
+
 		pc.setBoundaryF(f,blu);
 		pc.setBoundaryG(g,blv);
 		// set right side of pressure equation
@@ -87,14 +88,17 @@ int main(){
 		GridFunctionType blg = g.GetGridFunction();
 		pc.computeRighthandSide(&rhs, blf, blg,h,deltaT);
 
+
 		// solver
 		//ToDo enventuell muss die iterationschleife hier rein!
 		GridFunctionType blrhs = rhs.GetGridFunction();
 		sol.SORCycle(&p,blrhs,h);
-
 		//Update velocity
 		GridFunctionType blp = p.GetGridFunction();
 		pc.computeNewVelocities(&u, &v,blf,blg,blp,h,deltaT);
+	//	u.PlotGrid();
+		//std::cout<<std::endl<<"------------------------"<<std::endl;
+
 		// update time
 		t += deltaT;
 		step++;
@@ -133,7 +137,7 @@ int main(){
 	MultiIndexType endwrite(5,5);
 	stenci.ApplyUVyStencilOperator(beginread,endread,beginwrite,endwrite, TestGridU.GetGridFunction(), TestGridV.GetGridFunction(),DerivGrid, simparam.alpha);
 	std::cout << "bla " << std::endl;
-	DerivGrid.PlotGrid();
+	//DerivGrid.PlotGrid();
 
 	// ToDo Liste
 	/*
