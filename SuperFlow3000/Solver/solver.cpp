@@ -76,10 +76,24 @@ void Solver::SORCycle(GridFunction* gridfunction,
 	int iterationCounter = 0;
 	// SOR-cycling until error is small enough, or the number of iterations gets to high:
 	RealType neighbours_x, neighbours_y;
+
+	/*
+	 std::cout<<"direct before SOR:" <<std::endl;
+	 gridfunction->PlotGrid();
+	 std::cout<<std::endl;
+     */
+
 	while (iterationCounter < param.iterMax && res > param.eps )
 	{
 
 		pc.setBoundaryP(*gridfunction);
+
+		/*
+		std::cout<<"after boundary-setting:" <<std::endl;
+		gridfunction->PlotGrid();
+		std::cout<<std::endl;
+		*/
+
 		 for (IndexType i = 1; i <= dim[0]-2; i++)
 		{
 			for (IndexType j = 1; j <= dim[1]-2; j++)
@@ -96,7 +110,14 @@ void Solver::SORCycle(GridFunction* gridfunction,
 			}
 		}
 		iterationCounter++;
+		pc.setBoundaryP(*gridfunction);
 		res = computeResidual(*gridfunction, rhs, h);
+
+		/*
+		std::cout<<"after SOR:" <<std::endl;
+		gridfunction->PlotGrid();
+		std::cout<<std::endl;
+		*/
 	}
 	if (iterationCounter >= param.iterMax)
 		std::cout<<"iteration abort with error res = "<<res<<std::endl;
