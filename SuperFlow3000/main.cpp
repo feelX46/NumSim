@@ -70,6 +70,7 @@ int main(int argc, char *argv[]){
 
 		// compute deltaT
 		deltaT = pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
+		std::cout<<deltaT<<std::endl;
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
@@ -79,10 +80,23 @@ int main(int argc, char *argv[]){
 		//u.SetGridFunction(linksunten,linksoben,1);
 		//u.SetGridFunction(rechtsunten,rechtsoben,1);
 
+
 		//u.PlotGrid();
 		if (0 == (step % 5)) {
 			Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 		}
+
+		 /*std::cout << "pressure: " <<std::endl;
+		 p.PlotGrid();
+		 std::cout << std::endl;
+
+		 std::cout << "u/v: " <<std::endl;
+		 u.PlotGrid();
+         std::cout << std::endl;
+		 v.PlotGrid();
+         std::cout << std::endl;
+*/
+		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 
 	    // compute f / g
 		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
@@ -90,6 +104,7 @@ int main(int argc, char *argv[]){
 		GridFunctionType blu  = u.GetGridFunction();
 		GridFunctionType blv  = v.GetGridFunction();
 		pc.computeMomentumEquations(&f,&g,&blu,&blv,blgx,blgy,h,deltaT);
+
 		pc.setBoundaryF(f,blu);
 		pc.setBoundaryG(g,blv);
 		// set right side of pressure equation
@@ -97,14 +112,17 @@ int main(int argc, char *argv[]){
 		GridFunctionType blg = g.GetGridFunction();
 		pc.computeRighthandSide(&rhs, blf, blg,h,deltaT);
 
+
 		// solver
 		//ToDo enventuell muss die iterationschleife hier rein!
 		GridFunctionType blrhs = rhs.GetGridFunction();
 		sol.SORCycle(&p,blrhs,h);
-
 		//Update velocity
 		GridFunctionType blp = p.GetGridFunction();
 		pc.computeNewVelocities(&u, &v,blf,blg,blp,h,deltaT);
+	//	u.PlotGrid();
+		//std::cout<<std::endl<<"------------------------"<<std::endl;
+
 		// update time
 		t += deltaT;
 		step++;
@@ -143,7 +161,7 @@ int main(int argc, char *argv[]){
 	MultiIndexType endwrite(5,5);
 	stenci.ApplyUVyStencilOperator(beginread,endread,beginwrite,endwrite, TestGridU.GetGridFunction(), TestGridV.GetGridFunction(),DerivGrid, simparam.alpha);
 	std::cout << "bla " << std::endl;
-	DerivGrid.PlotGrid();
+	//DerivGrid.PlotGrid();
 
 	// ToDo Liste
 	/*
