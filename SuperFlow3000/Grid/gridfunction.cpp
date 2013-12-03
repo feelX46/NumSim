@@ -202,7 +202,7 @@ void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIn
 RealType GridFunction::MaxValueGridFunction (const MultiIndexType& begin,
 		const MultiIndexType& end){
 	if (CheckInGrid(begin,end)) {exit(0);}
-	IndexType max = 0;
+	RealType max = 0;
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
 			if (gridfunction[i][j] > max)
