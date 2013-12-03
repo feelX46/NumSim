@@ -69,7 +69,7 @@ int main(int argc, char *argv[]){
 	while (t <= simparam.tEnd){
 
 		// compute deltaT
-		deltaT = pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
+		deltaT =  pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
 		std::cout<<deltaT<<std::endl;
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]){
 
 
 		//u.PlotGrid();
-		if (0 == (step % 5)) {
+		if (0 == (step % 10)) {
 			Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 		}
 

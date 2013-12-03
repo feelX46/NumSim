@@ -18,7 +18,7 @@ RealType Computation::computeTimestep (RealType uMax, RealType vMax, const Point
     RealType minimum = param.RE/(2*(1/(h[0]*h[0])+1/(h[1]*h[1])));
     if (minimum > h[0]/abs(uMax)) {minimum = h[0]/abs(uMax);}
     if (minimum > h[1]/abs(vMax)) {minimum = h[1]/abs(vMax);}
-    return param.tau*minimum;
+    return (param.tau*minimum);
 }
 
 
