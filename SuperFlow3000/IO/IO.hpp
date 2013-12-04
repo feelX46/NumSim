@@ -12,7 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include "../Structs/simparam.h"
-
+#include "../Grid/gridfunction.h"
 
 class IO
 {
@@ -42,6 +42,14 @@ public:
 		     GridFunctionType p, const PointType& delta, int step);
 
 
+  // new!!! for MPI
+  void writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV, const int& step,
+			int localgriddimensionX, int localgriddimensionY);
+
+  void writeVTKSlavefile (GridFunction u_gridfunction,
+		  GridFunction v_gridfunction, GridFunction p_gridfunction,
+		  const PointType& delta, int step, int processorgridcoordX, int processorgridcoordY,
+		  int mpiSizeH, int mpiSizeV, int rank);
 
   //! Method that returns private member variable simparam
   Simparam getSimparam () {
@@ -64,6 +72,7 @@ private:
    * @param filename The name of the file with the simulations paremters
    */
   void readInputfile (char *filename);
+
 
 
   //! Method interpolates the velocity for u in the staggered grid.

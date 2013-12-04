@@ -19,12 +19,6 @@ int main(int argc, char *argv[]){
 	// Initialize MPI
 	//MPI_Init(&argc, &argv);
 
-	int rank;
-	//MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-
-	int size;
-	//MPI_Comm_size(MPI_COMM_WORLD, &size);
-
 	char InputFileName[] = "inputvals.bin";
 	char OutputFolderName[] = "output";  // output folder! -> be careful, if folder is not there, no data are saved
 	// load simparam
@@ -40,6 +34,9 @@ int main(int argc, char *argv[]){
     GridFunction g(griddimension);
     GridFunction u(griddimension,simparam.UI);
     GridFunction f(griddimension);
+
+
+
 
 
     MultiIndexType bb(1,1); //lower left
@@ -66,6 +63,20 @@ int main(int argc, char *argv[]){
 	// write first output data
 	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 	// start time loop
+
+	// only for testing MPI writing routine
+	int ibegin =2;
+	int iend   =28;
+	int jbegin =2;
+	int jend   =28;
+	int localgriddimensionX = iend-ibegin+1;
+	int localgriddimensionY = jend-jbegin+1;
+	Reader.writeVTKMasterfile(1, 1, 1,	localgriddimensionX, localgriddimensionY);
+
+	Reader.writeVTKSlavefile(u, v,  p, h, 1, 0, 0, 1, 1,0);
+	std::cout<<"aus";
+	exit(0);
+
 	while (t <= simparam.tEnd){
 
 		// compute deltaT
