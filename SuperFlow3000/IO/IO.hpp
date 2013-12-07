@@ -43,11 +43,11 @@ public:
 
 
   // new!!! for MPI
-  void writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV, const int& step,
+  void writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV, int step,
 			int localgriddimensionX, int localgriddimensionY);
 
-  void writeVTKSlavefile (GridFunction u_gridfunction,
-		  GridFunction v_gridfunction, GridFunction p_gridfunction,
+  void writeVTKSlavefile (GridFunction& u_gridfunction,
+		  GridFunction& v_gridfunction, GridFunction& p_gridfunction,
 		  const PointType& delta, int step, int processorgridcoordX, int processorgridcoordY,
 		  int mpiSizeH, int mpiSizeV, int rank);
 

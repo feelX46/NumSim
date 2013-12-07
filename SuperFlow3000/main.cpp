@@ -63,25 +63,23 @@ int main(int argc, char *argv[]){
 	// write first output data
 	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 	// start time loop
-/*
+
 	// only for testing MPI writing routine
 	int ibegin =2;
-	int iend   =28;
+	int iend   =126;
 	int jbegin =2;
-	int jend   =28;
+	int jend   =126;
 	int localgriddimensionX = iend-ibegin+1;
 	int localgriddimensionY = jend-jbegin+1;
-	Reader.writeVTKMasterfile(1, 1, 1,	localgriddimensionX, localgriddimensionY);
+	Reader.writeVTKMasterfile(1, 1, step,	localgriddimensionX, localgriddimensionY);
+	Reader.writeVTKSlavefile(u, v,  p, h, step, 0, 0, 1, 1,0);
 
-	Reader.writeVTKSlavefile(u, v,  p, h, 1, 0, 0, 1, 1,0);
-	std::cout<<"aus";
-	exit(0);
-*/
 	while (t <= simparam.tEnd){
-
+		step++;
 		// compute deltaT
 		deltaT =  pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
 		std::cout<<deltaT<<std::endl;
+
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
@@ -91,12 +89,10 @@ int main(int argc, char *argv[]){
 		//u.SetGridFunction(linksunten,linksoben,1);
 		//u.SetGridFunction(rechtsunten,rechtsoben,1);
 
-
 		//u.PlotGrid();
 		if (0 == (step % 10)) {
 			Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 		}
-
 		 /*std::cout << "pressure: " <<std::endl;
 		 p.PlotGrid();
 		 std::cout << std::endl;
@@ -108,7 +104,8 @@ int main(int argc, char *argv[]){
          std::cout << std::endl;
 */
 		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
-
+		Reader.writeVTKMasterfile(1, 1, step,	localgriddimensionX, localgriddimensionY);
+		Reader.writeVTKSlavefile(u, v,  p, h, step, 0, 0, 1, 1,0);
 	    // compute f / g
 		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
 		GridFunctionType blgy = gy.GetGridFunction();
@@ -136,7 +133,7 @@ int main(int argc, char *argv[]){
 
 		// update time
 		t += deltaT;
-		step++;
+
 
 
 		// write files

@@ -278,7 +278,7 @@ IO::writeVTKFile (const MultiIndexType& griddimension, GridFunctionType u,
 
 
 
-void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV, const int& step,
+void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV, int step,
 		int localgriddimensionX, int localgriddimensionY){
 
 	  int x1, x2, x3, x4;
@@ -306,12 +306,12 @@ void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV
 	    << "0" << " " << (globalgriddimensionX - 1) << " "
 	    << "0" << " " << (globalgriddimensionY - 1) << " "
 	    << "0" << " " << "0" << " "
-	    << "\" GhostLevel=\" " << "0" << "\">" << std::endl
+	    << "\" GhostLevel=\"" << "0" << "\">" << std::endl
 	    << "<PCoordinates>"<<std::endl
 	    << "<PDataArray type=\"Float64\"/>"<<std::endl
 	    << "<PDataArray type=\"Float64\"/>"<<std::endl
 	    << "<PDataArray type=\"Float64\"/>"<<std::endl
-	    << "<PCoordinates>"<<std::endl;
+	    << "</PCoordinates>"<<std::endl;
 
 	  for(int rank=0; rank<nprocessor; rank++){
 		    processorgridcoordX = rank % mpiSizeH;
@@ -321,18 +321,19 @@ void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV
 			x3=processorgridcoordY    *localgriddimensionY;
 			x4=(processorgridcoordY+1)*localgriddimensionY-1;
 
-		  os << "<Piece Extend=\""<<x1<<" "<<x2<<" "<<x3<<" "<<x4<<" 0 0 "
+		  os << "<Piece Extent=\""<<x1<<" "<<x2<<" "<<x3<<" "<<x4<<" 0 0 "
 			<<"\" Source=\"sol_"<<numstr<<"_rank"<<rank<<".vtr\"/>"<<std::endl
 			<<"<PPointData>"<<std::endl;
 	  }
+//	  os <<"<PDataArray type=\"Float64\" format=\"ascii\" NumberOfComponents=\"3\">"  <<std::endl;
 	  os <<"<PDataArray type=\"Float64\" Name=\"p\"/>"<<std::endl
 	    <<"</PPointData>"<<std::endl
 	    <<"</PRectilinearGrid>"<<std::endl
 	    <<"</VTKFile>"<< std::endl;
 }
 
-void IO::writeVTKSlavefile(GridFunction u_gridfunction,
-		  GridFunction v_gridfunction, GridFunction p_gridfunction,
+void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
+		  GridFunction& v_gridfunction, GridFunction& p_gridfunction,
 		  const PointType& delta, int step, int processorgridcoordX, int processorgridcoordY,
 		  int mpiSizeH, int mpiSizeV, int rank){
 	double deltaX =delta[0];
@@ -376,8 +377,8 @@ void IO::writeVTKSlavefile(GridFunction u_gridfunction,
 	    << "0" << " " << (globalgriddimensionX - 1) << " "
 	    << "0" << " " << (globalgriddimensionY - 1) << " "
 	    << "0" << " " << "0" << " "
-	    << "\" GhostLevel=\" " << "0" << "\">" << std::endl
-	    << "<Piece Extend=\" "<<x1<<" "<<x2<<" "<<x3<<" "<<x4<<" 0 0 \">" <<std::endl
+	    << "\" GhostLevel=\"" << "0" << "\">" << std::endl
+	    << "<Piece Extent=\""<<x1<<" "<<x2<<" "<<x3<<" "<<x4<<" 0 0 \">" <<std::endl
 	    << "<Coordinates>"<<std::endl
 	    << "<DataArray type=\"Float64\" format=\"ascii\"> ";
 	    for (int i=ibegin; i<=iend; i++){
@@ -393,11 +394,14 @@ void IO::writeVTKSlavefile(GridFunction u_gridfunction,
 	    os<<"</DataArray>"<<std::endl
 	    << "<DataArray type=\"Float64\" format=\"ascii\"> 0 0 </DataArray>"<<std::endl
 	    << "</Coordinates>"<<std::endl
-	    //<< "<PointData Vectors=\"field\"  Scalars=\"P\">"
+	   // << "<PointData Vectors=\"field\"  Scalars=\"P\">"
 	    << "<PointData>"
-	    << std::endl;//<<
-	    /*"<DataArray Name=\"field\" NumberOfComponents=\"3\" type=\"Float64\" >" <<
-	    std::endl;
+	    << std::endl;
+
+	  // Geschwindigkeiten
+	    /*
+	  os << "<DataArray type=\"Float64\" format=\"ascii\" NumberOfComponents=\"3\">"  <<std::endl;
+
 	  for (int i = ibegin; i <= iend; ++i)
 	    {
 	      RealType x = i * deltaX;
@@ -413,9 +417,10 @@ void IO::writeVTKSlavefile(GridFunction u_gridfunction,
 
 	    }
 	  os << std::endl;
-	  os << "</DataArray>" << std::endl
-	    */os << "<DataArray type=\"Float64\" Name=\"P\" format=\"ascii\">" <<
-	    std::endl;
+	  os << "</DataArray>" << std::endl;
+*/
+	  //Druckwerte
+	  os << "<DataArray type=\"Float64\" Name=\"P\" format=\"ascii\">" <<std::endl;
 	  for (int i = ibegin; i <= iend; ++i)
 	    {
 	    for (int j = jbegin; j <= jend; ++j)
@@ -426,10 +431,11 @@ void IO::writeVTKSlavefile(GridFunction u_gridfunction,
 	      os << std::endl;
 
 	    }
+	  //rest
 	  os << "</DataArray>" << std::endl
 	    << "</PointData>"<<std::endl
 	    << "</Piece>"<<std::endl
-	    << "</RectilinearGrid"<<std::endl
+	    << "</RectilinearGrid>"<<std::endl
 	    << "</VTKFile>"<<std::endl;
 
 }
