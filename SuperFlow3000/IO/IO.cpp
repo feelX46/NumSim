@@ -307,11 +307,11 @@ void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV
 	    << "0" << " " << (globalgriddimensionY - 1) << " "
 	    << "0" << " " << "0" << " "
 	    << "\" GhostLevel=\" " << "0" << "\">" << std::endl
-	    << "<PCooridnates>"<<std::endl
-	    << "PDataArray type=\"Float64\"/>"<<std::endl
-	    << "PDataArray type=\"Float64\"/>"<<std::endl
-	    << "PDataArray type=\"Float64\"/>"<<std::endl
-	    << "<PCooridnates>"<<std::endl;
+	    << "<PCoordinates>"<<std::endl
+	    << "<PDataArray type=\"Float64\"/>"<<std::endl
+	    << "<PDataArray type=\"Float64\"/>"<<std::endl
+	    << "<PDataArray type=\"Float64\"/>"<<std::endl
+	    << "<PCoordinates>"<<std::endl;
 
 	  for(int rank=0; rank<nprocessor; rank++){
 		    processorgridcoordX = rank % mpiSizeH;
@@ -321,7 +321,7 @@ void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV
 			x3=processorgridcoordY    *localgriddimensionY;
 			x4=(processorgridcoordY+1)*localgriddimensionY-1;
 
-		  os << "<Piece Extend=\""<<x1<<" "<<x2<<" "<<x3<<" "<<x4<<" "
+		  os << "<Piece Extend=\""<<x1<<" "<<x2<<" "<<x3<<" "<<x4<<" 0 0 "
 			<<"\" Source=\"sol_"<<numstr<<"_rank"<<rank<<".vtr\"/>"<<std::endl
 			<<"<PPointData>"<<std::endl;
 	  }
@@ -377,24 +377,26 @@ void IO::writeVTKSlavefile(GridFunction u_gridfunction,
 	    << "0" << " " << (globalgriddimensionY - 1) << " "
 	    << "0" << " " << "0" << " "
 	    << "\" GhostLevel=\" " << "0" << "\">" << std::endl
-	    << "<Piece Extend=\" "<<x1<<" "<<x2<<" "<<x3<<" "<<x4<<" \">"
+	    << "<Piece Extend=\" "<<x1<<" "<<x2<<" "<<x3<<" "<<x4<<" 0 0 \">" <<std::endl
 	    << "<Coordinates>"<<std::endl
-	    << "DataArray type=\"Float64\" format=\"ascii\"> ";
+	    << "<DataArray type=\"Float64\" format=\"ascii\"> ";
 	    for (int i=ibegin; i<=iend; i++){
 	    		  os<< i*deltaX<<" ";
 	    	  }
-
-	    os<<" </DataArray>"<<std::endl
-	    << "DataArray type=\"Float64\" format=\"ascii\"> ";
+	    os << std::endl;
+	    os<<"</DataArray>"<<std::endl
+	    << "<DataArray type=\"Float64\" format=\"ascii\"> ";
 		  for (int j=jbegin; j<=jend; j++){
 			  os<<j*deltaY<<" ";
 		  }
-	    os<<" </DataArray>"<<std::endl
-	    << "DataArray type=\"Float64\" format=\"ascii\"> 0 0 </DataArray>"<<std::endl
-	    << "<Coordinates>"<<std::endl
-	    << "<PointData Vectors=\"field\"  Scalars=\"P\">"
-	    << std::endl <<
-	    "<DataArray Name=\"field\" NumberOfComponents=\"3\" type=\"Float64\" >" <<
+		os << std::endl;
+	    os<<"</DataArray>"<<std::endl
+	    << "<DataArray type=\"Float64\" format=\"ascii\"> 0 0 </DataArray>"<<std::endl
+	    << "</Coordinates>"<<std::endl
+	    //<< "<PointData Vectors=\"field\"  Scalars=\"P\">"
+	    << "<PointData>"
+	    << std::endl;//<<
+	    /*"<DataArray Name=\"field\" NumberOfComponents=\"3\" type=\"Float64\" >" <<
 	    std::endl;
 	  for (int i = ibegin; i <= iend; ++i)
 	    {
@@ -410,8 +412,9 @@ void IO::writeVTKSlavefile(GridFunction u_gridfunction,
 		}
 
 	    }
+	  os << std::endl;
 	  os << "</DataArray>" << std::endl
-	    << "<DataArray type=\"Float64\" Name=\"P\" format=\"ascii\">" <<
+	    */os << "<DataArray type=\"Float64\" Name=\"P\" format=\"ascii\">" <<
 	    std::endl;
 	  for (int i = ibegin; i <= iend; ++i)
 	    {
@@ -423,7 +426,6 @@ void IO::writeVTKSlavefile(GridFunction u_gridfunction,
 	      os << std::endl;
 
 	    }
-
 	  os << "</DataArray>" << std::endl
 	    << "</PointData>"<<std::endl
 	    << "</Piece>"<<std::endl

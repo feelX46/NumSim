@@ -1,7 +1,7 @@
 xLength=1.0
 yLength=1.0
-iMax=40
-jMax=40
+iMax=128
+jMax=128
 tEnd=16
 deltaT=0
 tau=0.5 
@@ -18,6 +18,6 @@ vi=0
 pi=0
 
 
-//Kommentar zu Resolution-Tau-Verhältnis: 50x50 -> tau=0.25 20x20 -> tau=0.1
+//Kommentar zu Resolution-Tau-Verhï¿½ltnis: 50x50 -> tau=0.25 20x20 -> tau=0.1
 
-Es wäre besser, die ComputeTimestepsize anzupassen. Dort sollte das mit der Auflösung besser funktionieren.
+Es wï¿½re besser, die ComputeTimestepsize anzupassen. Dort sollte das mit der Auflï¿½sung besser funktionieren.

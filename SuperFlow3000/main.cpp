@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
 	// write first output data
 	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
 	// start time loop
-
+/*
 	// only for testing MPI writing routine
 	int ibegin =2;
 	int iend   =28;
@@ -76,7 +76,7 @@ int main(int argc, char *argv[]){
 	Reader.writeVTKSlavefile(u, v,  p, h, 1, 0, 0, 1, 1,0);
 	std::cout<<"aus";
 	exit(0);
-
+*/
 	while (t <= simparam.tEnd){
 
 		// compute deltaT
