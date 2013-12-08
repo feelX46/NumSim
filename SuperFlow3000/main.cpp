@@ -51,30 +51,37 @@ int main(int argc, char *argv[]){
 	MultiIndexType upperleft (1,                 griddimension[1]-1);
 	MultiIndexType upperright(griddimension[0]-2,griddimension[1]-1);
 	MultiIndexType offset (0,-1);
-	//
+
 	MultiIndexType linksunten (0,1);
 	MultiIndexType linksoben  (0,griddimension[1]-2);
 	MultiIndexType rechtsunten (griddimension[0]-2,1);
 	MultiIndexType rechtsoben  (griddimension[0]-2,griddimension[1]-2);
-	// write first output data
-	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
-	// start time loop
 
-	// only for testing MPI writing routine
-	int ibegin =2;
-	int iend   =126;
-	int jbegin =2;
-	int jend   =126;
+	// write first output data
+//	Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+
+
+	// parallel writing routine
+	//ToDo: einkommentieren!
+	int ibegin = 2;//p.beginwrite[0];
+	int iend   = 126;//p.endwrite[0];
+	int jbegin = 2;//p.beginwrite[1];
+	int jend   = 126;//p.endwrite[1];
 	int localgriddimensionX = iend-ibegin+1;
 	int localgriddimensionY = jend-jbegin+1;
-	Reader.writeVTKMasterfile(1, 1, step,	localgriddimensionX, localgriddimensionY);
-	Reader.writeVTKSlavefile (u, v,  p, h, step, 0, 0, 1, 1,0);
+	int mpiSizeH = 1;
+	int mpiSizeV = 1;
+	int rank = 0;
+	if (rank == 0)
+		 Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
+	Reader.writeVTKSlavefile(u, v,  p, h, mpiSizeH, mpiSizeV, step,rank);
 
+	// start time loop
 	while (t <= simparam.tEnd){
 		step++;
 		// compute deltaT
 		deltaT =  pc.computeTimestep(u.MaxValueGridFunction(bb,ee),v.MaxValueGridFunction(bb,ee),h);
-		std::cout<<deltaT<<std::endl;
+		//std::cout<<"deltat = "<<deltaT<<std::endl;
 
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
@@ -86,9 +93,12 @@ int main(int argc, char *argv[]){
 		//u.SetGridFunction(rechtsunten,rechtsoben,1);
 
 		//u.PlotGrid();
-		//if (0 == (step % 10)) {
-			//Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
-		//}
+		 if (0 == (step % 10)) {
+		 	 //Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+		 	 if (rank == 0)
+		 		 Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
+		 	 Reader.writeVTKSlavefile(u, v,  p, h, mpiSizeH, mpiSizeV, step,rank);
+		 }
 		 /*std::cout << "pressure: " <<std::endl;
 		 p.PlotGrid();
 		 std::cout << std::endl;
@@ -99,9 +109,7 @@ int main(int argc, char *argv[]){
 		 v.PlotGrid();
          std::cout << std::endl;
 */
-		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
-		Reader.writeVTKMasterfile(1, 1, step,	localgriddimensionX, localgriddimensionY);
-		Reader.writeVTKSlavefile(u, v,  p, h, step, 0, 0, 1, 1,0);
+
 	    // compute f / g
 		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
 		GridFunctionType blgy = gy.GetGridFunction();
@@ -164,7 +172,6 @@ int main(int argc, char *argv[]){
 	MultiIndexType beginwrite(1,1);
 	MultiIndexType endwrite(5,5);
 	stenci.ApplyUVyStencilOperator(beginread,endread,beginwrite,endwrite, TestGridU.GetGridFunction(), TestGridV.GetGridFunction(),DerivGrid, simparam.alpha);
-	std::cout << "bla " << std::endl;
 	//DerivGrid.PlotGrid();
 
 	// ToDo Liste

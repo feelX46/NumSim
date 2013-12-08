@@ -48,8 +48,8 @@ public:
 
   void writeVTKSlavefile (GridFunction& u_gridfunction,
 		  GridFunction& v_gridfunction, GridFunction& p_gridfunction,
-		  const PointType& delta, int step, int processorgridcoordX, int processorgridcoordY,
-		  int mpiSizeH, int mpiSizeV, int rank);
+		  const PointType& delta, int mpiSizeH, int mpiSizeV, int step,
+		  int rank);
 
   //! Method that returns private member variable simparam
   Simparam getSimparam () {

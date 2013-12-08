@@ -16,8 +16,3 @@ gy=0
 ui=0
 vi=0
 pi=0
-
-
-//Kommentar zu Resolution-Tau-Verh�ltnis: 50x50 -> tau=0.25 20x20 -> tau=0.1
-
-Es w�re besser, die ComputeTimestepsize anzupassen. Dort sollte das mit der Aufl�sung besser funktionieren.

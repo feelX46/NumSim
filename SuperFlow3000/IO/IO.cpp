@@ -7,7 +7,6 @@ using namespace std;
 
 IO::IO (char *input, char *output) : output(output)
 {
-  //ToDo Read the file with the simulations parameters
  readInputfile(input);
 
 }
@@ -336,10 +335,11 @@ void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV
 
 void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 		  GridFunction& v_gridfunction, GridFunction& p_gridfunction,
-		  const PointType& delta, int step, int processorgridcoordX, int processorgridcoordY,
-		  int mpiSizeH, int mpiSizeV, int rank){
+		  const PointType& delta, int mpiSizeH, int mpiSizeV, int step,
+		  int rank){
 	double deltaX =delta[0];
 	double deltaY =delta[1];
+	//ToDo: einkommentieren!
 	int ibegin = 2;//p_gridfunction.beginwrite[0];
 	int iend   = 126;//p_gridfunction.endwrite[0];
 	int jbegin = 2;//p_gridfunction.beginwrite[1];
@@ -351,6 +351,9 @@ void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 	int localgriddimensionY = jend-jbegin+1;
 	int globalgriddimensionX = localgriddimensionX*mpiSizeH;
 	int globalgriddimensionY = localgriddimensionY*mpiSizeV;
+
+	int processorgridcoordX = rank % mpiSizeH;
+	int processorgridcoordY = floor(rank / mpiSizeH);
 
 	int x1=processorgridcoordX    *localgriddimensionX;
 	int x2=(processorgridcoordX+1)*localgriddimensionX-1;
