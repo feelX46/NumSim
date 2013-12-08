@@ -35,10 +35,6 @@ int main(int argc, char *argv[]){
     GridFunction u(griddimension,simparam.UI);
     GridFunction f(griddimension);
 
-
-
-
-
     MultiIndexType bb(1,1); //lower left
     MultiIndexType ee(simparam.iMax,simparam.jMax); //upper right
 
@@ -72,7 +68,7 @@ int main(int argc, char *argv[]){
 	int localgriddimensionX = iend-ibegin+1;
 	int localgriddimensionY = jend-jbegin+1;
 	Reader.writeVTKMasterfile(1, 1, step,	localgriddimensionX, localgriddimensionY);
-	Reader.writeVTKSlavefile(u, v,  p, h, step, 0, 0, 1, 1,0);
+	Reader.writeVTKSlavefile (u, v,  p, h, step, 0, 0, 1, 1,0);
 
 	while (t <= simparam.tEnd){
 		step++;
@@ -90,9 +86,9 @@ int main(int argc, char *argv[]){
 		//u.SetGridFunction(rechtsunten,rechtsoben,1);
 
 		//u.PlotGrid();
-		if (0 == (step % 10)) {
-			Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
-		}
+		//if (0 == (step % 10)) {
+			//Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+		//}
 		 /*std::cout << "pressure: " <<std::endl;
 		 p.PlotGrid();
 		 std::cout << std::endl;
