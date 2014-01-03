@@ -98,6 +98,24 @@ public:
 			GridFunction& imagegridfunction,
 			RealType alpha);
 
+	void ApplyUTxStencilOperator(const MultiIndexType& gridreadbegin,
+			const MultiIndexType& gridreadend,
+			const MultiIndexType& gridwritebegin,
+			const MultiIndexType& gridwriteend,
+			const GridFunctionType& sourcegridfunctionU,
+			const GridFunctionType& sourcegridfunctionT,
+			GridFunction& imagegridfunction,
+			RealType gamma);
+
+	void ApplyVTyStencilOperator(const MultiIndexType& gridreadbegin,
+			const MultiIndexType& gridreadend,
+			const MultiIndexType& gridwritebegin,
+			const MultiIndexType& gridwriteend,
+			const GridFunctionType& sourcegridfunctionV,
+			const GridFunctionType& sourcegridfunctionT,
+			GridFunction& imagegridfunction,
+			RealType gamma);
+
 	void setFxStencil();
 	void setFyStencil();
 	void setFxxStencil();

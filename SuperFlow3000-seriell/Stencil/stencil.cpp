@@ -207,6 +207,55 @@ void Stencil::ApplyUVxStencilOperator(const MultiIndexType& gridreadbegin,
 }
 
 
+void Stencil::ApplyUTxStencilOperator(const MultiIndexType& gridreadbegin,
+		const MultiIndexType& gridreadend,
+		const MultiIndexType& gridwritebegin,
+		const MultiIndexType& gridwriteend,
+		const GridFunctionType& sourcegridfunctionU,
+		const GridFunctionType& sourcegridfunctionT,
+		GridFunction& imagegridfunction,
+		RealType gamma){
+
+	RealType tmp;
+	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
+		for (IndexType j=gridwritebegin[1]; j<=gridwriteend[1]; j++){
+		tmp = 0.5*(sourcegridfunctionU[i][j]*(sourcegridfunctionT[i][j]+sourcegridfunctionT[i+1][j])
+				  -sourcegridfunctionU[i-1][j]*(sourcegridfunctionT[i-1][j]+sourcegridfunctionT[i][j])
+				  )
+			  + gamma*0.5*(abs(sourcegridfunctionU[i][j])*(sourcegridfunctionT[i][j]-sourcegridfunctionT[i+1][j])
+					  - abs(sourcegridfunctionU[i-1][j])*(sourcegridfunctionT[i-1][j]-sourcegridfunctionT[i][j])
+			  );
+
+		imagegridfunction.SetGridFunction(i,j,tmp/h[0]);
+		}
+	}
+}
+
+void Stencil::ApplyVTyStencilOperator(const MultiIndexType& gridreadbegin,
+		const MultiIndexType& gridreadend,
+		const MultiIndexType& gridwritebegin,
+		const MultiIndexType& gridwriteend,
+		const GridFunctionType& sourcegridfunctionV,
+		const GridFunctionType& sourcegridfunctionT,
+		GridFunction& imagegridfunction,
+		RealType gamma){
+
+	RealType tmp;
+	for (IndexType i=gridwritebegin[0]; i<=gridwriteend[0]; i++){
+		for (IndexType j=gridwritebegin[1]; j<=gridwriteend[1]; j++){
+		tmp = 0.5*(sourcegridfunctionV[i][j]*(sourcegridfunctionT[i][j]+sourcegridfunctionT[i][j+1])
+				  -sourcegridfunctionV[i][j-1]*(sourcegridfunctionT[i][j-1]+sourcegridfunctionT[i][j])
+				  )
+			  + gamma*0.5*(abs(sourcegridfunctionV[i][j])*(sourcegridfunctionT[i][j]-sourcegridfunctionT[i][j+1])
+					  - abs(sourcegridfunctionV[i][j-1])*(sourcegridfunctionT[i][j-1]-sourcegridfunctionT[i][j])
+			  );
+
+		imagegridfunction.SetGridFunction(i,j,tmp/h[1]);
+		}
+	}
+}
+
+
 
 void Stencil::setFxStencil() {
 	stencil[0][0] = 0;

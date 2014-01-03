@@ -314,5 +314,64 @@ void Computation::computeRighthandSide(GridFunction* rhs,
 	rhs->AddToGridFunction(bwrite,ewrite,-factor,g,offset);
 }
 
+void Computation::computeTemperature(GridFunction& T,
+									 GridFunction& u,
+									 GridFunction& v,
+									 GridFunctionType& q,
+									 const PointType& h,
+									 RealType deltaT) {
+	//Voraus-Initialisierungen
+	MultiIndexType dim = T.griddimension;
 
+	Stencil sten(3,h);
+
+	MultiIndexType bread (T.beginread[0],T.beginread[1]);
+	MultiIndexType eread(T.endread[0],T.endread[1]);
+
+	MultiIndexType bwrite (T.beginwrite[0],T.beginwrite[1]);
+	MultiIndexType ewrite(T.endwrite[0],T.endwrite[1]);
+
+	GridFunction derivative (dim,'p'); //Temperatur wie Druck im Zellmittelpunkt
+	derivative.SetGridFunction(bread,eread,0);  //set to zero
+
+	RealType factor = 1.0;
+
+
+	// Setzte die Temperaturen gemaess Gl. 40 und 41 auf Blatt 5
+	//Setze alte Temperaturwerte
+	GridFunctionType tmpT = T.GetGridFunction();
+	T.SetGridFunction(bwrite,ewrite,factor,tmpT);
+	// Addiere Waermequelle q
+	factor = deltaT;
+	T.AddToGridFunction(bwrite, ewrite, factor, q);
+
+
+	//Addiere Term: 1/Re 1/Pr (Txx + Tyy)
+	factor = deltaT/param.RE /param.Pr;
+
+	sten.ApplyFxxStencilOperator(bread,eread,bwrite,ewrite,T.GetGridFunction(),derivative);
+	GridFunctionType bla = derivative.GetGridFunction();
+	T.AddToGridFunction(bwrite,ewrite,factor,bla);
+
+	sten.ApplyFyyStencilOperator(bread,eread,bwrite,ewrite,T.GetGridFunction(),derivative);
+	bla = derivative.GetGridFunction();
+	T.AddToGridFunction(bwrite,ewrite,factor,bla);
+
+
+	//Addiere Term -(uT)x
+	factor = -1 * deltaT;
+	//ToDo in Gleichung 40/41 steht statt alpha ein gamma - aehnliche Bedeutung, aber vielleicht doch nicht die gleiche zahl??
+	sten.ApplyUTxStencilOperator(bread,eread,bwrite,ewrite,u.GetGridFunction(),T.GetGridFunction(),derivative,param.alpha);
+	bla = derivative.GetGridFunction();
+	T.AddToGridFunction(bwrite,ewrite,factor,bla);
+
+	//Addiere Term -(vT)y
+	factor = -1 * deltaT;
+	// ToDo alpha / gamma Problem wie eben
+	sten.ApplyVTyStencilOperator(bread,eread,bwrite,ewrite,v.GetGridFunction(),T.GetGridFunction(),derivative,param.alpha);
+	bla = derivative.GetGridFunction();
+	T.AddToGridFunction(bwrite,ewrite,factor,bla);
+
+
+}
 

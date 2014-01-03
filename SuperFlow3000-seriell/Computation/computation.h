@@ -72,7 +72,16 @@ public:
     		const PointType& delta,
     		RealType deltaT);
 
+    void computeTemperature(GridFunction& T,
+    						GridFunction& u,
+    						GridFunction& v,
+    						GridFunctionType& q,
+    						const PointType& h,
+    						RealType deltaT);
+
     Simparam param;
+
+
 
 };
 
