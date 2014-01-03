@@ -81,6 +81,27 @@ IO::readInputfile (char *filename)
 	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%lf", &simparam.PI);
 
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.Pr);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.beta);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.TI);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.TO);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.TU);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.TL);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.TR);
+
 
 }
 

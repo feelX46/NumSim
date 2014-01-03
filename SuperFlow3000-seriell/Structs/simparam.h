@@ -10,26 +10,35 @@
 
 #include "../Misc/template.h"
 struct Simparam {
-	RealType xLength;  //Gebietslänge in x-Richtung
-	RealType yLength;  //Gebietslänge in y.Richtung
+	RealType xLength;  //Gebietslï¿½nge in x-Richtung
+	RealType yLength;  //Gebietslï¿½nge in y.Richtung
 	int iMax;          //Anzahl der inneren Zellin in x-Richtung
 	int jMax;          //Anzahl der inneren Zellen in y-Richtung
 
 	RealType tEnd;		//Endzeit
 	RealType deltaT;
 	RealType tau;   //Sicherheitsfaktor
-	RealType deltaVec;   //Zeitabstand für die Ausgabe
+	RealType deltaVec;   //Zeitabstand fï¿½r die Ausgabe
 
 	IndexType iterMax;     // Maximale Anzahl an Iterationen
-	RealType eps;	//Toleranz für Druckiteration
+	RealType eps;	//Toleranz fï¿½r Druckiteration
 	RealType omg;	//Relaxationsfaktor
 	RealType alpha;	//Upwind-Differencing-Faktor
 	RealType RE;			//Reynoldszahl
-	RealType GX;			//Äußere Kräfte g_x und g_y
+	RealType GX;			//ï¿½uï¿½ere Krï¿½fte g_x und g_y
 	RealType GY;
-	RealType VI;			//Initailwerte für u,v undp
+	RealType VI;			//Initailwerte fï¿½r u,v undp
 	RealType UI;
 	RealType PI;
+
+	RealType Pr; //Prandtl-Zahl
+	RealType beta; //Volumenexpansionskoeffizient
+	RealType TI; //initiale Temperatur
+	RealType TO; //Temperatur-Randbedingung
+	RealType TU; //Temperatur-Randbedingung
+	RealType TL; //Temperatur-Randbedingung
+	RealType TR; //Temperatur-Randbedingung
+
 };
 
 
