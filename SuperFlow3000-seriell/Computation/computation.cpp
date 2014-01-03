@@ -15,10 +15,17 @@ Computation::Computation(Simparam param){
 	}
 
 RealType Computation::computeTimestep (RealType uMax, RealType vMax, const PointType& h){
-    RealType minimum = param.RE/(2*(1/(h[0]*h[0])+1/(h[1]*h[1])));
-    if (minimum > h[0]/abs(uMax)) {minimum = h[0]/abs(uMax);}
-    if (minimum > h[1]/abs(vMax)) {minimum = h[1]/abs(vMax);}
-    if (minimum > 0.5*param.RE*param.Pr/(1/(h[0]*h[0])+1/(h[1]*h[1]))) {minimum = 0.5*param.RE*param.Pr/(1/(h[0]*h[0])+1/(h[1]*h[1]));}
+    RealType value;
+	RealType minimum = param.RE/(2*(1/(h[0]*h[0])+1/(h[1]*h[1])));
+    value =  h[0]/abs(uMax);
+    if (minimum > value) {minimum=value;}
+    value = h[1]/abs(vMax);
+    if (minimum > value) {minimum=value;}
+    value = 0.5*param.RE*param.Pr/(1/(h[0]*h[0])+1/(h[1]*h[1]));
+    if (minimum > value) {minimum=value;}
+   // if (minimum > h[0]/abs(uMax)) {minimum = h[0]/abs(uMax);}
+   // if (minimum > h[1]/abs(vMax)) {minimum = h[1]/abs(vMax);}
+   // if (minimum > 0.5*param.RE*param.Pr/(1/(h[0]*h[0])+1/(h[1]*h[1]))) {minimum = 0.5*param.RE*param.Pr/(1/(h[0]*h[0])+1/(h[1]*h[1]));}
     return param.tau*minimum;
 }
 
