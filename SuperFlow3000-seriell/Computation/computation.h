@@ -20,14 +20,14 @@ public:
 	RealType computeTimestep(RealType uMax, RealType vMax, const PointType& h);
 
 	void computeNewVelocities(GridFunction* u, GridFunction* v,
-								GridFunctionType& f, GridFunctionType& g,
-								GridFunctionType& p, const PointType& h,
+								GridFunction& f, GridFunction& g,
+								GridFunction& p, const PointType& h,
 								RealType deltaT);
 
 	void computeMomentumEquations(GridFunction* f, GridFunction* g,
 								GridFunction* u, GridFunction* v,
 								GridFunction* T,
-								GridFunctionType& gx, GridFunctionType& gy,
+								GridFunction& gx, GridFunction& gy,
 							    const PointType& h, RealType& deltaT);
 
 	/*! @brief Function to set the boundary values for u, the velocities in x-direction.
@@ -53,12 +53,12 @@ public:
 	/*! @brief Function to set the boundary values for F (12).
 	 *  @param f is a GridFunction-Object, containing F for all discretization points.
 	 */
-	void setBoundaryF(GridFunction& f, GridFunctionType& u);
+	void setBoundaryF(GridFunction& f, GridFunction& u);
 
 	/*! @brief Function to set the boundary values for G (13).
 	 *  @param g is a GridFunction-Object, containing G for all discretization points.
 	 */
-	void setBoundaryG(GridFunction& g, GridFunctionType& v);
+	void setBoundaryG(GridFunction& g, GridFunction& v);
 
 	void setBoundaryTD(GridFunction& T);
 
@@ -70,15 +70,15 @@ public:
 		 *  @param deltaT contains the time step size for the next iteration step.
 		 */
     void computeRighthandSide(GridFunction* rhs,
-    		GridFunctionType& f,
-    		GridFunctionType& g,
+    		GridFunction& f,
+    		GridFunction& g,
     		const PointType& delta,
     		RealType deltaT);
 
     void computeTemperature(GridFunction& T,
     						GridFunction& u,
     						GridFunction& v,
-    						GridFunctionType& q,
+    						GridFunction& q,
     						const PointType& h,
     						RealType& deltaT);
 

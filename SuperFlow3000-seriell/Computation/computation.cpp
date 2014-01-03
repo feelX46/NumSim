@@ -31,8 +31,8 @@ RealType Computation::computeTimestep (RealType uMax, RealType vMax, const Point
 
 
 void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
-                                GridFunctionType& f, GridFunctionType& g,
-                                GridFunctionType& p, const PointType& h,
+                                GridFunction& f, GridFunction& g,
+                                GridFunction& p, const PointType& h,
                                 RealType deltaT){
 	//compute u
 	// hier stand vorher bottom left und upper right - nicht mehr aktuell gewesen?!
@@ -68,7 +68,7 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
 void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
                                 GridFunction* u, GridFunction* v,
                                 GridFunction* T,
-                                GridFunctionType& gx, GridFunctionType& gy,
+                                GridFunction& gx, GridFunction& gy,
                                 const PointType& h, RealType& deltaT) {
 	MultiIndexType dim = f->griddimension;
 
@@ -88,27 +88,21 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 
 	derivative.SetGridFunction(bread,eread,0);  //set to zero
 	//add u
-
-	GridFunctionType tmpu = u->GetGridFunction();
-	f->SetGridFunction(bwrite,ewrite,1,tmpu);
+	f->SetGridFunction(bwrite,ewrite,1,*u);
 	//add derivatives:
 	sten.ApplyFxxStencilOperator(bread,eread,bwrite,ewrite,u->GetGridFunction(),derivative);
 	factor = deltaT/param.RE;
-	GridFunctionType bla = derivative.GetGridFunction(); //ToDo -> fragen wieso?
-	f->AddToGridFunction(bwrite,ewrite,factor,bla);
+	f->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	sten.ApplyFyyStencilOperator(bread,eread,bwrite,ewrite,u->GetGridFunction(),derivative);
-	bla = derivative.GetGridFunction();
-	f->AddToGridFunction(bwrite,ewrite,factor,bla);
+	f->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	factor=-deltaT;
 	sten.ApplyUSqxStencilOperator(bread,eread,bwrite,ewrite,(u->GetGridFunction()),derivative,param.alpha);
-	bla = derivative.GetGridFunction();
-	f->AddToGridFunction(bwrite,ewrite,factor,bla);
+	f->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	sten.ApplyUVyStencilOperator(bread,eread,bwrite,ewrite,(u->GetGridFunction()),(v->GetGridFunction()),derivative,param.alpha);
-	bla = derivative.GetGridFunction();
-	f->AddToGridFunction(bwrite,ewrite,factor,bla);
+	f->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	//ToDo: Laut Gleichungen auf Arbeitsblaettern (Gl. 12 und Gl. 46) muesste die Gravitation doppelt in die Gleichung eingehen - eher unwahrscheinlich!
 	//f->AddToGridFunction(bwrite,ewrite,-factor,gx);
@@ -118,18 +112,18 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	boussinesq.SetGridFunction(bread,eread,0);  //set to zero
 	// ToDo: Benutze Gravitation nicht als GridFunctionType, sondern als Konstante und benutze den Werte (1,1)
 	// Ansonsten muss man hier ein GridFunctionType mit einer GridFunction mulitplizieren - kann man iwann noch verbessern
-	factor = param.beta * deltaT * 0.5*gx[1][1];
-	bla = T->GetGridFunction();
-	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla);
+
+	GridFunctionType gxtmp = gx.GetGridFunction();
+	factor = param.beta * deltaT * 0.5*gxtmp[1][1];
+	boussinesq.AddToGridFunction(bwrite,ewrite,factor,*T);
 
 	MultiIndexType offset;
 	offset[0] = 1; offset[1] = 0;
 	// ToDo Hier nocheinmal ganz genau ueberlegen, ob das mit dem offset passt - ich glaube fast, dass es falsch ist so
-	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla,offset);
+	boussinesq.AddToGridFunction(bwrite,ewrite,factor,*T,offset);
 
-	bla = boussinesq.GetGridFunction();
 	factor = -1.0;
-	f->AddToGridFunction(bwrite,ewrite,factor,bla);
+	f->AddToGridFunction(bwrite,ewrite,factor,boussinesq);
 
 	//  --  compute G  --
 	bread = g->beginread;
@@ -140,26 +134,21 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	derivative.SetGridFunction(bread,eread,0);  //set derivative to zero
 
 	//add v
-	GridFunctionType tmpv = v->GetGridFunction();
-	g->SetGridFunction(bwrite,ewrite,1,tmpv);
+	g->SetGridFunction(bwrite,ewrite,1,*v);
 	//add derivatives:
 	sten.ApplyFxxStencilOperator(bread,eread,bwrite,ewrite,v->GetGridFunction(),derivative);
 	factor = deltaT/param.RE;
-    bla = derivative.GetGridFunction(); //ToDo -> fragen wieso?
-	g->AddToGridFunction(bwrite,ewrite,factor,bla);
+	g->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	sten.ApplyFyyStencilOperator(bread,eread,bwrite,ewrite,v->GetGridFunction(),derivative);
-	bla = derivative.GetGridFunction();
-	g->AddToGridFunction(bwrite,ewrite,factor,bla);
+	g->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	factor=-deltaT;
 	sten.ApplyVSqyStencilOperator(bread,eread,bwrite,ewrite,v->GetGridFunction(),derivative,param.alpha);
-	bla = derivative.GetGridFunction();
-	g->AddToGridFunction(bwrite,ewrite,factor,bla);
+	g->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	sten.ApplyUVxStencilOperator(bread,eread,bwrite,ewrite,u->GetGridFunction(),v->GetGridFunction(),derivative,param.alpha);
-	bla = derivative.GetGridFunction();
-	g->AddToGridFunction(bwrite,ewrite,factor,bla);
+	g->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	// ToDo gy doppelt drin, genau wie gx
 	// g->AddToGridFunction(bwrite,ewrite,-factor,gy);
@@ -167,18 +156,15 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	boussinesq.SetGridFunction(bread,eread,0);  //set to zero
 	// ToDo: Benutze Gravitation nicht als GridFunctionType, sondern als Konstante und benutze den Werte (1,1)
 	// Ansonsten muss man hier ein GridFunctionType mit einer GridFunction mulitplizieren - kann man iwann noch verbessern
-	factor = param.beta * deltaT * 0.5*gy[1][1];
-	bla = T->GetGridFunction();
-	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla);
+	GridFunctionType gytmp = gy.GetGridFunction();
+	factor = param.beta * deltaT * 0.5*gytmp[1][1];
+	boussinesq.AddToGridFunction(bwrite,ewrite,factor,*T);
 	// ToDo Hier nocheinmal ganz genau ueberlegen, ob das mit dem offset passt - ich glaube fast, dass es falsch ist so
 	offset[0] = 0; offset[1] = 1;
-	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla,offset);
+	boussinesq.AddToGridFunction(bwrite,ewrite,factor,*T,offset);
 
-	bla = boussinesq.GetGridFunction();
 	factor = -1.0;
-
-	g->AddToGridFunction(bwrite,ewrite,factor,bla);
-
+	g->AddToGridFunction(bwrite,ewrite,factor,boussinesq);
 
 
 }
@@ -296,7 +282,7 @@ void Computation::setBoundaryP(GridFunction& p){
 	}
 }
 
-void Computation::setBoundaryF(GridFunction& f, GridFunctionType& u){
+void Computation::setBoundaryF(GridFunction& f, GridFunction& u){
 	MultiIndexType bb;
 	MultiIndexType ee;
 
@@ -314,7 +300,7 @@ void Computation::setBoundaryF(GridFunction& f, GridFunctionType& u){
 	}
 }
 
-void Computation::setBoundaryG(GridFunction& g, GridFunctionType& v){
+void Computation::setBoundaryG(GridFunction& g, GridFunction& v){
 	MultiIndexType bb;
 	MultiIndexType ee;
 
@@ -369,8 +355,8 @@ void Computation::setBoundaryTD(GridFunction& T) {
 }
 
 void Computation::computeRighthandSide(GridFunction* rhs,
-    		GridFunctionType& f,
-    		GridFunctionType& g,
+    		GridFunction& f,
+    		GridFunction& g,
     		const PointType& delta,
     		RealType deltaT){
 
@@ -397,7 +383,7 @@ void Computation::computeRighthandSide(GridFunction* rhs,
 void Computation::computeTemperature(GridFunction& T,
 									 GridFunction& u,
 									 GridFunction& v,
-									 GridFunctionType& q,
+									 GridFunction& q,
 									 const PointType& h,
 									 RealType& deltaT) {
 	//Voraus-Initialisierungen
@@ -419,8 +405,7 @@ void Computation::computeTemperature(GridFunction& T,
 
 	// Setzte die Temperaturen gemaess Gl. 40 und 41 auf Blatt 5
 	//Setze alte Temperaturwerte
-	GridFunctionType tmpT = T.GetGridFunction();
-	T.SetGridFunction(bwrite,ewrite,factor,tmpT);
+	T.SetGridFunction(bwrite,ewrite,factor,T);
 	// Addiere Waermequelle q
 	factor = deltaT;
 	T.AddToGridFunction(bwrite, ewrite, factor, q);
@@ -430,27 +415,23 @@ void Computation::computeTemperature(GridFunction& T,
 	factor = deltaT/param.RE /param.Pr;
 
 	sten.ApplyFxxStencilOperator(bread,eread,bwrite,ewrite,T.GetGridFunction(),derivative);
-	GridFunctionType bla = derivative.GetGridFunction();
-	T.AddToGridFunction(bwrite,ewrite,factor,bla);
+	T.AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	sten.ApplyFyyStencilOperator(bread,eread,bwrite,ewrite,T.GetGridFunction(),derivative);
-	bla = derivative.GetGridFunction();
-	T.AddToGridFunction(bwrite,ewrite,factor,bla);
+	T.AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 
 	//Addiere Term -(uT)x
 	factor = -1 * deltaT;
 	//ToDo in Gleichung 40/41 steht statt alpha ein gamma - aehnliche Bedeutung, aber vielleicht doch nicht die gleiche zahl??
 	sten.ApplyUTxStencilOperator(bread,eread,bwrite,ewrite,u.GetGridFunction(),T.GetGridFunction(),derivative,param.alpha);
-	bla = derivative.GetGridFunction();
-	T.AddToGridFunction(bwrite,ewrite,factor,bla);
+	T.AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	//Addiere Term -(vT)y
 	factor = -1 * deltaT;
 	// ToDo alpha / gamma Problem wie eben
 	sten.ApplyVTyStencilOperator(bread,eread,bwrite,ewrite,v.GetGridFunction(),T.GetGridFunction(),derivative,param.alpha);
-	bla = derivative.GetGridFunction();
-	T.AddToGridFunction(bwrite,ewrite,factor,bla);
+	T.AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 
 }

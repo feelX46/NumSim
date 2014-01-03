@@ -61,19 +61,19 @@ public:
 
     //! copy factor*source in grid (8)
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
-			GridFunctionType& sourcegridfunction);
+			GridFunction& sourcegridfunction);
 
 	//! copy factor*source(with offset) in grid (9)
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end, RealType factor,
-			GridFunctionType& sourcegridfunction, MultiIndexType& offset);
+			GridFunction& sourcegridfunction, MultiIndexType& offset);
 
 	//! copy constant + factor*source(with offset) in grid (~10)
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
-			GridFunctionType& sourcegridfunction, MultiIndexType& offset, RealType constant);
+			GridFunction& sourcegridfunction, MultiIndexType& offset, RealType constant);
 
 	//! copy constant + factor*source in grid (~10)
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
-			GridFunctionType& sourcegridfunction, RealType constant);
+			GridFunction& sourcegridfunction, RealType constant);
 
 	//!  constant + factor*grid(with offset) (combination of 6 and 10)
 	void SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
@@ -84,10 +84,10 @@ public:
 
 	//! add factor*source to grid (11)
 	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
-			GridFunctionType& sourcegridfunction);
+			GridFunction& sourcegridfunction);
 	//! add factor*source to grid (11-1)
 	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
-			GridFunctionType& sourcegridfunction, MultiIndexType& offset);
+			GridFunction& sourcegridfunction, MultiIndexType& offset);
 
 	//RealType* GetSlice(MultiIndexType bb, MultiIndexType ee);
 

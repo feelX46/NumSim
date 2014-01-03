@@ -188,26 +188,18 @@ int main(int argc, char *argv[]){
 
 
 
-	    // compute f / g
-		GridFunctionType blgx = gx.GetGridFunction(); //ToDo: schoener machen!
-		GridFunctionType blgy = gy.GetGridFunction();
-		GridFunctionType blu  = u.GetGridFunction();
-		GridFunctionType blv  = v.GetGridFunction();
+
 
 		// Berechne neues T um damit die Momentum-Equations zu berechnen
-		GridFunctionType blq = q.GetGridFunction();
-		pc.computeTemperature(T, u, v, blq, h, deltaT);
-
-		pc.computeMomentumEquations(&f,&g,&u,&v,&T,blgx,blgy,h,deltaT);
-
-		pc.setBoundaryF(f,blu);
-		pc.setBoundaryG(g,blv);
+		pc.computeTemperature(T, u, v, q, h, deltaT);
+	    // compute f / g
+		pc.computeMomentumEquations(&f,&g,&u,&v,&T,gx,gy,h,deltaT);
+		pc.setBoundaryF(f,u);
+		pc.setBoundaryG(g,v);
 
 
 		// set right side of pressure equation
-		GridFunctionType blf = f.GetGridFunction();
-		GridFunctionType blg = g.GetGridFunction();
-		pc.computeRighthandSide(&rhs, blf, blg,h,deltaT);
+		pc.computeRighthandSide(&rhs, f, g,h,deltaT);
 
 
 		// solver
@@ -218,9 +210,7 @@ int main(int argc, char *argv[]){
 
 
 		//Update velocity
-		GridFunctionType blp = p.GetGridFunction();
-
-		pc.computeNewVelocities(&u, &v,blf,blg,blp,h,deltaT);
+		pc.computeNewVelocities(&u, &v,f,g,p,h,deltaT);
 
 		//MPI-Functions:
 		//communicator.ExchangePValues(u);

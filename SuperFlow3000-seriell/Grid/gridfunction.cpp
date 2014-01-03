@@ -110,45 +110,49 @@ void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiInde
 
 //8
 void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
-		RealType factor, GridFunctionType& sourcegridfunction){
+		RealType factor, GridFunction& sourcegridfunction){
+	GridFunctionType source = sourcegridfunction.gridfunction;
 	if (CheckInGrid(begin,end)) {exit(0);}
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
-			gridfunction[i][j] = factor * sourcegridfunction[i][j];
+			gridfunction[i][j] = factor * source[i][j];
 		}
 	}
 }
 
 //9
 void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
-		RealType factor, GridFunctionType& sourcegridfunction, MultiIndexType& offset){
+		RealType factor, GridFunction& sourcegridfunction, MultiIndexType& offset){
+	GridFunctionType source = sourcegridfunction.gridfunction;
 	if (CheckInGrid(begin,end)) {exit(0);}
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
-			gridfunction[i][j] = factor * sourcegridfunction[i+offset[0]][j+offset[1]];
+			gridfunction[i][j] = factor * source[i+offset[0]][j+offset[1]];
 		}
 	}
 }
 
 //~10
 void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
-		RealType factor,GridFunctionType& sourcegridfunction, RealType constant){
+		RealType factor,GridFunction& sourcegridfunction, RealType constant){
+	GridFunctionType source = sourcegridfunction.gridfunction;
 	if (CheckInGrid(begin,end)) {exit(0);}
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
-			gridfunction[i][j] = constant + factor * sourcegridfunction[i][j];
+			gridfunction[i][j] = constant + factor * source[i][j];
 		}
 	}
 }
 
 //~10
 void GridFunction::SetGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
-		RealType factor,GridFunctionType& sourcegridfunction, MultiIndexType& offset,
+		RealType factor,GridFunction& sourcegridfunction, MultiIndexType& offset,
 		RealType constant){
+	GridFunctionType source = sourcegridfunction.gridfunction;
 	if (CheckInGrid(begin,end)) {exit(0);}
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
-			gridfunction[i][j] = constant + factor * sourcegridfunction[i+offset[0]][j+offset[1]];
+			gridfunction[i][j] = constant + factor * source[i+offset[0]][j+offset[1]];
 		}
 	}
 }
@@ -179,27 +183,27 @@ void GridFunction::ScaleGridFunction (const MultiIndexType& begin, const MultiIn
 
 //11
 void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
-		RealType factor, GridFunctionType& sourcegridfunction){
+		RealType factor, GridFunction& sourcegridfunction){
+	GridFunctionType source = sourcegridfunction.gridfunction;
 	if (CheckInGrid(begin,end)) {exit(0);}
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
-			gridfunction[i][j] += factor * sourcegridfunction[i][j];
+			gridfunction[i][j] += factor * source[i][j];
 		}
 	}
 }
 
 //11-1
 void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
-		RealType factor, GridFunctionType& sourcegridfunction, MultiIndexType& offset){
+		RealType factor, GridFunction& sourcegridfunction, MultiIndexType& offset){
+	GridFunctionType source = sourcegridfunction.gridfunction;
 	if (CheckInGrid(begin,end)) {exit(0);}
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
-			gridfunction[i][j] += factor * sourcegridfunction[i+offset[0]][j+offset[1]];
+			gridfunction[i][j] += factor * source[i+offset[0]][j+offset[1]];
 		}
 	}
 }
-
-
 
 
 //12
