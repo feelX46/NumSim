@@ -117,6 +117,7 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 
 	MultiIndexType offset;
 	offset[0] = 1; offset[1] = 0;
+	// ToDo Hier nocheinmal ganz genau ueberlegen, ob das mit dem offset passt - ich glaube fast, dass es falsch ist so
 	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla,offset);
 
 	bla = boussinesq.GetGridFunction();
@@ -162,7 +163,7 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	factor = param.beta * deltaT * 0.5*gy[1][1];
 	bla = T->GetGridFunction();
 	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla);
-
+	// ToDo Hier nocheinmal ganz genau ueberlegen, ob das mit dem offset passt - ich glaube fast, dass es falsch ist so
 	offset[0] = 0; offset[1] = 1;
 	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla,offset);
 
@@ -293,8 +294,6 @@ void Computation::setBoundaryF(GridFunction& f, GridFunctionType& u){
 	MultiIndexType ee;
 
 	// left
-
-
 	if(f.globalboundary[2]) {
 		bb[0] = f.beginread[0]; bb[1] = f.beginread[1];
 		ee[0] = f.beginread[0]; ee[1] = f.endread[1];
@@ -324,6 +323,42 @@ void Computation::setBoundaryG(GridFunction& g, GridFunctionType& v){
 		ee[0] = g.endread[1]; ee[1] = g.endread[1];
 		g.SetGridFunction(bb,ee,1,v);
 	}
+}
+
+void Computation::setBoundaryTD(GridFunction& T) {
+	MultiIndexType bb;
+	MultiIndexType ee;
+
+	// ToDo Hier nochmal nachschauen - Gleichung (42) ist viel komplizierter aufgeschrieben
+
+	//bottom
+	if(T.globalboundary[0]) {
+		bb[0] = T.beginread[0]; bb[1] = T.beginread[1];
+		ee[0] = T.endread[0]; ee[1] = T.beginread[1];
+		T.SetGridFunction(bb,ee,param.TU);
+	}
+
+	//top
+	if(T.globalboundary[2]) {
+		bb[0] = T.beginread[0]; bb[1] = T.endread[1];
+		ee[0] = T.endread[1]; ee[1] = T.endread[1];
+		T.SetGridFunction(bb,ee,param.TO);
+	}
+
+	//right
+	if(T.globalboundary[1]) {
+		bb[0] = T.endread[0]; bb[1] = T.beginread[1];
+		ee[0] = T.endread[0]; ee[1] = T.endread[1];
+		T.SetGridFunction(bb,ee,param.TR);
+	}
+
+	//left
+	if(T.globalboundary[3]) {
+		bb[0] = T.beginread[0]; bb[1] = T.beginread[1];
+		ee[0] = T.beginread[0]; ee[1] = T.endread[1];
+		T.SetGridFunction(bb,ee,param.TL);
+	}
+
 }
 
 void Computation::computeRighthandSide(GridFunction* rhs,

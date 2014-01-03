@@ -60,6 +60,8 @@ public:
 	 */
 	void setBoundaryG(GridFunction& g, GridFunctionType& v);
 
+	void setBoundaryTD(GridFunction& T);
+
 	/*! @brief Function to compute the righthand like (14).
 		 *  @param rhs is a pointer on the GridFunction-object, that is to be computed.
 		 *  @param f is the reference to a GridFunctionType, containing F.
