@@ -341,6 +341,8 @@ void GridFunction::InitializeGlobalBoundary(char indicator) {
 	{
  	//case "d":  // fuer derivatives: bei dem fall nichts unternehmen, da dann auch kein rand bebraucht wird...
 		//lieber kauderwelsch als anscheinend gut aussehende zahlen
+	case 'T':
+	case 'q':
 	case 'r':
 	case 'p': beginread[0] = 1; beginread[1] = 1;
 			   endread[0] = griddimension[0]-1; endread[1] = griddimension[1]-1;

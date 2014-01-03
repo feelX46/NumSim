@@ -43,7 +43,7 @@ public:
     		   * @param omega The relaxation-parameter of the SOR-cycle
     		   */
     void SORCycle(GridFunction* gridfunction,
-    	    	  GridFunctionType& rhs,
+    	    	  GridFunction& rhs,
     	    	  const PointType& h);
     	    	  //Communication* communicator); //(MPI!)
 

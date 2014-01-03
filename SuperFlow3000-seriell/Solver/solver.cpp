@@ -65,10 +65,11 @@ RealType Solver::computeResidual(GridFunction& sourcegridfunction,
 }
 
 void Solver::SORCycle(GridFunction* gridfunction,
-			  GridFunctionType& rhs,
+			  GridFunction& rhs,
 			  const PointType& h){
 			  //Communication* communicator){ (MPI!)
 
+	GridFunctionType rhsType = rhs.GetGridFunction();
 	MultiIndexType dim = gridfunction->GetGridDimension();
 	MultiIndexType bread;
 	bread = gridfunction->beginread;
@@ -104,13 +105,13 @@ void Solver::SORCycle(GridFunction* gridfunction,
 				//SOR-iteration
 				gridfunction->SetGridFunction(i,j,(1.0 - param.omg)*gridfunction->GetGridFunction()[i][j]
 							 + param.omg /(2.0*(1/h[0]/h[0]+1/h[1]/h[1]))
-							 * (neighbours_x + neighbours_y - rhs[i][j]));
+							 * (neighbours_x + neighbours_y - rhsType[i][j]));
 			}
 		}
 		iterationCounter++;
 		// Druckwerte zwischen den Prozessoren austauschen!!! (MPI)
 		// communicator->ExchangePValues(*gridfunction);
-		res = computeResidual(*gridfunction, rhs, h);
+		res = computeResidual(*gridfunction, rhsType, h);
 
 		//MPI_Allreduce ( &res, &global_res, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 		global_res = res;

@@ -55,6 +55,7 @@ int main(int argc, char *argv[]){
 
 	MultiIndexType griddimension ((ir-il+4),(jt-jb+4));
 
+	//ToDo: glaube hier wird doppelt die InitializeGlobalBoundaryPosition aufgerufen... notwendig???
 	GridFunction p(griddimension,simparam.PI,'p');
     p.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'p');
 
@@ -73,14 +74,12 @@ int main(int argc, char *argv[]){
     GridFunction f(griddimension,'f');
     f.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'f');
 
-    //ToDo Hier statt p noch T einfuegen
-    GridFunction T(griddimension,simparam.TI,'p');
-    T.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'p');
+    GridFunction T(griddimension,simparam.TI,'T');
+    T.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'T');
 
-    //ToDo Gridfunction q fuer Waermequellen - ist wahrscheinlich immer 0, muss noch von g auf q angepasst werden
-    GridFunction q(griddimension,0,'g');
-    q.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'g');
-
+    // Gridfunction q fuer Waermequellen
+    GridFunction q(griddimension,0,'q');
+    q.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'q');
 
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
 	RealType deltaT = simparam.deltaT;
@@ -94,8 +93,7 @@ int main(int argc, char *argv[]){
 	int jend   = p.endwrite[1];
 	int localgriddimensionX = iend-ibegin+1;
 	int localgriddimensionY = jend-jbegin+1;
-
-	std::cout << "Schritt 1" << std::endl;
+	std::cout<<"Schritt 1"<<std::endl;
 
 	// so gross wie u
 	GridFunction gx(griddimension,simparam.GX,'u');
@@ -110,14 +108,12 @@ int main(int argc, char *argv[]){
 	MultiIndexType linksunten (0,1);
 	MultiIndexType rechtsoben  (griddimension[0]-2,griddimension[1]-2);
 	// write first output data
-
 	// Parallele Visualisierung
 	if (mpiRank == 0) {
 		Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 	}
 
 	Reader.writeVTKSlavefile(u, v,  p, h, mpiSizeH, mpiSizeV, step,mpiRank);
-
 	// start time loop
 //	Communication communicator(mpiRank, mpiSizeH, mpiSizeV, p.globalboundary); //(MPI)
 	while (t <= simparam.tEnd){
@@ -129,40 +125,17 @@ int main(int argc, char *argv[]){
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
+		pc.setBoundaryTD(T);
+		pc.setBoundaryTN(T,h);
 
 		// driven cavity:
+		/*
 		if (u.globalboundary[2]){
 			//MultiIndexType UpperLeft(1,u.griddimension[1]-1);
 			MultiIndexType UpperLeft(0,u.griddimension[1]-1);
 			MultiIndexType UpperRight(u.griddimension[0]-2, u.griddimension[1]-1);
 			u.SetGridFunction(UpperLeft,UpperRight,-1.0,offset,2.0);
-		}
-
-		//Testrandwerte
-		/*if (mpiRank==2){
-			MultiIndexType LowerLeft(u.beginwrite[0],u.beginwrite[1]);
-			MultiIndexType UpperLeft(u.beginwrite[0], u.endwrite[1]);
-			u.SetGridFunction(LowerLeft,UpperLeft,2.0);
 		}*/
-		//einfach durchfliesen
-		//u.SetGridFunction(linksunten,linkusoben,1);
-		//u.SetGridFunction(rechtsunten,rechtsoben,1);
-
-		//u.PlotGrid();
-		/*std::cout << "Rank: " << mpiRank << " 0: ";
-		if (u.globalboundary[0]) std::cout << 1;
-		else std::cout << 0;
-		std::cout << " 1: ";
-		if (u.globalboundary[1]) std::cout << 1;
-		else std::cout << 0;
-		std::cout << " 2: ";
-		if (u.globalboundary[2]) std::cout << 1;
-		else std::cout << 0;
-		std::cout << " 3: ";
-		if (u.globalboundary[3]) std::cout <<1;
-		else std::cout << 0;
-		std::cout << std::endl;
-*/
 
 	//	if((step%10) == 0){
 	//		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step, mpiRank);
@@ -183,16 +156,12 @@ int main(int argc, char *argv[]){
 		pc.setBoundaryF(f,u);
 		pc.setBoundaryG(g,v);
 
+
 		// set right side of pressure equation
 		pc.computeRighthandSide(&rhs, f, g,h,deltaT);
 
-
 		// solver
-		//ToDo enventuell muss die iterationschleife hier rein!
-		GridFunctionType blrhs = rhs.GetGridFunction();
-
-		sol.SORCycle(&p,blrhs,h);// ,&communicator); (MPI)
-
+		sol.SORCycle(&p,rhs,h);// ,&communicator); (MPI)
 
 		//Update velocity
 		pc.computeNewVelocities(&u, &v,f,g,p,h,deltaT);
@@ -200,7 +169,6 @@ int main(int argc, char *argv[]){
 		//MPI-Functions:
 		//communicator.ExchangePValues(u);
 		//communicator.ExchangePValues(v);
-
 
 		// update time
 		t += deltaT;
