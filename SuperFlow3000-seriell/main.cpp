@@ -76,6 +76,14 @@ int main(int argc, char *argv[]){
     GridFunction f(griddimension,'f');
     f.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'f');
 
+    //ToDo Hier statt p noch T einfuegen
+    GridFunction T(griddimension,simparam.TI,'p');
+    T.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'p');
+
+    //ToDo Gridfunction q fuer Waermequellen - ist wahrscheinlich immer 0, muss noch von g auf q angepasst werden
+    GridFunction q(griddimension,0,'g');
+    q.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'g');
+
 
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
 	RealType deltaT = simparam.deltaT;
@@ -186,8 +194,11 @@ int main(int argc, char *argv[]){
 		GridFunctionType blu  = u.GetGridFunction();
 		GridFunctionType blv  = v.GetGridFunction();
 
+		// Berechne neues T um damit die Momentum-Equations zu berechnen
+		GridFunctionType blq = q.GetGridFunction();
+		pc.computeTemperature(T, u, v, blq, h, deltaT);
 
-		pc.computeMomentumEquations(&f,&g,&u,&v,blgx,blgy,h,deltaT);
+		pc.computeMomentumEquations(&f,&g,&u,&v,&T,blgx,blgy,h,deltaT);
 
 		pc.setBoundaryF(f,blu);
 		pc.setBoundaryG(g,blv);

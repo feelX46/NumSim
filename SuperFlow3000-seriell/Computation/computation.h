@@ -26,6 +26,7 @@ public:
 
 	void computeMomentumEquations(GridFunction* f, GridFunction* g,
 								GridFunction* u, GridFunction* v,
+								GridFunction* T,
 								GridFunctionType& gx, GridFunctionType& gy,
 							    const PointType& h, RealType& deltaT);
 
@@ -77,7 +78,7 @@ public:
     						GridFunction& v,
     						GridFunctionType& q,
     						const PointType& h,
-    						RealType deltaT);
+    						RealType& deltaT);
 
     Simparam param;
 

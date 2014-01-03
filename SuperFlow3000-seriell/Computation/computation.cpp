@@ -60,6 +60,7 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
 
 void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
                                 GridFunction* u, GridFunction* v,
+                                GridFunction* T,
                                 GridFunctionType& gx, GridFunctionType& gy,
                                 const PointType& h, RealType& deltaT) {
 	MultiIndexType dim = f->griddimension;
@@ -102,7 +103,25 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	bla = derivative.GetGridFunction();
 	f->AddToGridFunction(bwrite,ewrite,factor,bla);
 
-	f->AddToGridFunction(bwrite,ewrite,-factor,gx);
+	//ToDo: Laut Gleichungen auf Arbeitsblaettern (Gl. 12 und Gl. 46) muesste die Gravitation doppelt in die Gleichung eingehen - eher unwahrscheinlich!
+	//f->AddToGridFunction(bwrite,ewrite,-factor,gx);
+
+	// wie derivative
+	GridFunction boussinesq(dim,'p');
+	boussinesq.SetGridFunction(bread,eread,0);  //set to zero
+	// ToDo: Benutze Gravitation nicht als GridFunctionType, sondern als Konstante und benutze den Werte (1,1)
+	// Ansonsten muss man hier ein GridFunctionType mit einer GridFunction mulitplizieren - kann man iwann noch verbessern
+	factor = param.beta * deltaT * 0.5*gx[1][1];
+	bla = T->GetGridFunction();
+	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla);
+
+	MultiIndexType offset;
+	offset[0] = 1; offset[1] = 0;
+	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla,offset);
+
+	bla = boussinesq.GetGridFunction();
+	factor = -1.0;
+	f->AddToGridFunction(bwrite,ewrite,factor,bla);
 
 	//  --  compute G  --
 	bread = g->beginread;
@@ -134,7 +153,25 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	bla = derivative.GetGridFunction();
 	g->AddToGridFunction(bwrite,ewrite,factor,bla);
 
-	g->AddToGridFunction(bwrite,ewrite,-factor,gy);
+	// ToDo gy doppelt drin, genau wie gx
+	// g->AddToGridFunction(bwrite,ewrite,-factor,gy);
+
+	boussinesq.SetGridFunction(bread,eread,0);  //set to zero
+	// ToDo: Benutze Gravitation nicht als GridFunctionType, sondern als Konstante und benutze den Werte (1,1)
+	// Ansonsten muss man hier ein GridFunctionType mit einer GridFunction mulitplizieren - kann man iwann noch verbessern
+	factor = param.beta * deltaT * 0.5*gy[1][1];
+	bla = T->GetGridFunction();
+	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla);
+
+	offset[0] = 0; offset[1] = 1;
+	boussinesq.AddToGridFunction(bwrite,ewrite,factor,bla,offset);
+
+	bla = boussinesq.GetGridFunction();
+	factor = -1.0;
+
+	g->AddToGridFunction(bwrite,ewrite,factor,bla);
+
+
 
 }
 void Computation::setBoundaryU(GridFunction& u){
@@ -320,7 +357,7 @@ void Computation::computeTemperature(GridFunction& T,
 									 GridFunction& v,
 									 GridFunctionType& q,
 									 const PointType& h,
-									 RealType deltaT) {
+									 RealType& deltaT) {
 	//Voraus-Initialisierungen
 	MultiIndexType dim = T.griddimension;
 
