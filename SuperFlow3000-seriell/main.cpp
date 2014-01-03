@@ -26,7 +26,6 @@ int main(int argc, char *argv[]){
 	IO Reader(InputFileName,OutputFolderName);
 	simparam = Reader.getSimparam();
 
-	bool plot = false;
 	/*
 	MPI_Init(&argc, &argv);
 	int mpiRank;
@@ -49,9 +48,7 @@ int main(int argc, char *argv[]){
 
 	//Grids sollen gleiche groesse haben!!
 	IndexType il=2;
-
 	IndexType ir=il+(simparam.iMax)/mpiSizeH-1;
-	//std::cout << simparam.xLength << std::endl;
 	IndexType jb=2;
 	IndexType jt=jb+(simparam.jMax)/mpiSizeV-1;
 
@@ -108,16 +105,13 @@ int main(int argc, char *argv[]){
 
 	//---- for Boundary condition ----
 	//for driven cavity
-
 	MultiIndexType offset (0,-1);
 	//evtl. zum testen noetig (einfach durchfliessen)
 	MultiIndexType linksunten (0,1);
 	MultiIndexType rechtsoben  (griddimension[0]-2,griddimension[1]-2);
 	// write first output data
 
-	//wird hier ein vtk file geschrieben, ohne dass randwerte in matritzen geschrieben wurden?
-
-	// parallele visualisierung
+	// Parallele Visualisierung
 	if (mpiRank == 0) {
 		Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 	}
@@ -170,25 +164,17 @@ int main(int argc, char *argv[]){
 		std::cout << std::endl;
 */
 
-		if((step%10) == 0){
+	//	if((step%10) == 0){
+	//		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step, mpiRank);
+	//	}
 
-			Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step, mpiRank);
-		}
 
-		// parallel visualisierung
-
-		if (0 == (step % 10)) {
-			//Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step);
+		if (0 == (step % 10)) {  // parallel visualisierung
 			 if (mpiRank == 0) {
 				 Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 			 }
 			 Reader.writeVTKSlavefile(u, v,  p, h, mpiSizeH, mpiSizeV, step,mpiRank);
 		}
-
-
-
-
-
 
 		// Berechne neues T um damit die Momentum-Equations zu berechnen
 		pc.computeTemperature(T, u, v, q, h, deltaT);
@@ -196,7 +182,6 @@ int main(int argc, char *argv[]){
 		pc.computeMomentumEquations(&f,&g,&u,&v,&T,gx,gy,h,deltaT);
 		pc.setBoundaryF(f,u);
 		pc.setBoundaryG(g,v);
-
 
 		// set right side of pressure equation
 		pc.computeRighthandSide(&rhs, f, g,h,deltaT);

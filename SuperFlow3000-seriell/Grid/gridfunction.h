@@ -13,10 +13,11 @@
 class GridFunction {
 
 public:
-	/*! Construktor (1)
-	   * @param DimX Dimension in X-Direction
-	   * @param DimY Dimension in Y-Direction
-	   */
+	/*! Constructor
+	 * @param DimX Dimension in X-Direction
+	 * @param DimY Dimension in Y-Direction
+	 * @param indicator e.g. p,u,v,r,f,g -  set right global boundaries for
+	 */
 	GridFunction(int DimX, int DimY, char indicator);
 
 	/*! Construktor (1.1)
@@ -85,9 +86,15 @@ public:
 	//! add factor*source to grid (11)
 	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
 			GridFunction& sourcegridfunction);
-	//! add factor*source to grid (11-1)
+	//! add factor*source1*source2 to grid
+	void AddProductToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
+			GridFunction& sourcegridfunction1,GridFunction& sourcegridfunction2);
+	//! add factor*source to grid with offset (11-1)
 	void AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
 			GridFunction& sourcegridfunction, MultiIndexType& offset);
+	//! add factor*source1*source2 to grid with offset (11-1)
+	void AddProductToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,RealType factor,
+			GridFunction& sourcegridfunction1, GridFunction& sourcegridfunction2, MultiIndexType& offset);
 
 	//RealType* GetSlice(MultiIndexType bb, MultiIndexType ee);
 

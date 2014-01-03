@@ -193,6 +193,19 @@ void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIn
 	}
 }
 
+void GridFunction::AddProductToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
+		RealType factor, GridFunction& sourcegridfunction1,GridFunction& sourcegridfunction2){
+	GridFunctionType source1 = sourcegridfunction1.gridfunction;
+	GridFunctionType source2 = sourcegridfunction2.gridfunction;
+	if (CheckInGrid(begin,end)) {exit(0);}
+	for (IndexType i = begin[0];i<=end[0]; i++){
+		for (IndexType j = begin[1]; j<=end[1]; j++){
+			gridfunction[i][j] += factor * source1[i][j]*source2[i][j];
+		}
+	}
+}
+
+
 //11-1
 void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
 		RealType factor, GridFunction& sourcegridfunction, MultiIndexType& offset){
@@ -201,6 +214,18 @@ void GridFunction::AddToGridFunction (const MultiIndexType& begin, const MultiIn
 	for (IndexType i = begin[0];i<=end[0]; i++){
 		for (IndexType j = begin[1]; j<=end[1]; j++){
 			gridfunction[i][j] += factor * source[i+offset[0]][j+offset[1]];
+		}
+	}
+}
+
+void GridFunction::AddProductToGridFunction (const MultiIndexType& begin, const MultiIndexType& end,
+		RealType factor, GridFunction& sourcegridfunction1, GridFunction& sourcegridfunction2, MultiIndexType& offset){
+	GridFunctionType source1 = sourcegridfunction1.gridfunction;
+	GridFunctionType source2 = sourcegridfunction2.gridfunction;
+	if (CheckInGrid(begin,end)) {exit(0);}
+	for (IndexType i = begin[0];i<=end[0]; i++){
+		for (IndexType j = begin[1]; j<=end[1]; j++){
+			gridfunction[i][j] += factor * source1[i+offset[0]][j+offset[1]] * source2[i+offset[0]][j+offset[1]];
 		}
 	}
 }
@@ -300,8 +325,22 @@ void GridFunction::InitializeGlobalBoundary(char indicator) {
 	globalboundary[2] = false;
 	globalboundary[3] = false;
 
+	bottomleft[0] = 1;
+	bottomleft[1] = 1;
+
+	bottomright[0] = griddimension[0] - 2;
+	bottomright[1] = 1;
+
+	upperright[0] = griddimension[0] - 2;
+	upperright[1] = griddimension[1] - 2;
+
+	upperleft[0] = 1;
+	upperleft[1] = griddimension[1] - 2;
+
 	switch (indicator)
 	{
+ 	//case "d":  // fuer derivatives: bei dem fall nichts unternehmen, da dann auch kein rand bebraucht wird...
+		//lieber kauderwelsch als anscheinend gut aussehende zahlen
 	case 'r':
 	case 'p': beginread[0] = 1; beginread[1] = 1;
 			   endread[0] = griddimension[0]-1; endread[1] = griddimension[1]-1;
@@ -325,17 +364,6 @@ void GridFunction::InitializeGlobalBoundary(char indicator) {
 	}
 
 
-	bottomleft[0] = 1;
-	bottomleft[1] = 1;
-
-	bottomright[0] = griddimension[0] - 2;
-	bottomright[1] = 1;
-
-	upperright[0] = griddimension[0] - 2;
-	upperright[1] = griddimension[1] - 2;
-
-	upperleft[0] = 1;
-	upperleft[1] = griddimension[1] - 2;
 }
 
 /*

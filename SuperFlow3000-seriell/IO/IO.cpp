@@ -7,18 +7,12 @@ using namespace std;
 
 IO::IO (char *input, char *output) : output(output)
 {
-  //ToDo Read the file with the simulations parameters
- readInputfile(input);
-
+	readInputfile(input);
 }
 
-IO::~IO ()
-{
+IO::~IO (){}
 
-}
-
-void
-IO::readInputfile (char *filename)
+void IO::readInputfile (char *filename)
 {
 	// open input file - char line for input lines
 	ifstream file;
@@ -367,7 +361,6 @@ void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 
 	double deltaX =delta[0];
 	double deltaY =delta[1];
-	//ToDo: einkommentieren!
 	int ibegin = p_gridfunction.beginwrite[0];
 	int iend   = p_gridfunction.endwrite[0];
 	int jbegin = p_gridfunction.beginwrite[1];
@@ -377,8 +370,6 @@ void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 	GridFunctionType v = v_gridfunction.GetGridFunction();
 	int localgriddimensionX = iend-ibegin+1;
 	int localgriddimensionY = jend-jbegin+1;
-	int globalgriddimensionX = localgriddimensionX*mpiSizeH;
-	int globalgriddimensionY = localgriddimensionY*mpiSizeV;
 
 	int processorgridcoordX = rank % mpiSizeH;
 	int processorgridcoordY = floor(rank / mpiSizeH);

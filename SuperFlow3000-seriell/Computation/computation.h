@@ -83,9 +83,6 @@ public:
     						RealType& deltaT);
 
     Simparam param;
-
-
-
 };
 
 
