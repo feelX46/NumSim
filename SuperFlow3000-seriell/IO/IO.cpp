@@ -85,6 +85,18 @@ void IO::readInputfile (char *filename)
 	sscanf(line, "%*[^0-9]%lf", &simparam.TI);
 
 	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.boun[2]); //oben
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.boun[0]); //unten
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.boun[3]); //links
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.boun[1]); //rechts
+
+	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%lf", &simparam.TO);
 
 	file.getline(line,sizeof(line));
@@ -96,6 +108,17 @@ void IO::readInputfile (char *filename)
 	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%lf", &simparam.TR);
 
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.QO);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.QU);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.QL);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.QR);
 
 }
 

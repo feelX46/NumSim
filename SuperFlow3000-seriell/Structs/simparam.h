@@ -34,10 +34,19 @@ struct Simparam {
 	RealType Pr; //Prandtl-Zahl
 	RealType beta; //Volumenexpansionskoeffizient
 	RealType TI; //initiale Temperatur
-	RealType TO; //Temperatur-Randbedingung
-	RealType TU; //Temperatur-Randbedingung
-	RealType TL; //Temperatur-Randbedingung
-	RealType TR; //Temperatur-Randbedingung
+
+	//Temperatur-Randbedingung
+	RealType *boun=new RealType[4];
+	//Dirichlet
+	RealType TO;
+	RealType TU;
+	RealType TL;
+	RealType TR;
+	//Neumann
+	RealType QO;
+	RealType QU;
+	RealType QL;
+	RealType QR;
 
 };
 

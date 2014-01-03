@@ -60,7 +60,15 @@ public:
 	 */
 	void setBoundaryG(GridFunction& g, GridFunction& v);
 
+	/*!
+	 * @brief set dirichlet boundary for the T
+	 */
 	void setBoundaryTD(GridFunction& T);
+
+	/*!
+	 * @brief set neumann boundary for the T
+	 */
+	void setBoundaryTN(GridFunction& T,const PointType& h);
 
 	/*! @brief Function to compute the righthand like (14).
 		 *  @param rhs is a pointer on the GridFunction-object, that is to be computed.

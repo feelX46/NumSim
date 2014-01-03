@@ -308,38 +308,91 @@ void Computation::setBoundaryG(GridFunction& g, GridFunction& v){
 void Computation::setBoundaryTD(GridFunction& T) {
 	MultiIndexType bb;
 	MultiIndexType ee;
-
+	MultiIndexType offset;
 	// ToDo Hier nochmal nachschauen - Gleichung (42) ist viel komplizierter aufgeschrieben
+	// ToDo (markus: hab hier einiges angepasst! - jetzt gleich wie (42))
 
 	//bottom
-	if(T.globalboundary[0]) {
+	if(T.globalboundary[0] && param.boun[0]==0) {
 		bb[0] = T.beginread[0]; bb[1] = T.beginread[1];
 		ee[0] = T.endread[0]; ee[1] = T.beginread[1];
-		T.SetGridFunction(bb,ee,param.TU);
+		offset[0] = 1;  offset[1] = 0;
+		T.SetGridFunction(bb,ee,2*param.TU);
+		T.AddToGridFunction (bb,ee, -1, T, offset);
 	}
 
 	//top
-	if(T.globalboundary[2]) {
+	if(T.globalboundary[2] && param.boun[2]==0) {
 		bb[0] = T.beginread[0]; bb[1] = T.endread[1];
 		ee[0] = T.endread[1]; ee[1] = T.endread[1];
-		T.SetGridFunction(bb,ee,param.TO);
+		offset[0] = -1;  offset[1] = 0;
+		T.SetGridFunction(bb,ee,2*param.TO);
+		T.AddToGridFunction (bb,ee, -1, T, offset);
 	}
 
 	//right
-	if(T.globalboundary[1]) {
+	if(T.globalboundary[1] && param.boun[1]==0) {
 		bb[0] = T.endread[0]; bb[1] = T.beginread[1];
 		ee[0] = T.endread[0]; ee[1] = T.endread[1];
-		T.SetGridFunction(bb,ee,param.TR);
+		offset[0] = 0;  offset[1] = -1;
+		T.SetGridFunction(bb,ee,2*param.TR);
+		T.AddToGridFunction (bb,ee, -1, T, offset);
 	}
 
 	//left
-	if(T.globalboundary[3]) {
+	if(T.globalboundary[3] && param.boun[3]==0) {
 		bb[0] = T.beginread[0]; bb[1] = T.beginread[1];
 		ee[0] = T.beginread[0]; ee[1] = T.endread[1];
-		T.SetGridFunction(bb,ee,param.TL);
+		offset[0] = 0;  offset[1] = 1;
+		T.SetGridFunction(bb,ee,2*param.TL);
+		T.AddToGridFunction (bb,ee, -1, T, offset);
 	}
 
 }
+
+void Computation::setBoundaryTN(GridFunction& T,const PointType& h) {
+	MultiIndexType bb;
+	MultiIndexType ee;
+	MultiIndexType offset;
+
+	//bottom
+	if(T.globalboundary[0] && param.boun[0]==1) {
+		bb[0] = T.beginread[0]; bb[1] = T.beginread[1];
+		ee[0] = T.endread[0]; ee[1] = T.beginread[1];
+		offset[0] = 1;  offset[1] = 0;
+		T.SetGridFunction(bb,ee,h[1]*param.QU);
+		T.AddToGridFunction (bb,ee, 1, T, offset);
+	}
+
+	//top
+	if(T.globalboundary[2] && param.boun[2]==1) {
+		bb[0] = T.beginread[0]; bb[1] = T.endread[1];
+		ee[0] = T.endread[1]; ee[1] = T.endread[1];
+		offset[0] = -1;  offset[1] = 0;
+		T.SetGridFunction(bb,ee,h[1]*param.QO);
+		T.AddToGridFunction (bb,ee, 1, T, offset);
+	}
+
+	//right
+	if(T.globalboundary[1] && param.boun[1]==1) {
+		bb[0] = T.endread[0]; bb[1] = T.beginread[1];
+		ee[0] = T.endread[0]; ee[1] = T.endread[1];
+		offset[0] = 0;  offset[1] = -1;
+		T.SetGridFunction(bb,ee,h[0]*param.QR);
+		T.AddToGridFunction (bb,ee, 1, T, offset);
+	}
+
+	//left
+	if(T.globalboundary[3] && param.boun[3]==1) {
+		bb[0] = T.beginread[0]; bb[1] = T.beginread[1];
+		ee[0] = T.beginread[0]; ee[1] = T.endread[1];
+		offset[0] = 0;  offset[1] = 1;
+		T.SetGridFunction(bb,ee,h[0]*param.QL);
+		T.AddToGridFunction (bb,ee, 1, T, offset);
+	}
+
+}
+
 
 void Computation::computeRighthandSide(GridFunction* rhs,
     		GridFunction& f,
