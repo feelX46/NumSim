@@ -47,6 +47,7 @@ public:
 
     void writeVTKSlavefile (GridFunction& u_gridfunction,
   		  GridFunction& v_gridfunction, GridFunction& p_gridfunction,
+  		  GridFunction& T_gridfunction,
   		  const PointType& delta, int mpiSizeH, int mpiSizeV, int step,
   		  int rank);
 

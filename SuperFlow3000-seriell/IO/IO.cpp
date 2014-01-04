@@ -370,7 +370,8 @@ void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV
 
 	  os <<"<PPointData>"<<std::endl;
 	  os <<"<PDataArray Name=\"field\" NumberOfComponents=\"3\" type=\"Float64\" />"  <<std::endl;
-	  os <<"<PDataArray type=\"Float64\" Name=\"p\"/>"<<std::endl
+	  os <<"<PDataArray type=\"Float64\" Name=\"p\"/>"<<std::endl;
+	  os <<"<PDataArray type=\"Float64\" Name=\"T\"/>"<<std::endl
 	    <<"</PPointData>"<<std::endl
         << "</PRectilinearGrid>" << std::endl
 	    <<"</VTKFile>"<< std::endl;
@@ -379,6 +380,7 @@ void IO::writeVTKMasterfile(const IndexType& mpiSizeH, const IndexType& mpiSizeV
 
 void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 		  GridFunction& v_gridfunction, GridFunction& p_gridfunction,
+		  GridFunction& T_gridfunction,
 		  const PointType& delta, int mpiSizeH, int mpiSizeV, int step,
 		  int rank){
 
@@ -391,6 +393,7 @@ void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 	GridFunctionType p = p_gridfunction.GetGridFunction();
 	GridFunctionType u = u_gridfunction.GetGridFunction();
 	GridFunctionType v = v_gridfunction.GetGridFunction();
+	GridFunctionType T = T_gridfunction.GetGridFunction();
 	int localgriddimensionX = iend-ibegin+1;
 	int localgriddimensionY = jend-jbegin+1;
 
@@ -486,7 +489,22 @@ void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 
 	        }
 
-	      os << "</DataArray>" << std::endl
+	      os << "</DataArray>" << std::endl;
+
+	      os << "<DataArray type=\"Float64\" Name=\"T\" format=\"ascii\">" <<
+	    		 	        std::endl;
+	    	//temperature
+	    	for (int j = jbegin; j <= jend; ++j)
+	    	{
+	    	  	  for (int i = ibegin; i <= iend; ++i)
+	    	     	  {
+	    		 	  os << std::scientific << T[i][j] << " ";
+	    		 	    	}
+	    		 	        os << std::endl;
+
+	    		 	        }
+
+	    		 	      os << "</DataArray>" << std::endl
 	        << "</PointData>" << std::endl
 	        << "</Piece>" << std::endl
 	        << "</RectilinearGrid>" << std::endl << "</VTKFile>" << std::endl;

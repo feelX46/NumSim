@@ -113,7 +113,7 @@ int main(int argc, char *argv[]){
 		Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 	}
 
-	Reader.writeVTKSlavefile(u, v,  p, h, mpiSizeH, mpiSizeV, step,mpiRank);
+	Reader.writeVTKSlavefile(u, v,  p, T, h, mpiSizeH, mpiSizeV, step,mpiRank);
 	// start time loop
 //	Communication communicator(mpiRank, mpiSizeH, mpiSizeV, p.globalboundary); //(MPI)
 	while (t <= simparam.tEnd){
@@ -146,7 +146,7 @@ int main(int argc, char *argv[]){
 			 if (mpiRank == 0) {
 				 Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 			 }
-			 Reader.writeVTKSlavefile(u, v,  p, h, mpiSizeH, mpiSizeV, step,mpiRank);
+			 Reader.writeVTKSlavefile(u, v,  p, T, h, mpiSizeH, mpiSizeV, step,mpiRank);
 		}
 
 		// Berechne neues T um damit die Momentum-Equations zu berechnen
