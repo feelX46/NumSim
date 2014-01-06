@@ -94,7 +94,7 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	f->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
 	//ToDo: Laut Gleichungen auf Arbeitsblaettern (Gl. 12 und Gl. 46) muesste die Gravitation doppelt in die Gleichung eingehen - eher unwahrscheinlich!
-	//ToDo: (markus:) muss glaube ich schon rein... siehe gleichung 35... das ist die 1 in der klammer vor dem g
+	//ToDo: (markus:) muss glaube ich schon rein... siehe gleichung 35... das ist die 1 in der klammer vor dem g (Aaron: glaube auch, dass das Sinn ergibt.)
 	f->AddToGridFunction(bwrite,ewrite,-factor,gx);
 
 	// wie derivative
