@@ -207,7 +207,8 @@ void Stencil::ApplyUVxStencilOperator(const MultiIndexType& gridreadbegin,
 }
 
 
-void Stencil::ApplyUTxStencilOperator(const MultiIndexType& gridreadbegin,
+void Stencil::ApplyUTxStencilOperator(
+		const MultiIndexType& gridreadbegin,
 		const MultiIndexType& gridreadend,
 		const MultiIndexType& gridwritebegin,
 		const MultiIndexType& gridwriteend,
@@ -229,6 +230,7 @@ void Stencil::ApplyUTxStencilOperator(const MultiIndexType& gridreadbegin,
 		imagegridfunction.SetGridFunction(i,j,tmp/h[0]);
 		}
 	}
+	std::cout<<imagegridfunction.MaxValueGridFunction(gridreadbegin,gridreadend)<<std::endl;
 }
 
 void Stencil::ApplyVTyStencilOperator(const MultiIndexType& gridreadbegin,

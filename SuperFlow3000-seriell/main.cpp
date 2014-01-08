@@ -129,13 +129,13 @@ int main(int argc, char *argv[]){
 		pc.setBoundaryTN(T,h);
 
 		// driven cavity:
-		/*
+
 		if (u.globalboundary[2]){
 			//MultiIndexType UpperLeft(1,u.griddimension[1]-1);
 			MultiIndexType UpperLeft(0,u.griddimension[1]-1);
 			MultiIndexType UpperRight(u.griddimension[0]-2, u.griddimension[1]-1);
 			u.SetGridFunction(UpperLeft,UpperRight,-1.0,offset,2.0);
-		}*/
+		}
 
 	//	if((step%10) == 0){
 	//		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step, mpiRank);
