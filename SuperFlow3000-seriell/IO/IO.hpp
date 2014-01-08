@@ -10,6 +10,9 @@
 #define IO_HPP_
 
 #include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
 #include <fstream>
 #include "../Structs/simparam.h"
 #include "../Grid/gridfunction.h"
@@ -59,6 +62,8 @@ public:
 	  return simparam;
   }
 
+  void readCSVfile (char *filename);
+
 private:
 
 //! Path where to write the vtk files.
@@ -67,7 +72,8 @@ private:
  //! Structure with simulation parameters from input file
 
 
-
+  std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+  std::vector<std::string> split(const std::string &s, char delim);
 
 /*!
    * Methods reads the simulation parameters from the specified input file.
