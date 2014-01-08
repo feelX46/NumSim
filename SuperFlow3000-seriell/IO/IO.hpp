@@ -17,6 +17,7 @@
 #include "../Structs/simparam.h"
 #include "../Grid/gridfunction.h"
 
+
 class IO
 {
 public:
@@ -62,7 +63,7 @@ public:
 	  return simparam;
   }
 
-  void readCSVfile (char *filename);
+  void readCSVfile (char *filename, GridFunction geo);
 
 private:
 

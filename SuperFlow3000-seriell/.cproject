@@ -129,4 +129,5 @@
 			<resource resourceType="PROJECT" workspacePath="/SuperFlow3000-seriell"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

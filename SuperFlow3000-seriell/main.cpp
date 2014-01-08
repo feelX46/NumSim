@@ -31,8 +31,6 @@ int main(int argc, char *argv[]){
 	IO Reader(InputFileName,OutputFolderName);
 	simparam = Reader.getSimparam();
 
-    Reader.readCSVfile(GeometryInputFileName);
-
 	/*
 	MPI_Init(&argc, &argv);
 	int mpiRank;
@@ -41,7 +39,6 @@ int main(int argc, char *argv[]){
 	MPI_Comm_size(MPI_COMM_WORLD, &mpiSize);
 
 	// willkuerliche gewaehlt - vertikal immer nur zwei gebiete
-
 	IndexType mpiSizeV = 2;
 	IndexType mpiSizeH = 2;
 	*/
@@ -52,13 +49,11 @@ int main(int argc, char *argv[]){
 	Computation pc (simparam);
 	Solver sol (simparam);
 
-
 	//Grids sollen gleiche groesse haben!!
 	IndexType il=2;
 	IndexType ir=il+(simparam.iMax)/mpiSizeH-1;
 	IndexType jb=2;
 	IndexType jt=jb+(simparam.jMax)/mpiSizeV-1;
-
 
 	MultiIndexType griddimension ((ir-il+4),(jt-jb+4));
 
@@ -87,6 +82,12 @@ int main(int argc, char *argv[]){
     // Gridfunction q fuer Waermequellen
     GridFunction q(griddimension,0,'q');
     q.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'q');
+
+    // geometry:
+    //ToDo: fuer MPI so nicht richtig!
+	GridFunction geo(griddimension,0,'s');
+    Reader.readCSVfile(GeometryInputFileName,geo);
+
 
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
 	RealType deltaT = simparam.deltaT;
@@ -124,11 +125,6 @@ int main(int argc, char *argv[]){
 	// start time loop
 //	Communication communicator(mpiRank, mpiSizeH, mpiSizeV, p.globalboundary); //(MPI)
 	while (t <= simparam.tEnd){
-		// compute deltaT
-		//deltaT = 0.005;
-		local_deltaT = pc.computeTimestep(u.MaxValueGridFunction(u.beginwrite,u.endwrite),v.MaxValueGridFunction(v.beginwrite,v.endwrite),h);
-		//MPI_Allreduce ( &local_deltaT, &deltaT, 1, MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
-		deltaT = local_deltaT;
 		// set boundary
 		pc.setBoundaryU(u); //First implementation: only no-flow boundaries-> everything is zero!
 		pc.setBoundaryV(v);
@@ -136,7 +132,6 @@ int main(int argc, char *argv[]){
 		pc.setBoundaryTN(T,h);
 
 		// driven cavity:
-
 		if (u.globalboundary[2]){
 			//MultiIndexType UpperLeft(1,u.griddimension[1]-1);
 			MultiIndexType UpperLeft(0,u.griddimension[1]-1);
@@ -144,10 +139,11 @@ int main(int argc, char *argv[]){
 			u.SetGridFunction(UpperLeft,UpperRight,-1.0,offset,2.0);
 		}
 
-	//	if((step%10) == 0){
-	//		Reader.writeVTKFile(griddimension,u.GetGridFunction(),v.GetGridFunction(), p.GetGridFunction(), h, step, mpiRank);
-	//	}
-
+		// compute deltaT
+		//deltaT = 0.005;
+		local_deltaT = pc.computeTimestep(u.MaxValueGridFunction(u.beginread,u.endread),v.MaxValueGridFunction(v.beginread,v.endread),h);
+		//MPI_Allreduce ( &local_deltaT, &deltaT, 1, MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
+		deltaT = local_deltaT;
 
 		if (0 == (step % 10)) {  // parallel visualisierung
 			 if (mpiRank == 0) {
@@ -183,8 +179,10 @@ int main(int argc, char *argv[]){
 
 		// write files
 		std::cout<< step<<"  -  "<<t<<" / " <<simparam.tEnd<<std::endl;
+
 	}
 	//MPI_Finalize();
+	std::cout<<"fetisch";
 	return 0;
 }
 

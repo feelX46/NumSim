@@ -246,8 +246,8 @@ RealType GridFunction::MaxValueGridFunction (const MultiIndexType& begin,
 }
 
 void GridFunction::PlotGrid(){
-	for (IndexType j =griddimension[0]-1; j>=0; j--){
-		for (IndexType i = 0; i<griddimension[1]; i++){
+	for (IndexType j =griddimension[1]-1; j>=0; j--){
+		for (IndexType i = 0; i<griddimension[0]; i++){
 			std::cout << gridfunction[i][j] << " ";
 		}
 		std::cout << "\n";
@@ -341,6 +341,7 @@ void GridFunction::InitializeGlobalBoundary(char indicator) {
 	{
  	//case "d":  // fuer derivatives: bei dem fall nichts unternehmen, da dann auch kein rand bebraucht wird...
 		//lieber kauderwelsch als anscheinend gut aussehende zahlen
+	case 's': //structure of the geometry
 	case 'T':
 	case 'q':
 	case 'r':

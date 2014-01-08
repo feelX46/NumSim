@@ -89,7 +89,6 @@ void Solver::SORCycle(GridFunction* gridfunction,
 	// SOR-cycling until error is small enough, or the number of iterations gets to high:
 	RealType neighbours_x, neighbours_y;
 
-	// ToDo Residuum fuer MPI berechnen
 	while (iterationCounter < param.iterMax && global_res > param.eps )
 	{
 		pc.setBoundaryP(*gridfunction);

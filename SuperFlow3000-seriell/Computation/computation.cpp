@@ -156,40 +156,77 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 
 }
 void Computation::setBoundaryU(GridFunction& u){
-    RealType value = 0;
     MultiIndexType bb;
     MultiIndexType ee;
     MultiIndexType offset;
 
+    // left
     if(u.globalboundary[3]){
-    // left -> 0
-    	bb[0] = 1; bb[1] = 2;
-    	ee[0] = 1; ee[1] = u.griddimension[1]-2;
-    	u.SetGridFunction(bb,ee,value);
+		bb[0] = 1; bb[1] = 2;
+		ee[0] = 1; ee[1] = u.griddimension[1]-2;
+    	//Haft und Rutsch -> 0
+    	if (param.WL ==1 || param.WL == 2){
+    		u.SetGridFunction(bb,ee,0);
+    	}
+    	if (param.WL == 3){ //Ausström
+    		offset[0]=1;
+    		offset[1]=0;
+			u.SetGridFunction(bb,ee,1,offset);
+    	}
+    	if (param.WL == 4){
+    		u.SetGridFunction(bb,ee,param.Uflow);
+    	}
     }
-    //right -> 0
+    //right
     if(u.globalboundary[1]){
+    	//Haft und Rutsch  -> 0
     	bb[0]= u.griddimension[0]-2; bb[1] = 2;
     	ee[0]= u.griddimension[0]-2; ee[1] = u.griddimension[1]-2;
-    	u.SetGridFunction(bb,ee,value);
+    	if (param.WR ==1 || param.WR == 2){
+    		u.SetGridFunction(bb,ee,0);
+    	}
+    	if (param.WR == 3){
+    		offset[0]=-1;
+    		offset[1]=0;
+			u.SetGridFunction(bb,ee,1,offset);
+    	}
+    	if (param.WR == 4){
+    		u.SetGridFunction(bb,ee,param.Uflow);
+    	}
     }
-
     //bottom
     if(u.globalboundary[0]){
     	bb[0]= 1; bb[1] = 1;
     	ee[0]= u.griddimension[0]-2; ee[1] = 1;
-    	offset[0] = 0;
-    	offset[1] = 1;
-    	u.SetGridFunction(bb,ee,-1,offset);
+		offset[0] = 0;
+		offset[1] = 1;
+    	if (param.WU == 1){ //Haft
+			u.SetGridFunction(bb,ee,-1,offset);
+		}
+    	if (param.WU == 2 || param.WU ==3){ //Rutsch und Ausström
+			u.SetGridFunction(bb,ee,1,offset);
+    	}
+    	if (param.WU == 4){
+    		u.SetGridFunction(bb,ee,param.Uflow);
+    	}
     }
+
 
     //top
     if(u.globalboundary[2]) {
     	bb[0]= 1; bb[1] = u.griddimension[1]-1;
     	ee[0]= u.griddimension[0]-2; ee[1] = u.griddimension[1]-1;
-    	offset[0] = 0;
+   		offset[0] = 0;
     	offset[1] = -1;
-    	u.SetGridFunction(bb,ee,-1,offset);
+    	if (param.WO == 1){ //Haft
+    		u.SetGridFunction(bb,ee,-1,offset);
+    	}
+    	if (param.WO == 2 || param.WO == 3){ //Rutsch und Ausström
+    		u.SetGridFunction(bb,ee,1,offset);
+    	}
+    	if (param.WO == 4){
+    		u.SetGridFunction(bb,ee,param.Uflow);
+    	}
     }
 }
 
@@ -198,7 +235,6 @@ void Computation::setBoundaryV(GridFunction& v){
 	MultiIndexType bb;
 	MultiIndexType ee;
 	MultiIndexType offset;
-	RealType value = 0;
 
 	// left
 	if(v.globalboundary[3]) {
@@ -206,30 +242,69 @@ void Computation::setBoundaryV(GridFunction& v){
 		ee[0] = 1; ee[1] = v.griddimension[1]-2;
 		offset[0] = 1;
 		offset[1] = 0;
-		v.SetGridFunction(bb,ee,-1,offset);
+		if (param.WL==1){//Haft
+			v.SetGridFunction(bb,ee,-1,offset);
+		}
+		if (param.WL ==2 || param.WL == 3){//Rutsch
+			v.SetGridFunction(bb,ee,1,offset);
+		}
+    	if (param.WL == 4){
+    		v.SetGridFunction(bb,ee,param.Vflow);
+    	}
 	}
-
-    //bottom ->0
-    if(v.globalboundary[0]) {
-    	bb[0] = 2; bb[1] = 1;
-    	ee[0] = v.griddimension[0]-2; ee[1] = 1;
-    	v.SetGridFunction(bb,ee,value);
-    }
-    //top ->0
-    if(v.globalboundary[2]) {
-    	bb[0] = 2; bb[1] = v.griddimension[1]-2;
-    	ee[0] = v.griddimension[0]-2; ee[1] = v.griddimension[1]-2;
-    	v.SetGridFunction(bb,ee,value);
-    }
 
     //right
     if(v.globalboundary[1]) {
     	bb[0] = v.griddimension[0]-1; bb[1] = 1;
     	ee[0] = v.griddimension[0]-1; ee[1] = v.griddimension[1]-2;
-    	offset[0]=-1;
-    	offset[1] = 0;
-    	v.SetGridFunction(bb,ee,-1,offset);
+		offset[0]=-1;
+		offset[1] = 0;
+    	if (param.WR == 1){ //Haft
+    		v.SetGridFunction(bb,ee,-1,offset);
+    	}
+    	if (param.WR == 2 || param.WR == 3){ //Rutsch
+    		v.SetGridFunction(bb,ee,1,offset);
+    	}
+    	if (param.WR == 4){
+        	v.SetGridFunction(bb,ee,param.Vflow);
+    	}
     }
+
+    //bottom
+    if(v.globalboundary[0]) {
+    	bb[0] = 2; bb[1] = 1;
+    	ee[0] = v.griddimension[0]-2; ee[1] = 1;
+    	if (param.WU == 1 || param.WU ==2){     	//Haft und Rutsch  -> 0
+    		v.SetGridFunction(bb,ee,0);
+    	}
+    	if (param.WU == 3){
+    		offset[0]=0;
+    		offset[1]=1;
+    		v.SetGridFunction(bb,ee,1,offset);
+    	}
+    	if (param.WU == 4){
+    		v.SetGridFunction(bb,ee,param.Vflow);
+    	}
+    }
+    //top
+    if(v.globalboundary[2]) {
+    	bb[0] = 2; bb[1] = v.griddimension[1]-2;
+    	ee[0] = v.griddimension[0]-2; ee[1] = v.griddimension[1]-2;
+
+    	if (param.WO == 1 || param.WO ==2){     	//Haft und Rutsch  -> 0
+    		v.SetGridFunction(bb,ee,0);
+    	}
+    	if (param.WO == 3){
+    		offset[0]=0;
+    		offset[1]=-1;
+    		v.SetGridFunction(bb,ee,1,offset);
+    	}
+    	if (param.WO == 4){
+    	 	v.SetGridFunction(bb,ee,param.Vflow);
+    	}
+    }
+
+
 }
 
 void Computation::setBoundaryP(GridFunction& p){

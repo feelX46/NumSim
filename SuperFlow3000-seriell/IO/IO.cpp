@@ -32,19 +32,47 @@ std::vector<std::string> IO::split(const std::string &s, char delim) {
 	return elems;
 }
 
-void IO::readCSVfile (char *filename)
-{
-	ifstream geometryFile;
-		char line[1000];
-		geometryFile.open(filename,ios::in);
 
-		while (0 == geometryFile.eof())
-		{
-		    geometryFile.getline(line,sizeof(line));
-		    vector<string> vec[sizeof(line)] = split(line, ',');
-		    cout << vec;
-		}
+void IO::readCSVfile (char *filename, GridFunction geo)
+{
+  string zeile;
+  float value;
+
+  char separator;
+
+  ifstream input(filename,ios::in);
+
+  if (!input.is_open())
+  {
+	cout << "Dateifehler oder Datei nicht gefunden!" << endl;
+  }
+for(int j=geo.endread[1] ; j >= geo.beginread[1]-1; j--) //-1 fuer die nummerierung
+{
+  if (!getline(input, zeile))
+    continue;
+
+  istringstream istr (zeile);
+
+  for(int i = geo.beginread[0]-1; i <= geo.endread[0]; i++)  //-1 fuer die nummerierung
+  {
+    istr >> value;
+    istr >> separator;
+
+    if (istr.fail()){
+    	istr.clear();
+    	continue;
+    }
+    if (separator == ',') {
+    	geo.SetGridFunction(i,j,value);
+    	//cout << "(" << i << "," << j << ") = " << value << endl;
+    }
+  }
 }
+geo.PlotGrid();
+exit(0);
+}
+
+
 
 void IO::readInputfile (char *filename)
 {
