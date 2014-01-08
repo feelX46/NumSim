@@ -48,6 +48,14 @@ struct Simparam {
 	RealType QL;
 	RealType QR;
 
+	//AB6: Geometrie: 1:Haft; 2: Rutsch; 3: Ausström; 4: Einstroem (Uflow; Vflow)
+	RealType WL;
+	RealType WR;
+	RealType WO;
+	RealType WU;
+	RealType Uflow;
+	RealType Vflow;
+
 };
 
 

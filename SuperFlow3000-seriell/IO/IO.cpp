@@ -38,7 +38,6 @@ void IO::readInputfile (char *filename)
 	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%lf", &simparam.deltaT);
 
-
 	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%lf", &simparam.tau);
 
@@ -119,6 +118,28 @@ void IO::readInputfile (char *filename)
 
 	file.getline(line,sizeof(line));
 	sscanf(line, "%*[^0-9]%lf", &simparam.QR);
+
+	//fuer UB6
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.WL);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.WR);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.WO);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.WU);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.Uflow);
+
+	file.getline(line,sizeof(line));
+	sscanf(line, "%*[^0-9]%lf", &simparam.Vflow);
+
+
+
 
 }
 
