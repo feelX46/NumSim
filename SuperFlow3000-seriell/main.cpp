@@ -84,7 +84,7 @@ int main(int argc, char *argv[]){
     q.InitializeGlobalBoundaryPosition(mpiRank,mpiSizeH,mpiSizeV,'q');
 
     // geometry:
-    //ToDo: fuer MPI so nicht richtig!
+    //ToDo: fuer MPI so nicht richtig!!!
 	GridFunction geo(griddimension,0,'s');
     Reader.readCSVfile(GeometryInputFileName,geo);
 
