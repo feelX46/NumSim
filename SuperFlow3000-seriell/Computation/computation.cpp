@@ -468,6 +468,370 @@ void Computation::setBoundaryTN(GridFunction& T,const PointType& h) {
 
 }
 
+void Computation::setBarrierBoundaryU(GridFunction& velocity_x, GridFunction& geo)
+{
+	int indicator;
+
+	for (int i = velocity_x.beginwrite[0]; i <= velocity_x.endwrite[0]; i++)
+	{
+		for  (int j = velocity_x.beginwrite[1]; j <= velocity_x.endwrite[1]; j++ )
+		{
+			indicator = geo.GetGridFunction()[i][j];
+			if(indicator < 16) // generell Behandlung nur von Hinderniszellen
+			{
+				switch(indicator)
+				{
+				    //Fehlerfälle:
+				    case 3:
+				    case 7:
+				    case 11:
+				    case 12:
+				    case 13:
+				    case 14:
+				    case 15:
+				    	std::cout << "Unzulässige Geometrie!"; break;
+
+
+				    //nothing to do:
+				    case 0:
+				    	break;
+
+				    //1: North
+				    case 1:
+				    	velocity_x.SetGridFunction(i,j,-velocity_x.GetGridFunction()[i][j+1]);
+				    	velocity_x.SetGridFunction(i-1,j,-velocity_x.GetGridFunction()[i-1][j+1]); //ToDo: wirklich nötig, dass doppelt behandelt?
+                        break;
+
+				    //South:
+				    case 2:
+				    	velocity_x.SetGridFunction(i,j,-velocity_x.GetGridFunction()[i][j-1]);
+				    	velocity_x.SetGridFunction(i-1,j,-velocity_x.GetGridFunction()[i-1][j-1]);
+                        break;
+
+				    //West
+				    case 4:
+				    	velocity_x.SetGridFunction(i-1,j,0);
+                        break;
+
+				    //East:
+				    case 8:
+				    	velocity_x.SetGridFunction(i,j,0);
+                        break;
+
+				    //North-west:
+				    case 5:
+				    	velocity_x.SetGridFunction(i-1,j,0);
+				    	velocity_x.SetGridFunction(i,j,-velocity_x.GetGridFunction()[i][j+1]);
+                        break;
+
+				    //South-west:
+				    case 6:
+				    	velocity_x.SetGridFunction(i-1,j,0);
+				    	velocity_x.SetGridFunction(i,j,-velocity_x.GetGridFunction()[i][j-1]);
+                        break;
+
+				    //North-east:
+				    case 9:
+				    	velocity_x.SetGridFunction(i,j,0);
+				    	velocity_x.SetGridFunction(i-1,j,-velocity_x.GetGridFunction()[i-1][j+1]);
+                        break;
+
+				    //South-east:
+				    case 10:
+				    	velocity_x.SetGridFunction(i,j,0);
+				    	velocity_x.SetGridFunction(i-1,j,-velocity_x.GetGridFunction()[i-1][j-1]);
+                        break;
+				}
+			}
+		}
+	}
+}
+
+void Computation::setBarrierBoundaryV(GridFunction& velocity_y, GridFunction& geo){
+
+	int indicator;
+
+	for (int i = velocity_y.beginwrite[0]; i <= velocity_y.endwrite[0]; i++)
+	{
+		for  (int j = velocity_y.beginwrite[1]; j <= velocity_y.endwrite[1]; j++ )
+		{
+			indicator = geo.GetGridFunction()[i][j];
+			if(indicator < 16) // generell Behandlung nur von Hinderniszellen
+			{
+				switch(indicator)
+				{
+				    //Fehlerfälle:
+				    case 3:
+				    case 7:
+				    case 11:
+				    case 12:
+				    case 13:
+				    case 14:
+				    case 15:
+				    	std::cout << "Unzulässige Geometrie!"; break;
+
+
+				    //nothing to do:
+				    case 0:
+				    	break;
+
+				    //1: North
+				    case 1:
+				    	velocity_y.SetGridFunction(i,j,0);
+                        break;
+
+				    //South:
+				    case 2:
+				    	velocity_y.SetGridFunction(i-1,j,0);
+                        break;
+
+				    //West
+				    case 4:
+				    	velocity_y.SetGridFunction(i,j,-velocity_y.GetGridFunction()[i-1][j]);
+				    	velocity_y.SetGridFunction(i,j-1,-velocity_y.GetGridFunction()[i-1][j-1]);
+                        break;
+
+				    //East:
+				    case 8:
+				    	velocity_y.SetGridFunction(i,j,-velocity_y.GetGridFunction()[i+1][j]);
+				    	velocity_y.SetGridFunction(i,j-1,-velocity_y.GetGridFunction()[i+1][j-1]);
+                        break;
+
+				    //North-west:
+				    case 5:
+				    	velocity_y.SetGridFunction(i,j,0);
+				    	velocity_y.SetGridFunction(i,j-1,-velocity_y.GetGridFunction()[i-1][j-1]); //ToDo: ist der wirklich nötig?
+                        break;
+
+				    //South-west:
+				    case 6:
+				    	velocity_y.SetGridFunction(i,j,-velocity_y.GetGridFunction()[i-1][j]);
+				    	velocity_y.SetGridFunction(i,j-1,0);
+                        break;
+
+				    //North-east:
+				    case 9:
+				    	velocity_y.SetGridFunction(i,j,0);
+				    	velocity_y.SetGridFunction(i,j-1,-velocity_y.GetGridFunction()[i+1][j-1]); //ToDo: ist der wirklich nötig?
+                        break;
+
+				    //South-east:
+				    case 10:
+				    	velocity_y.SetGridFunction(i,j-1,0);
+				    	velocity_y.SetGridFunction(i,j,-velocity_y.GetGridFunction()[i+1][j]);
+                        break;
+				}
+			}
+		}
+	}
+
+}
+void Computation::setBarrierBoundaryP(GridFunction& pressure, GridFunction& geo, PointType& h)
+{
+	int indicator;
+
+	for (int i = pressure.beginwrite[0]; i <= pressure.endwrite[0]; i++)
+	{
+		for  (int j = pressure.beginwrite[1]; j <= pressure.endwrite[1]; j++ )
+		{
+			indicator = geo.GetGridFunction()[i][j];
+			if(indicator < 16) // generell Behandlung nur von Hinderniszellen
+			{
+				switch(indicator)
+				{
+				    //Fehlerfälle:
+				    case 3:
+				    case 7:
+				    case 11:
+				    case 12:
+				    case 13:
+				    case 14:
+				    case 15:
+				    	std::cout << "Unzulässige Geometrie!"; break;
+
+
+				    //nothing to do:
+				    case 0:
+				    	break;
+
+				    //1: North
+				    case 1:
+				    	pressure.SetGridFunction(i,j,pressure.GetGridFunction()[i][j+1]);
+				    	break;
+
+				    //South:
+				    case 2:
+				    	pressure.SetGridFunction(i,j,pressure.GetGridFunction()[i][j+1]);
+                        break;
+
+				    //West
+				    case 4:
+				    	pressure.SetGridFunction(i,j,pressure.GetGridFunction()[i-1][j]);
+                        break;
+
+				    //East:
+				    case 8:
+				    	pressure.SetGridFunction(i,j,pressure.GetGridFunction()[i+1][j]);
+                        break;
+
+				    //North-west:
+				    case 5:
+				    	pressure.SetGridFunction(i,j,1/(h[0]*h[0]+h[1]*h[1])*
+				    	(h[0]*h[0]*pressure.GetGridFunction()[i][j+1])+ h[1]*h[1]*pressure.GetGridFunction()[i-1][j]);
+                        break;
+
+				    //South-west:
+				    case 6:
+				    	pressure.SetGridFunction(i,j,1/(h[0]*h[0]+h[1]*h[1])*
+				        (h[0]*h[0]*pressure.GetGridFunction()[i][j-1])+ h[1]*h[1]*pressure.GetGridFunction()[i-1][j]);
+                        break;
+
+				    //North-east:
+				    case 9:
+				    	pressure.SetGridFunction(i,j,1/(h[0]*h[0]+h[1]*h[1])*
+				    	(h[0]*h[0]*pressure.GetGridFunction()[i][j+1])+ h[1]*h[1]*pressure.GetGridFunction()[i+1][j]);
+                        break;
+
+				    //South-east:
+				    case 10:
+				    	pressure.SetGridFunction(i,j,1/(h[0]*h[0]+h[1]*h[1])*
+				    	(h[0]*h[0]*pressure.GetGridFunction()[i][j-1])+ h[1]*h[1]*pressure.GetGridFunction()[i+1][j]);
+                        break;
+				}
+			}
+		}
+	}
+
+}
+void Computation::setBarrierBoundaryF(GridFunction& f, GridFunction& u, GridFunction& geo)
+{
+	int indicator;
+
+		for (int i = f.beginwrite[0]; i <= f.endwrite[0]; i++)
+		{
+			for  (int j = f.beginwrite[1]; j <= f.endwrite[1]; j++ )
+			{
+				indicator = geo.GetGridFunction()[i][j];
+				if(indicator < 16) // generell Behandlung nur von Hinderniszellen
+				{
+					switch(indicator)
+					{
+					    //Fehlerfälle:
+					    case 3:
+					    case 7:
+					    case 11:
+					    case 12:
+					    case 13:
+					    case 14:
+					    case 15:
+					    	std::cout << "Unzulässige Geometrie!"; break;
+
+
+					    //nothing to do:
+					    case 0:
+					    case 1:
+					    case 2:
+					    	break;
+
+					    //West
+					    case 4:
+					    	f.SetGridFunction(i-1,j,u.GetGridFunction()[i-1][j]);
+	                        break;
+
+					    //East:
+					    case 8:
+					    	f.SetGridFunction(i,j,u.GetGridFunction()[i][j]);
+	                        break;
+
+					    //North-west:
+					    case 5:
+					    	f.SetGridFunction(i-1,j,u.GetGridFunction()[i-1][j]);
+					    	break;
+
+					    //South-west:
+					    case 6:
+					    	f.SetGridFunction(i-1,j,u.GetGridFunction()[i-1][j]);
+					    	break;
+
+					    //North-east:
+					    case 9:
+					    	f.SetGridFunction(i,j,u.GetGridFunction()[i][j]);
+					    	break;
+
+					    //South-east:
+					    case 10:
+					    	f.SetGridFunction(i,j,u.GetGridFunction()[i][j]);
+					    	break;
+					}
+				}
+			}
+		}
+}
+
+void Computation::setBarrierBoundaryG(GridFunction& g, GridFunction& v, GridFunction& geo)
+{
+	int indicator;
+
+		for (int i = g.beginwrite[0]; i <= g.endwrite[0]; i++)
+		{
+			for  (int j = g.beginwrite[1]; j <= g.endwrite[1]; j++ )
+			{
+				indicator = geo.GetGridFunction()[i][j];
+				if(indicator < 16) // generell Behandlung nur von Hinderniszellen
+				{
+					switch(indicator)
+					{
+					    //Fehlerfälle:
+					    case 3:
+					    case 7:
+					    case 11:
+					    case 12:
+					    case 13:
+					    case 14:
+					    case 15:
+					    	std::cout << "Unzulässige Geometrie!"; break;
+
+
+					    //nothing to do:
+					    case 0:
+					    case 4:
+					    case 8:
+					    	break;
+
+					    //North:
+					    case 1:
+					    	g.SetGridFunction(i,j,v.GetGridFunction()[i][j]);
+	                        break;
+
+					    //South:
+					    case 2:
+					    	g.SetGridFunction(i,j-1,v.GetGridFunction()[i][j-1]);
+	                        break;
+
+					    //North-west:
+					    case 5:
+					    	g.SetGridFunction(i,j,v.GetGridFunction()[i][j]);
+					    	break;
+
+					    //South-west:
+					    case 6:
+					    	g.SetGridFunction(i,j-1,v.GetGridFunction()[i][j-1]);
+					    	break;
+
+					    //North-east:
+					    case 9:
+					    	g.SetGridFunction(i,j,v.GetGridFunction()[i][j]);
+					    	break;
+
+					    //South-east:
+					    case 10:
+					    	g.SetGridFunction(i,j-1,v.GetGridFunction()[i][j-1]);
+					    	break;
+					}
+				}
+			}
+		}
+}
 
 void Computation::computeRighthandSide(GridFunction* rhs,
     		GridFunction& f,

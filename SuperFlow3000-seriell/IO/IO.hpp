@@ -73,8 +73,8 @@ private:
  //! Structure with simulation parameters from input file
 
 
-  std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
-  std::vector<std::string> split(const std::string &s, char delim);
+  /*std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+  std::vector<std::string> split(const std::string &s, char delim);*/
 
 /*!
    * Methods reads the simulation parameters from the specified input file.

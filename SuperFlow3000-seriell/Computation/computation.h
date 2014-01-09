@@ -35,40 +35,45 @@ public:
 	 *  @param velocity_x is a GridFunction-Object, containing all discretization points.
 	 */
 	void setBoundaryU(GridFunction& velocity_x);
-
+	void setBarrierBoundaryU(GridFunction& velocity_x, GridFunction& geo);
 
 	/*! @brief Function to set the boundary values for v, the velocities in y-direction.
 	 * First implementation: only no-flow boundaries.
 	 *  @param velocity_y is a GridFunction-Object, containing all discretization points.
 	 */
 	void setBoundaryV(GridFunction& velocity_y);
+	void setBarrierBoundaryV(GridFunction& velocity_y, GridFunction& geo);
 
-	void setBoundaryV(GridFunction& velocity_y, int rank);
 
 	/*! @brief Function to set the boundary values for the pressure p.
 	 *  @param pressure is a GridFunction-Object, containing all discretization points.
 	 */
 	void setBoundaryP(GridFunction& pressure);
+	void setBarrierBoundaryP(GridFunction& pressure, GridFunction& geo, PointType& h);
 
 	/*! @brief Function to set the boundary values for F (12).
 	 *  @param f is a GridFunction-Object, containing F for all discretization points.
 	 */
 	void setBoundaryF(GridFunction& f, GridFunction& u);
+	void setBarrierBoundaryF(GridFunction& f, GridFunction& u, GridFunction& geo);
 
 	/*! @brief Function to set the boundary values for G (13).
 	 *  @param g is a GridFunction-Object, containing G for all discretization points.
 	 */
 	void setBoundaryG(GridFunction& g, GridFunction& v);
+	void setBarrierBoundaryG(GridFunction& g, GridFunction& v, GridFunction& geo);
 
 	/*!
 	 * @brief set dirichlet boundary for the T
 	 */
 	void setBoundaryTD(GridFunction& T);
+	void setBarrierBoundaryTD(GridFunction& T, GridFunction& geo);
 
 	/*!
 	 * @brief set neumann boundary for the T
 	 */
 	void setBoundaryTN(GridFunction& T,const PointType& h);
+	void setBarrierBoundaryTN(GridFunction& T,const PointType& h, GridFunction& geo);
 
 	/*! @brief Function to compute the righthand like (14).
 		 *  @param rhs is a pointer on the GridFunction-object, that is to be computed.
