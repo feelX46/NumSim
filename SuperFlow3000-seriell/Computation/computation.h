@@ -35,6 +35,11 @@ public:
 	 *  @param velocity_x is a GridFunction-Object, containing all discretization points.
 	 */
 	void setBoundaryU(GridFunction& velocity_x);
+
+	/*! @brief Function to set the boundary values for u for barriers.
+	 *  @param velocity_x is a GridFunction-Object, containing all discretization points.
+	 *  @param geo is a GridFunction-Object, containing the geometry key.
+	 */
 	void setBarrierBoundaryU(GridFunction& velocity_x, GridFunction& geo);
 
 	/*! @brief Function to set the boundary values for v, the velocities in y-direction.
