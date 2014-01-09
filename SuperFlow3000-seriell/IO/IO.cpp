@@ -69,7 +69,7 @@ for(int j=geo.endread[1] ; j >= geo.beginread[1]-1; j--) //-1 fuer die nummerier
   }
 }
 geo.PlotGrid();
-exit(0);
+//exit(0);
 }
 
 

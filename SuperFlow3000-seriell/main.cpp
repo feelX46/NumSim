@@ -87,7 +87,6 @@ int main(int argc, char *argv[]){
     //ToDo: fuer MPI so nicht richtig!!!
 	GridFunction geo(griddimension,0,'s');
     Reader.readCSVfile(GeometryInputFileName,geo);
-
     const int aof = Reader.getAmountOfFluidcells(geo); // ToDo: eleganter lösen? (bspw. nicht über IO/Reader)
 
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
