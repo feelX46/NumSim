@@ -47,6 +47,7 @@ public:
 	//! get value of index
 	RealType GetGridFunction(const MultiIndexType& index);
 
+	RealType GetGridFunction(const IndexType& i,const IndexType& j);
 	//! get dimension
 	MultiIndexType GetGridDimension();
 

@@ -58,7 +58,7 @@ RealType Solver::computeResidual(GridFunction& sourcegridfunction,
     {
     	for (IndexType j = bwrite[1]; j <= ewrite[1]; j++)
     	{
-    		if(geo.GetGridFunction()[i][j]>= 16){
+    		if(geo.GetGridFunction(i,j)>= 16){
     		    derivator = Fxx.GetGridFunction()[i][j] + Fyy.GetGridFunction()[i][j] - rhs[i][j];
                 //doubleSum +=  derivator*derivator / (ewrite[0]-bwrite[0]+1) / (ewrite[1]-bwrite[1]+1);
                 doubleSum +=  derivator*derivator / aof; //ToDo: Stimmt das so??
@@ -95,7 +95,8 @@ void Solver::SORCycle(GridFunction* gridfunction,
 	int iterationCounter = 0;
 	// SOR-cycling until error is small enough, or the number of iterations gets to high:
 	RealType neighbours_x, neighbours_y;
-
+	geo.PlotGrid();
+	exit(0);
 	while (iterationCounter < param.iterMax && global_res > param.eps )
 	{
 		pc.setBoundaryP(*gridfunction);
@@ -105,8 +106,9 @@ void Solver::SORCycle(GridFunction* gridfunction,
 		{
 			for (IndexType j = bwrite[1]; j <= ewrite[1]; j++)
 			{
-				if (geo.GetGridFunction()[i][j]>= 16)
+				if (geo.GetGridFunction(i,j) >= 16)
 				{
+					std::cout<<"kblub";
 				    //help-values "neighbours_x" and "neighbours_y" for better overview
 				    neighbours_x = (gridfunction->GetGridFunction()[i+1][j] + gridfunction->GetGridFunction()[i-1][j])
 									  / h[0] / h[0];

@@ -33,11 +33,10 @@ IO::~IO (){}
 }*/
 
 
-void IO::readCSVfile (char *filename, GridFunction geo)
-{
+GridFunction IO::readCSVfile (char *filename, MultiIndexType griddimension){
   string zeile;
+  GridFunction geo(griddimension,0,'s');
   float value;
-
   char separator;
 
   ifstream input(filename,ios::in);
@@ -63,13 +62,15 @@ for(int j=geo.endread[1] ; j >= geo.beginread[1]-1; j--) //-1 fuer die nummerier
     	continue;
     }
     if (separator == ',') {
+    	value = 3;
     	geo.SetGridFunction(i,j,value);
     	//cout << "(" << i << "," << j << ") = " << value << endl;
     }
   }
 }
-geo.PlotGrid();
+//geo.PlotGrid();
 //exit(0);
+return geo;
 }
 
 
@@ -600,7 +601,7 @@ int IO::getAmountOfFluidcells(GridFunction geo)
 	{
 		for  (int j = geo.beginwrite[1]; j <= geo.endwrite[1]; j++ )
 		{
-			if(geo.GetGridFunction()[i][j] >= 16)
+			if(geo.GetGridFunction(i,j) >= 16)
 			    aof++;
 		}
 	}

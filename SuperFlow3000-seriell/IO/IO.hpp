@@ -63,7 +63,7 @@ public:
 	  return simparam;
   }
 
-  void readCSVfile (char *filename, GridFunction geo);
+  GridFunction readCSVfile (char *filename, MultiIndexType griddimension);
 
 private:
 

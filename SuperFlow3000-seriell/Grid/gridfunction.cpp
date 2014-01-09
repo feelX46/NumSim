@@ -74,6 +74,10 @@ GridFunctionType GridFunction::GetGridFunction() const{
 RealType GridFunction::GetGridFunction(const MultiIndexType& index){
 	return gridfunction[index[0]][index[1]];
 }
+RealType GridFunction::GetGridFunction(const IndexType& i,const IndexType& j){
+	return gridfunction[i][j];
+}
+
 
 //new
 MultiIndexType GridFunction::GetGridDimension(){

@@ -85,8 +85,7 @@ int main(int argc, char *argv[]){
 
     // geometry:
     //ToDo: fuer MPI so nicht richtig!!!
-	GridFunction geo(griddimension,0,'s');
-    Reader.readCSVfile(GeometryInputFileName,geo);
+	GridFunction geo = Reader.readCSVfile(GeometryInputFileName,griddimension);
     const int aof = Reader.getAmountOfFluidcells(geo); // ToDo: eleganter lösen? (bspw. nicht über IO/Reader)
 
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
@@ -104,8 +103,10 @@ int main(int argc, char *argv[]){
 	std::cout<<"Schritt 1"<<std::endl;
 
 	// so gross wie u
+    geo.PlotGrid();
 	GridFunction gx(griddimension,simparam.GX,'u');
-
+    geo.PlotGrid();
+    exit(0);
 	// so gross wie v
 	GridFunction gy(griddimension,simparam.GY,'v');
 
@@ -117,6 +118,7 @@ int main(int argc, char *argv[]){
 	MultiIndexType rechtsoben  (griddimension[0]-2,griddimension[1]-2);
 	// write first output data
 	// Parallele Visualisierung
+
 	if (mpiRank == 0) {
 		Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 	}
@@ -187,7 +189,7 @@ int main(int argc, char *argv[]){
 
 	}
 	//MPI_Finalize();
-	std::cout<<"fetisch";
+	std::cout<<"fedisch";
 	return 0;
 }
 
