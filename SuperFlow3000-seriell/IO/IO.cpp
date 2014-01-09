@@ -62,7 +62,6 @@ for(int j=geo.endread[1] ; j >= geo.beginread[1]-1; j--) //-1 fuer die nummerier
     	continue;
     }
     if (separator == ',') {
-    	value = 3;
     	geo.SetGridFunction(i,j,value);
     	//cout << "(" << i << "," << j << ") = " << value << endl;
     }

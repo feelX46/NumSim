@@ -85,9 +85,11 @@ int main(int argc, char *argv[]){
 
     // geometry:
     //ToDo: fuer MPI so nicht richtig!!!
+	//GridFunction geo(griddimension,0,'s');// = Reader.readCSVfile(GeometryInputFileName,griddimension);
 	GridFunction geo = Reader.readCSVfile(GeometryInputFileName,griddimension);
-    const int aof = Reader.getAmountOfFluidcells(geo); // ToDo: eleganter lösen? (bspw. nicht über IO/Reader)
-
+     const int aof = 1900;//Reader.getAmountOfFluidcells(geo); // ToDo: eleganter lösen? (bspw. nicht über IO/Reader)
+     std::cout<<aof<<std::endl;
+     //int aof=3;
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
 	RealType deltaT = simparam.deltaT;
 	RealType local_deltaT = simparam.deltaT;
@@ -100,13 +102,12 @@ int main(int argc, char *argv[]){
 	int jend   = p.endwrite[1];
 	int localgriddimensionX = iend-ibegin+1;
 	int localgriddimensionY = jend-jbegin+1;
-	std::cout<<"Schritt 1"<<std::endl;
 
 	// so gross wie u
     geo.PlotGrid();
 	GridFunction gx(griddimension,simparam.GX,'u');
     geo.PlotGrid();
-    exit(0);
+    //exit(0);
 	// so gross wie v
 	GridFunction gy(griddimension,simparam.GY,'v');
 
@@ -119,6 +120,7 @@ int main(int argc, char *argv[]){
 	// write first output data
 	// Parallele Visualisierung
 
+	std::cout<<"Schritt 1"<<std::endl;
 	if (mpiRank == 0) {
 		Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 	}
@@ -134,8 +136,6 @@ int main(int argc, char *argv[]){
 		pc.setBoundaryTN(T,h);
 		pc.setBarrierBoundaryU(u, geo);
 		pc.setBarrierBoundaryV(v, geo);
-
-
 		// driven cavity:
 		/*if (u.globalboundary[2]){
 			//MultiIndexType UpperLeft(1,u.griddimension[1]-1);
@@ -150,7 +150,7 @@ int main(int argc, char *argv[]){
 		//MPI_Allreduce ( &local_deltaT, &deltaT, 1, MPI_DOUBLE, MPI_MIN, MPI_COMM_WORLD);
 		deltaT = local_deltaT;
 
-		if (0 == (step % 10)) {  // parallel visualisierung
+		if (0 == (step % 20)) {  // parallel visualisierung
 			 if (mpiRank == 0) {
 				 Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 			 }
@@ -165,7 +165,6 @@ int main(int argc, char *argv[]){
 		pc.setBoundaryG(g,v);
 		pc.setBarrierBoundaryF(f, u, geo);
 		pc.setBarrierBoundaryG(g, v, geo);
-
 
 		// set right side of pressure equation
 		pc.computeRighthandSide(&rhs, f, g,h,deltaT);
