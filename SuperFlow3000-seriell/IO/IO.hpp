@@ -55,7 +55,7 @@ public:
   		  const PointType& delta, int mpiSizeH, int mpiSizeV, int step,
   		  int rank);
 
-
+    int getAmountOfFluidcells(GridFunction geo);
 
 
   //! Method that returns private member variable simparam

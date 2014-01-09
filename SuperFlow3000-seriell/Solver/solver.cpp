@@ -22,7 +22,9 @@ Solver::Solver(Simparam param){
 
 RealType Solver::computeResidual(GridFunction& sourcegridfunction,
     				     GridFunctionType& rhs,
-    					 const PointType& h){
+    					 const PointType& h,
+    					 const int aof /*amount of fluid cells*/,
+    					 GridFunction& geo){
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     // The pre-value to be returned (return sqrt(doubleSum)):
     RealType doubleSum = 0.0;
@@ -56,8 +58,11 @@ RealType Solver::computeResidual(GridFunction& sourcegridfunction,
     {
     	for (IndexType j = bwrite[1]; j <= ewrite[1]; j++)
     	{
-    		derivator = Fxx.GetGridFunction()[i][j]+ Fyy.GetGridFunction()[i][j] - rhs[i][j];
-            doubleSum +=  derivator*derivator / (ewrite[0]-bwrite[0]+1) / (ewrite[1]-bwrite[1]+1);
+    		if(geo.GetGridFunction()[i][j]>= 16){
+    		    derivator = Fxx.GetGridFunction()[i][j] + Fyy.GetGridFunction()[i][j] - rhs[i][j];
+                //doubleSum +=  derivator*derivator / (ewrite[0]-bwrite[0]+1) / (ewrite[1]-bwrite[1]+1);
+                doubleSum +=  derivator*derivator / aof; //ToDo: Stimmt das so??
+    		}
     	}
     }
     //std::cout<<doubleSum<<std::endl;
@@ -66,7 +71,9 @@ RealType Solver::computeResidual(GridFunction& sourcegridfunction,
 
 void Solver::SORCycle(GridFunction* gridfunction,
 			  GridFunction& rhs,
-			  const PointType& h){
+			  const PointType& h,
+			  const int aof,
+			  GridFunction& geo){
 			  //Communication* communicator){ (MPI!)
 
 	GridFunctionType rhsType = rhs.GetGridFunction();
@@ -92,25 +99,30 @@ void Solver::SORCycle(GridFunction* gridfunction,
 	while (iterationCounter < param.iterMax && global_res > param.eps )
 	{
 		pc.setBoundaryP(*gridfunction);
+		pc.setBarrierBoundaryP(*gridfunction, geo, h);
+
 		 for (IndexType i = bwrite[0]; i <= ewrite[0]; i++)
 		{
 			for (IndexType j = bwrite[1]; j <= ewrite[1]; j++)
 			{
-				//help-values "neighbours_x" and "neighbours_y" for better overview
-				neighbours_x = (gridfunction->GetGridFunction()[i+1][j] + gridfunction->GetGridFunction()[i-1][j])
+				if (geo.GetGridFunction()[i][j]>= 16)
+				{
+				    //help-values "neighbours_x" and "neighbours_y" for better overview
+				    neighbours_x = (gridfunction->GetGridFunction()[i+1][j] + gridfunction->GetGridFunction()[i-1][j])
 									  / h[0] / h[0];
-				neighbours_y = (gridfunction->GetGridFunction()[i][j+1] + gridfunction->GetGridFunction()[i][j-1])
+			    	neighbours_y = (gridfunction->GetGridFunction()[i][j+1] + gridfunction->GetGridFunction()[i][j-1])
 											  / h[1] / h[1];
-				//SOR-iteration
-				gridfunction->SetGridFunction(i,j,(1.0 - param.omg)*gridfunction->GetGridFunction()[i][j]
+				    //SOR-iteration
+				    gridfunction->SetGridFunction(i,j,(1.0 - param.omg)*gridfunction->GetGridFunction()[i][j]
 							 + param.omg /(2.0*(1/h[0]/h[0]+1/h[1]/h[1]))
 							 * (neighbours_x + neighbours_y - rhsType[i][j]));
+				}
 			}
 		}
 		iterationCounter++;
 		// Druckwerte zwischen den Prozessoren austauschen!!! (MPI)
 		// communicator->ExchangePValues(*gridfunction);
-		res = computeResidual(*gridfunction, rhsType, h);
+		res = computeResidual(*gridfunction, rhsType, h, aof, geo);
 
 		//MPI_Allreduce ( &res, &global_res, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
 		global_res = res;

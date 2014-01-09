@@ -54,7 +54,7 @@ public:
 	 *  @param pressure is a GridFunction-Object, containing all discretization points.
 	 */
 	void setBoundaryP(GridFunction& pressure);
-	void setBarrierBoundaryP(GridFunction& pressure, GridFunction& geo, PointType& h);
+	void setBarrierBoundaryP(GridFunction& pressure, GridFunction& geo, const PointType& h);
 
 	/*! @brief Function to set the boundary values for F (12).
 	 *  @param f is a GridFunction-Object, containing F for all discretization points.

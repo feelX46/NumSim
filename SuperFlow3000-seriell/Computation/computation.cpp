@@ -626,7 +626,7 @@ void Computation::setBarrierBoundaryV(GridFunction& velocity_y, GridFunction& ge
 	}
 
 }
-void Computation::setBarrierBoundaryP(GridFunction& pressure, GridFunction& geo, PointType& h)
+void Computation::setBarrierBoundaryP(GridFunction& pressure, GridFunction& geo, const PointType& h)
 {
 	int indicator;
 

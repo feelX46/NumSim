@@ -201,8 +201,6 @@ void IO::readInputfile (char *filename)
 	sscanf(line, "%*[^0-9]%lf", &simparam.Vflow);
 
 
-
-
 }
 
 #define Element(field,ic) ((field)[(ic)[0]][(ic)[1]])
@@ -594,3 +592,18 @@ void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 	      fb.close ();
 
 }
+
+int IO::getAmountOfFluidcells(GridFunction geo)
+{
+	int aof = 0;
+	for (int i = geo.beginwrite[0]; i <= geo.endwrite[0]; i++)
+	{
+		for  (int j = geo.beginwrite[1]; j <= geo.endwrite[1]; j++ )
+		{
+			if(geo.GetGridFunction()[i][j] >= 16)
+			    aof++;
+		}
+	}
+	return aof;
+}
+

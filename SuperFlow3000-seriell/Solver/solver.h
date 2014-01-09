@@ -33,7 +33,9 @@ public:
 
     RealType computeResidual(GridFunction& sourcegridfunction,
     						 GridFunctionType& rhs,
-    						 const PointType& h);
+    						 const PointType& h,
+    						 const int amountOfFluidcells,
+    						 GridFunction& geo);
     //-------------------------------------------------------------------------------
 
     /*! @brief Function to compute the global residual
@@ -44,7 +46,9 @@ public:
     		   */
     void SORCycle(GridFunction* gridfunction,
     	    	  GridFunction& rhs,
-    	    	  const PointType& h);
+    	    	  const PointType& h,
+    	    	  const int amountOfFluidcells,
+    	    	  GridFunction& geo);
     	    	  //Communication* communicator); //(MPI!)
 
 
