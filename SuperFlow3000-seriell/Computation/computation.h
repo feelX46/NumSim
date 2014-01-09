@@ -22,7 +22,8 @@ public:
 	void computeNewVelocities(GridFunction* u, GridFunction* v,
 								GridFunction& f, GridFunction& g,
 								GridFunction& p, const PointType& h,
-								RealType deltaT);
+								RealType deltaT,
+								GridFunction& geo);
 
 	void computeMomentumEquations(GridFunction* f, GridFunction* g,
 								GridFunction* u, GridFunction* v,

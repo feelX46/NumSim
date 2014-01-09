@@ -130,14 +130,17 @@ int main(int argc, char *argv[]){
 		pc.setBoundaryV(v);
 		pc.setBoundaryTD(T);
 		pc.setBoundaryTN(T,h);
+		pc.setBarrierBoundaryU(u, geo);
+		pc.setBarrierBoundaryV(v, geo);
+
 
 		// driven cavity:
-		if (u.globalboundary[2]){
+		/*if (u.globalboundary[2]){
 			//MultiIndexType UpperLeft(1,u.griddimension[1]-1);
 			MultiIndexType UpperLeft(0,u.griddimension[1]-1);
 			MultiIndexType UpperRight(u.griddimension[0]-2, u.griddimension[1]-1);
 			u.SetGridFunction(UpperLeft,UpperRight,-1.0,offset,2.0);
-		}
+		}*/
 
 		// compute deltaT
 		//deltaT = 0.005;
@@ -158,6 +161,8 @@ int main(int argc, char *argv[]){
 		pc.computeMomentumEquations(&f,&g,&u,&v,&T,gx,gy,h,deltaT);
 		pc.setBoundaryF(f,u);
 		pc.setBoundaryG(g,v);
+		pc.setBarrierBoundaryF(f, u, geo);
+		pc.setBarrierBoundaryG(g, v, geo);
 
 
 		// set right side of pressure equation
@@ -167,7 +172,7 @@ int main(int argc, char *argv[]){
 		sol.SORCycle(&p,rhs,h, aof, geo);// ,&communicator); (MPI)
 
 		//Update velocity
-		pc.computeNewVelocities(&u, &v,f,g,p,h,deltaT);
+		pc.computeNewVelocities(&u, &v,f,g,p,h,deltaT, geo);
 
 		//MPI-Functions:
 		//communicator.ExchangePValues(u);

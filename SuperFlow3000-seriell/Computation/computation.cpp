@@ -30,7 +30,8 @@ RealType Computation::computeTimestep (RealType uMax, RealType vMax, const Point
 void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
                                 GridFunction& f, GridFunction& g,
                                 GridFunction& p, const PointType& h,
-                                RealType deltaT){
+                                RealType deltaT,
+                                GridFunction& geo){
 	//compute u
 	MultiIndexType bb (u->beginwrite[0],u->beginwrite[1]);
 	MultiIndexType ee(u->endwrite[0],u->endwrite[1]);
@@ -392,7 +393,7 @@ void Computation::setBoundaryTD(GridFunction& T) {
 		bb[0] = T.beginread[0]; bb[1] = T.beginread[1];
 		ee[0] = T.endread[0]; ee[1] = T.beginread[1];
 		offset[0] = 0;  offset[1] = 1;
-		T.SetGridFunction(bb,ee,2*param.TU);
+		T.SetGridFunction(bb,ee,2*param.TU); // wohin geht das (i-0.5) aus Gleichung (42)?
 		T.AddToGridFunction (bb,ee, -1, T, offset);
 	}
 
