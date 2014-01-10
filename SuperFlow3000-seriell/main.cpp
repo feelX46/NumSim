@@ -87,7 +87,7 @@ int main(int argc, char *argv[]){
     //ToDo: fuer MPI so nicht richtig!!!
 	//GridFunction geo(griddimension,0,'s');// = Reader.readCSVfile(GeometryInputFileName,griddimension);
 	GridFunction geo = Reader.readCSVfile(GeometryInputFileName,griddimension);
-     const int aof = 1900;//Reader.getAmountOfFluidcells(geo); // ToDo: eleganter lösen? (bspw. nicht über IO/Reader)
+     const int aof = 1900;//Reader.getAmountOfFluidcells(geo); // ToDo: eleganter lï¿½sen? (bspw. nicht ï¿½ber IO/Reader)
      std::cout<<aof<<std::endl;
      //int aof=3;
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]){
 		Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 	}
 
-	Reader.writeVTKSlavefile(u, v,  p, T, h, mpiSizeH, mpiSizeV, step,mpiRank);
+	Reader.writeVTKSlavefile(u, v,  p, T, geo, h, mpiSizeH, mpiSizeV, step,mpiRank);
 	// start time loop
 //	Communication communicator(mpiRank, mpiSizeH, mpiSizeV, p.globalboundary); //(MPI)
 	while (t <= simparam.tEnd){
@@ -154,7 +154,7 @@ int main(int argc, char *argv[]){
 			 if (mpiRank == 0) {
 				 Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 			 }
-			 Reader.writeVTKSlavefile(u, v,  p, T, h, mpiSizeH, mpiSizeV, step,mpiRank);
+			 Reader.writeVTKSlavefile(u, v,  p, T, geo, h, mpiSizeH, mpiSizeV, step,mpiRank);
 		}
 
 		// Berechne neues T um damit die Momentum-Equations zu berechnen
