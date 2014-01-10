@@ -29,7 +29,9 @@ public:
 								GridFunction* u, GridFunction* v,
 								GridFunction* T,
 								GridFunction& gx, GridFunction& gy,
-							    const PointType& h, RealType& deltaT);
+							    const PointType& h,
+							    RealType& deltaT,
+                                GridFunction& geo);
 
 	/*! @brief Function to set the boundary values for u, the velocities in x-direction.
 	 * First implementation: only no-flow boundaries.

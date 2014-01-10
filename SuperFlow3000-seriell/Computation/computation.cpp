@@ -75,17 +75,106 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
 }
 
 
-
-
-void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
-                                GridFunction* u, GridFunction* v,
+void Computation::computeMomentumEquations(GridFunction* f,
+		                        GridFunction* g,
+                                GridFunction* u,
+                                GridFunction* v,
                                 GridFunction* T,
-                                GridFunction& gx, GridFunction& gy,
-                                const PointType& h, RealType& deltaT) {
+                                GridFunction& gx,
+                                GridFunction& gy,
+                                const PointType& h,
+                                RealType& deltaT,
+                                GridFunction& geo) {
+	MultiIndexType thisCellX, thisCellY;
 	MultiIndexType dim = f->griddimension;
+    Stencil stenU(3,h);
+    Stencil stenV(3,h);
+    GridFunction derivativeUxx (dim,'d');
+    derivativeUxx.SetGridFunction(u->beginread,u->endread,0);
+    stenU.ApplyFxxStencilOperator(u->beginread,u->endread,u->beginwrite,u->endwrite,u->GetGridFunction(),derivativeUxx);
 
-	Stencil sten(3,h);
-	GridFunction derivative (dim,'d'); //character egal... d als Platzhalter
+    GridFunction derivativeUyy (dim,'d');
+    derivativeUyy.SetGridFunction(u->beginread,u->endread,0);
+    stenU.ApplyFyyStencilOperator(u->beginread,u->endread,u->beginwrite,u->endwrite,u->GetGridFunction(),derivativeUyy);
+
+    GridFunction derivativeUSquarex (dim,'d');
+    derivativeUSquarex.SetGridFunction(u->beginread,u->endread,0);
+    stenU.ApplyUSqxStencilOperator(u->beginread,u->endread,u->beginwrite,u->endwrite,u->GetGridFunction(),
+    		                      derivativeUSquarex,param.alpha);
+
+    GridFunction derivativeUVy (dim,'d');
+    derivativeUVy.SetGridFunction(u->beginread,u->endread,0);
+    stenU.ApplyUVyStencilOperator(u->beginread,u->endread,u->beginwrite,u->endwrite,u->GetGridFunction(),
+    		                     v->GetGridFunction(),derivativeUVy,param.alpha);
+
+    GridFunction boussinesq(dim,'d');
+    boussinesq.SetGridFunction(f->beginread,f->endread,0);
+    RealType factor = param.beta * deltaT * 0.5;
+    boussinesq.AddProductToGridFunction(f->beginwrite,f->endwrite,factor,*T,gx);
+    MultiIndexType offset;
+    offset[0] = 1; offset[1] = 0;
+    boussinesq.AddProductToGridFunction(f->beginwrite,f->endwrite,factor,*T,gx,offset);
+
+    for (int i = f->beginwrite[0] ; i<= f->endwrite[0]; i++)
+    	{
+    			for (int j = f->beginwrite[1] ; j<= f->endwrite[1]; j++)
+    		{
+    			int indi = geo.GetGridFunction()[i][j];
+    			RealType newF;
+    	    	//compute u:
+    			if (indi >= 24 && indi <= 31)
+    			{
+    			    newF = u->GetGridFunction(i,j)
+    			    	 + deltaT * (1/ param.RE *(derivativeUxx.GetGridFunction(i,j) + derivativeUyy.GetGridFunction(i,j))
+    			    			     - derivativeUSquarex.GetGridFunction(i,j) - derivativeUVy.GetGridFunction(i,j) + gx.GetGridFunction(i,j))
+    			         - boussinesq.GetGridFunction(i,j);
+    			    f->SetGridFunction(i,j,newF);
+    			}
+    		}
+    	}
+
+    GridFunction derivativeUVx (dim,'d');
+    derivativeUVx.SetGridFunction(v->beginread,v->endread,0);
+    stenU.ApplyUVxStencilOperator(v->beginread,v->endread,v->beginwrite,v->endwrite,u->GetGridFunction(),
+      		                     v->GetGridFunction(),derivativeUVx,param.alpha);
+
+    GridFunction derivativeVxx (dim,'d');
+    derivativeVxx.SetGridFunction(v->beginread,v->endread,0);
+    stenV.ApplyFxxStencilOperator(v->beginread,v->endread,v->beginwrite,v->endwrite,v->GetGridFunction(),derivativeVxx);
+
+    GridFunction derivativeVyy (dim,'d');
+    derivativeVyy.SetGridFunction(v->beginread,v->endread,0);
+    stenV.ApplyFyyStencilOperator(v->beginread,v->endread,v->beginwrite,v->endwrite,v->GetGridFunction(),derivativeVyy);
+
+    GridFunction derivativeVSquarey (dim,'d');
+    derivativeVSquarey.SetGridFunction(v->beginread,v->endread,0);
+    stenV.ApplyVSqyStencilOperator(v->beginread,v->endread,v->beginwrite,v->endwrite,v->GetGridFunction(),derivativeVSquarey,
+    		                      param.alpha);
+
+    boussinesq.SetGridFunction(g->beginread,g->endread,0);
+    boussinesq.AddProductToGridFunction(g->beginwrite,g->endwrite,factor,*T,gy);
+    offset[0] = 0; offset[1] = 1;
+    boussinesq.AddProductToGridFunction(g->beginread, g->endwrite,factor,*T,gy,offset);
+
+   	for (int i = g->beginwrite[0] ; i<= g->endwrite[0]; i++)
+	{
+			for (int j = g->beginwrite[1] ; j<= g->endwrite[1]; j++)
+		{
+			int indi = geo.GetGridFunction()[i][j];
+			RealType newG;
+			//compute v:
+			if (indi >= 16 && indi%2 == 1)
+			{
+			   	newG = v->GetGridFunction(i,j)
+		              + deltaT * (1/ param.RE *(derivativeVxx.GetGridFunction(i,j) + derivativeVyy.GetGridFunction(i,j))
+		    			          - derivativeVSquarey.GetGridFunction(i,j) - derivativeUVx.GetGridFunction(i,j) + gy.GetGridFunction(i,j))
+		    		  - boussinesq.GetGridFunction(i,j);
+			   	g->SetGridFunction(i,j,newG);
+			}
+		}
+	}
+
+	/*GridFunction derivative (dim,'d'); //character egal... d als Platzhalter
 	RealType factor;
 	//  --  compute F  --
 	MultiIndexType bread;
@@ -115,8 +204,6 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	sten.ApplyUVyStencilOperator(bread,eread,bwrite,ewrite,(u->GetGridFunction()),(v->GetGridFunction()),derivative,param.alpha);
 	f->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
-	//ToDo: Laut Gleichungen auf Arbeitsblaettern (Gl. 12 und Gl. 46) muesste die Gravitation doppelt in die Gleichung eingehen - eher unwahrscheinlich!
-	//ToDo: (markus:) muss glaube ich schon rein... siehe gleichung 35... das ist die 1 in der klammer vor dem g (Aaron: glaube auch, dass das Sinn ergibt.)
 	f->AddToGridFunction(bwrite,ewrite,-factor,gx);
 
 	// wie derivative
@@ -126,11 +213,11 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	factor = param.beta * deltaT * 0.5;
 	boussinesq.AddProductToGridFunction(bwrite,ewrite,factor,*T,gx);
 
-	//ToDo: hier wird gerade der offset auch fuer g angewendet... unklar ob das richtig... momentan ist aber g eh skalar!
+	// hier wird gerade der offset auch fuer g angewendet... unklar ob das richtig... momentan ist aber g eh skalar!
 	MultiIndexType offset;
 	offset[0] = 1; offset[1] = 0;
-	// ToDo Hier nocheinmal ganz genau ueberlegen, ob das mit dem offset passt - ich glaube fast, dass es falsch ist so - (markus: glaub das passt)
-	boussinesq.AddProductToGridFunction(bwrite,ewrite,factor,*T,gy,offset);
+	// Hier nocheinmal ganz genau ueberlegen, ob das mit dem offset passt - ich glaube fast, dass es falsch ist so - (markus: glaub das passt)
+	boussinesq.AddProductToGridFunction(bwrite,ewrite,factor,*T,gx,offset);
 
 	factor = -1.0;
 	f->AddToGridFunction(bwrite,ewrite,factor,boussinesq);
@@ -160,7 +247,7 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 	sten.ApplyUVxStencilOperator(bread,eread,bwrite,ewrite,u->GetGridFunction(),v->GetGridFunction(),derivative,param.alpha);
 	g->AddToGridFunction(bwrite,ewrite,factor,derivative);
 
-	// ToDo gy doppelt drin, genau wie gx
+	// gy doppelt drin, genau wie gx
 	// gleich wie oben... hab es wieder mit reingenommen
 	g->AddToGridFunction(bwrite,ewrite,-factor,gy);
 
@@ -168,13 +255,12 @@ void Computation::computeMomentumEquations(GridFunction* f, GridFunction* g,
 
 	factor = param.beta * deltaT * 0.5;
 	boussinesq.AddProductToGridFunction(bwrite,ewrite,factor,*T,gy);
-	// ToDo Hier nocheinmal ganz genau ueberlegen, ob das mit dem offset passt - ich glaube fast, dass es falsch ist so
 	offset[0] = 0; offset[1] = 1;
 	boussinesq.AddProductToGridFunction(bwrite,ewrite,factor,*T,gy,offset);
 
 	factor = -1.0;
 	g->AddToGridFunction(bwrite,ewrite,factor,boussinesq);
-
+*/
 
 }
 void Computation::setBoundaryU(GridFunction& u){

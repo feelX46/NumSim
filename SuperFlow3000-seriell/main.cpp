@@ -161,7 +161,7 @@ int main(int argc, char *argv[]){
 		// Berechne neues T um damit die Momentum-Equations zu berechnen
 		pc.computeTemperature(T, u, v, q, h, deltaT);
 	    // compute f / g
-		pc.computeMomentumEquations(&f,&g,&u,&v,&T,gx,gy,h,deltaT);
+		pc.computeMomentumEquations(&f,&g,&u,&v,&T,gx,gy,h,deltaT, geo);
 		pc.setBoundaryF(f,u);
 		pc.setBoundaryG(g,v);
 		pc.setBarrierBoundaryF(f, u, geo);
