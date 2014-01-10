@@ -593,7 +593,7 @@ void IO::writeVTKSlavefile(GridFunction& u_gridfunction,
 
 }
 
-int IO::getAmountOfFluidcells(GridFunction geo)
+int IO::getAmountOfFluidcells(GridFunction& geo)
 {
 	int aof = 0;
 	for (int i = geo.beginwrite[0]; i <= geo.endwrite[0]; i++)
