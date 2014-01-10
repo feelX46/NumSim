@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
 
 	char InputFileName[] = "inputvals.bin";
 	char OutputFolderName[] = "output";  // output folder! -> be careful, if folder is not there, no data are saved
-	char GeometryInputFileName[] = "stufe_geometrie.csv";
+	char GeometryInputFileName[] = "wirbel_geometrie.csv";
 
 	//IO GeometryReader();
 	//char *adress = &GeometryInputFileName;
