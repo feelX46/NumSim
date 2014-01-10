@@ -87,7 +87,8 @@ int main(int argc, char *argv[]){
     //ToDo: fuer MPI so nicht richtig!!!
 	//GridFunction geo(griddimension,0,'s');// = Reader.readCSVfile(GeometryInputFileName,griddimension);
 	GridFunction geo = Reader.readCSVfile(GeometryInputFileName,griddimension);
-     const int aof = 1900;//Reader.getAmountOfFluidcells(geo); // ToDo: eleganter l�sen? (bspw. nicht �ber IO/Reader)
+     const int aof = Reader.getAmountOfFluidcells(geo); // ToDo: eleganter l�sen? (bspw. nicht �ber IO/Reader)
+
      std::cout<<aof<<std::endl;
      //int aof=3;
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
@@ -165,7 +166,8 @@ int main(int argc, char *argv[]){
 		pc.setBoundaryG(g,v);
 		pc.setBarrierBoundaryF(f, u, geo);
 		pc.setBarrierBoundaryG(g, v, geo);
-
+		std::cout<<std::endl;
+        geo.PlotGrid();
 		// set right side of pressure equation
 		pc.computeRighthandSide(&rhs, f, g,h,deltaT);
 
