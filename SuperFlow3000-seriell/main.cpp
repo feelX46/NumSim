@@ -87,7 +87,8 @@ int main(int argc, char *argv[]){
     //ToDo: fuer MPI so nicht richtig!!!
 	//GridFunction geo(griddimension,0,'s');// = Reader.readCSVfile(GeometryInputFileName,griddimension);
 	GridFunction geo = Reader.readCSVfile(GeometryInputFileName,griddimension);
-     const int aof = Reader.getAmountOfFluidcells(geo); // ToDo: eleganter lösen? (bspw. nicht über IO/Reader)
+     const int aof = Reader.getAmountOfFluidcells(geo); // ToDo: eleganter lï¿½sen? (bspw. nicht ï¿½ber IO/Reader)
+
      std::cout<<aof<<std::endl;
      //int aof=3;
 	const PointType h(simparam.xLength/simparam.iMax , simparam.yLength/simparam.jMax);
@@ -104,7 +105,7 @@ int main(int argc, char *argv[]){
 	int localgriddimensionY = jend-jbegin+1;
 
 	// so gross wie u
-    geo.PlotGrid();
+    //geo.PlotGrid();
 	GridFunction gx(griddimension,simparam.GX,'u');
     //geo.PlotGrid();
     //exit(0);
@@ -125,7 +126,7 @@ int main(int argc, char *argv[]){
 		Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 	}
 
-	Reader.writeVTKSlavefile(u, v,  p, T, h, mpiSizeH, mpiSizeV, step,mpiRank);
+	Reader.writeVTKSlavefile(u, v,  p, T, geo, h, mpiSizeH, mpiSizeV, step,mpiRank);
 	// start time loop
 //	Communication communicator(mpiRank, mpiSizeH, mpiSizeV, p.globalboundary); //(MPI)
 	while (t <= simparam.tEnd){
@@ -154,7 +155,7 @@ int main(int argc, char *argv[]){
 			 if (mpiRank == 0) {
 				 Reader.writeVTKMasterfile(mpiSizeH, mpiSizeV, step, localgriddimensionX, localgriddimensionY);
 			 }
-			 Reader.writeVTKSlavefile(u, v,  p, T, h, mpiSizeH, mpiSizeV, step,mpiRank);
+			 Reader.writeVTKSlavefile(u, v,  p, T, geo, h, mpiSizeH, mpiSizeV, step,mpiRank);
 		}
 
 		// Berechne neues T um damit die Momentum-Equations zu berechnen
@@ -166,7 +167,7 @@ int main(int argc, char *argv[]){
 		pc.setBarrierBoundaryF(f, u, geo);
 		pc.setBarrierBoundaryG(g, v, geo);
 		std::cout<<std::endl;
-        geo.PlotGrid();
+        //geo.PlotGrid();
 		// set right side of pressure equation
 		pc.computeRighthandSide(&rhs, f, g,h,deltaT);
 
