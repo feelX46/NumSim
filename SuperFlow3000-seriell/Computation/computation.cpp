@@ -32,8 +32,29 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
                                 GridFunction& p, const PointType& h,
                                 RealType deltaT,
                                 GridFunction& geo){
+
+	for (int i = u->beginwrite[0] ; i<= u->endwrite[0]; i++)
+	{
+		for (int j = u->beginwrite[1] ; j<= u->endwrite[1]; j++)
+		{
+			int indi/*cator*/ = geo.GetGridFunction()[i][j];
+			RealType newU, newV;
+			//compute u:
+			if (indi >= 24 && indi <= 31)
+			{
+				newU = f.GetGridFunction(i,j)- deltaT / h[0] * (p.GetGridFunction(i+1,j) - p.GetGridFunction(i,j));
+				u->SetGridFunction(i,j,newU);
+			}
+    		//compute v:
+		    if (indi >= 16 && indi%2 == 1)
+		    {
+		    	newV = g.GetGridFunction(i,j)- deltaT / h[1] * (p.GetGridFunction(i,j+1) - p.GetGridFunction(i,j));
+		    	v->SetGridFunction(i,j,newV);
+			}
+		}
+	}
 	//compute u
-	MultiIndexType bb (u->beginwrite[0],u->beginwrite[1]);
+	/*MultiIndexType bb (u->beginwrite[0],u->beginwrite[1]);
 	MultiIndexType ee(u->endwrite[0],u->endwrite[1]);
 	u->SetGridFunction(bb,ee,1,f);
 	RealType factor = -deltaT/h[0];
@@ -50,7 +71,7 @@ void Computation::computeNewVelocities(GridFunction* u, GridFunction* v,
 	offset[1]=1;
 	v->AddToGridFunction (bb,ee, factor,p,offset);
 	offset[1]=0;
-	v->AddToGridFunction (bb,ee,-factor,p,offset);
+	v->AddToGridFunction (bb,ee,-factor,p,offset);*/
 }
 
 
