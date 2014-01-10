@@ -106,7 +106,7 @@ int main(int argc, char *argv[]){
 	// so gross wie u
     geo.PlotGrid();
 	GridFunction gx(griddimension,simparam.GX,'u');
-    geo.PlotGrid();
+    //geo.PlotGrid();
     //exit(0);
 	// so gross wie v
 	GridFunction gy(griddimension,simparam.GY,'v');
